@@ -1,0 +1,68 @@
+site:
+  name: kdlee02 # TODO: replace with your display name
+  site: 'https://kdlee02.github.io'
+  base: '/'
+  trailingSlash: false
+
+# Default SEO metadata
+metadata:
+  title:
+    default: kdlee02
+    template: '%s — kdlee02'
+  description: 'AI Engineer. Projects and notes on RAG, agents, MCP and evaluation.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: kdlee02
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    cardType: summary_large_image
+
+i18n:
+  language: en
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: true
+    postsPerPage: 10
+
+    post:
+      isEnabled: true
+      permalink: '/engineering/%slug%' # Variables: %slug%, %year%, %month%, %day%, %category%
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'engineering'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'engineering/category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'engineering/tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 3
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # or "G-XXXXXXXXXX"
+
+ui:
+  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

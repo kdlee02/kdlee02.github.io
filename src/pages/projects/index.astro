@@ -1,0 +1,30 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/blog/Headline.astro';
+import ProjectCard from '~/components/project/Card.astro';
+import { fetchProjects } from '~/utils/projects';
+
+const projects = await fetchProjects();
+
+const metadata = {
+  title: 'Projects',
+  description: 'Things I have built.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-4 md:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+    <Headline subtitle="Things I have built, and what I learned building them.">Projects</Headline>
+    {
+      projects.length ? (
+        <div class="grid gap-6 sm:grid-cols-2">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-muted dark:text-slate-400">Nothing published yet.</p>
+      )
+    }
+  </section>
+</Layout>

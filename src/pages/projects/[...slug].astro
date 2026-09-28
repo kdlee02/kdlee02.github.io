@@ -1,0 +1,73 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+
+import Layout from '~/layouts/PageLayout.astro';
+import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
+import { getPermalink } from '~/utils/permalinks';
+import { fetchProjects, type Project } from '~/utils/projects';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const projects = await fetchProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props as { project: Project };
+const { Content } = await render(project);
+
+const metadata = {
+  title: project.data.title,
+  description: project.data.excerpt,
+  ...project.data.metadata,
+};
+---
+
+<Layout metadata={metadata}>
+  <Breadcrumbs
+    bar
+    hideCurrent
+    items={[
+      { text: 'Home', href: getPermalink('/') },
+      { text: 'Projects', href: getPermalink('/projects') },
+      { text: project.data.title },
+    ]}
+  />
+  <section class="px-4 sm:px-6 py-12 sm:py-16 mx-auto max-w-4xl">
+    <h1 class="font-bold font-heading text-4xl md:text-5xl leading-tighter tracking-tighter">{project.data.title}</h1>
+    {project.data.excerpt && <p class="mt-4 text-xl text-muted dark:text-slate-400">{project.data.excerpt}</p>}
+    {
+      project.data.stack?.length && (
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {project.data.stack.map((item) => (
+            <li class="rounded bg-gray-100 dark:bg-slate-800 px-2 py-1 text-sm text-muted dark:text-slate-400">
+              {item}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    {
+      (project.data.repo || project.data.demo) && (
+        <p class="mt-6 flex gap-4">
+          {project.data.repo && (
+            <a class="text-primary dark:text-blue-400 underline" href={project.data.repo}>
+              Source
+            </a>
+          )}
+          {project.data.demo && (
+            <a class="text-primary dark:text-blue-400 underline" href={project.data.demo}>
+              Demo
+            </a>
+          )}
+        </p>
+      )
+    }
+    <div
+      class="prose prose-lg max-w-none dark:prose-invert dark:prose-headings:text-slate-300 prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg mt-10"
+    >
+      <Content />
+    </div>
+  </section>
+</Layout>

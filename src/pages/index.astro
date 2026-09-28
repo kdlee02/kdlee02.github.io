@@ -1,0 +1,99 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import HeroText from '~/components/widgets/HeroText.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import Button from '~/components/ui/Button.astro';
+import ProjectCard from '~/components/project/Card.astro';
+import StructuredData from '~/components/common/StructuredData.astro';
+
+import { fetchProjects } from '~/utils/projects';
+import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
+import { GITHUB_URL, LINKEDIN_URL } from '~/navigation';
+import { SITE, METADATA, I18N } from 'astrowind:config';
+import favIconSvg from '~/assets/favicons/favicon.svg';
+
+const projects = (await fetchProjects()).slice(0, 3);
+
+const metadata = {
+  title: `${SITE.name} — AI Engineer`,
+  ignoreTitleTemplate: true,
+};
+
+const personId = `${SITE?.site}/#person`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE?.site}/#website`,
+    name: SITE?.name,
+    url: SITE?.site,
+    inLanguage: I18N?.language,
+    publisher: { '@id': personId },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': personId,
+    name: SITE?.name,
+    url: SITE?.site,
+    jobTitle: 'AI Engineer',
+    image: new URL(favIconSvg.src, SITE?.site).toString(),
+    sameAs: [GITHUB_URL, LINKEDIN_URL],
+    description: METADATA?.description,
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <StructuredData slot="head" schema={structuredData} />
+
+  <HeroText
+    tagline="AI Engineer"
+    title={SITE.name}
+    subtitle="Building AI products with RAG · Agents · MCP · Data"
+    callToAction={{ text: 'Projects', href: getPermalink('/projects') }}
+    callToAction2={{ text: 'Engineering', href: getBlogPermalink() }}
+  />
+
+  <WidgetWrapper id="projects" containerClass="max-w-5xl">
+    <Headline title="Featured projects" classes={{ container: 'text-left md:mb-8', title: 'text-3xl md:text-4xl' }} />
+    {
+      projects.length ? (
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted dark:text-slate-400">Nothing published yet.</p>
+      )
+    }
+    <div class="mt-8">
+      <Button variant="link" href={getPermalink('/projects')}>All projects »</Button>
+    </div>
+  </WidgetWrapper>
+
+  <BlogLatestPosts
+    id="engineering"
+    title="Latest engineering"
+    linkText="All articles"
+    count={3}
+    classes={{ container: 'max-w-5xl' }}
+  />
+
+  <WidgetWrapper id="about" containerClass="max-w-5xl">
+    <Headline title="About" classes={{ container: 'text-left md:mb-8', title: 'text-3xl md:text-4xl' }} />
+    <p class="text-lg text-muted dark:text-slate-400">
+      {/* TODO: two or three sentences about what you work on. */}
+      Placeholder — a short introduction goes here.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <Button variant="secondary" href={GITHUB_URL} target="_blank">GitHub</Button>
+      <Button variant="secondary" href={LINKEDIN_URL} target="_blank">LinkedIn</Button>
+      <Button variant="link" href={getPermalink('/about')}>More about me »</Button>
+    </div>
+  </WidgetWrapper>
+</Layout>

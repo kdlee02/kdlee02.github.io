@@ -1,0 +1,29 @@
+---
+import type { Project } from '~/utils/projects';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const link = getPermalink(`/projects/${project.id}`);
+---
+
+<article
+  class="flex flex-col h-full rounded-lg border border-gray-200 dark:border-slate-700 p-6 transition hover:border-primary dark:hover:border-blue-400"
+>
+  <h3 class="text-xl font-bold leading-tight">
+    <a class="hover:text-primary dark:hover:text-blue-400" href={link}>{project.data.title}</a>
+  </h3>
+  {project.data.excerpt && <p class="mt-3 text-muted dark:text-slate-400 grow">{project.data.excerpt}</p>}
+  {
+    project.data.stack?.length && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {project.data.stack.map((item) => (
+          <li class="rounded bg-gray-100 dark:bg-slate-800 px-2 py-1 text-xs text-muted dark:text-slate-400">{item}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
