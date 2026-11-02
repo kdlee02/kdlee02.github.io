@@ -7,7 +7,6 @@ tags:
   - chunking
   - retrieval
   - embeddings
-  - beginner
 draft: false
 ---
 

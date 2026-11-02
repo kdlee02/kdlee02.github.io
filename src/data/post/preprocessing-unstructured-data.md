@@ -5,11 +5,7 @@ publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
 tags:
   - preprocessing
-  - pdf
-  - tables
-  - metadata
   - chunking
-  - beginner
 draft: false
 ---
 
