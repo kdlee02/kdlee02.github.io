@@ -4,8 +4,9 @@ excerpt: 'The 5 levels of text splitting, plus a bonus level, explained in plain
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
 tags:
-  - retrieval
   - chunking
+  - retrieval
+  - embeddings
   - beginner
 draft: false
 ---

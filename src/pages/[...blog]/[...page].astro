@@ -52,6 +52,12 @@ const metadata = {
     <Headline subtitle="Notes on RAG, AI agents, MCP, evaluation and shipping AI products.">Engineering</Headline>
     <CategoryNav />
     <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+    <Pagination
+      prevUrl={page.url.prev}
+      nextUrl={page.url.next}
+      currentPage={page.currentPage}
+      lastPage={page.lastPage}
+      currentUrl={page.url.current}
+    />
   </section>
 </Layout>

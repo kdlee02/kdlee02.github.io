@@ -4,10 +4,10 @@ excerpt: 'How to turn PDFs, slides, web pages and tables into clean, labeled pie
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
 tags:
-  - retrieval
   - preprocessing
   - pdf
   - tables
+  - metadata
   - chunking
   - beginner
 draft: false
