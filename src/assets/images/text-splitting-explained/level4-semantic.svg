@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 325" role="img" aria-labelledby="t">
+  <title id="t">Left: on a map of meaning, sentences about dogs sit close together and sentences about school sit together, far from the dog ones. Right: a line of meaning jumps between sentences has three spikes above a cutoff, and cutting at those spikes makes four chunks of different sizes.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; }
+    .s { font-size: 11px; }
+  </style>
+  <rect x="1" y="1" width="718" height="323" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- meaning map -->
+  <text x="24" y="36" class="h">1. A map of meaning</text>
+  <rect x="24" y="50" width="300" height="230" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <ellipse cx="150" cy="115" rx="118" ry="38" fill="#dbeafe" />
+  <ellipse cx="205" cy="228" rx="112" ry="36" fill="#fef3c7" />
+  <g fill="#2563eb"><circle cx="76" cy="102" r="6" /><circle cx="92" cy="130" r="6" /></g>
+  <text x="88" y="106">The dog chased the ball</text>
+  <text x="104" y="134">My puppy loves fetch</text>
+  <g fill="#d97706"><circle cx="122" cy="214" r="6" /><circle cx="138" cy="242" r="6" /></g>
+  <text x="134" y="218">I have a math test</text>
+  <text x="150" y="246">Homework is due Friday</text>
+  <line x1="104" y1="150" x2="120" y2="196" stroke="#64748b" stroke-dasharray="4 3" />
+  <text x="122" y="178" class="mut s">far apart = different topic</text>
+  <text x="174" y="310" text-anchor="middle" class="mut">Similar sentences sit close together</text>
+
+  <!-- distance chart -->
+  <text x="360" y="36" class="h">2. Cut where meaning jumps</text>
+  <line x1="360" y1="60" x2="360" y2="230" stroke="#94a3b8" />
+  <line x1="360" y1="230" x2="700" y2="230" stroke="#94a3b8" />
+  <text x="350" y="145" text-anchor="middle" class="mut s" transform="rotate(-90 350 145)">meaning jump</text>
+  <line x1="360" y1="136.5" x2="700" y2="136.5" stroke="#dc2626" stroke-dasharray="5 4" />
+  <text x="494" y="130" text-anchor="middle" class="s" style="fill:#dc2626">big-jump cutoff</text>
+  <polyline fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round"
+    points="360,204.5 377.9,196 395.8,209.6 413.7,199.4 431.6,102.5 449.5,196 467.4,204.5 485.3,192.6 503.2,199.4 521.1,206.2 539,196 556.9,94 574.8,202.8 592.7,209.6 610.6,196 628.5,201.1 646.4,111 664.3,204.5 682.2,196 700,207.9" />
+  <g fill="#dc2626"><circle cx="431.6" cy="102.5" r="4.5" /><circle cx="556.9" cy="94" r="4.5" /><circle cx="646.4" cy="111" r="4.5" /></g>
+
+  <g stroke-width="1.5">
+    <rect x="360" y="244" width="71.6" height="24" fill="#dbeafe" stroke="#2563eb" />
+    <rect x="431.6" y="244" width="125.3" height="24" fill="#fef3c7" stroke="#d97706" />
+    <rect x="556.9" y="244" width="89.5" height="24" fill="#dcfce7" stroke="#16a34a" />
+    <rect x="646.4" y="244" width="53.6" height="24" fill="#ede9fe" stroke="#7c3aed" />
+  </g>
+  <g stroke="#dc2626" stroke-width="2">
+    <line x1="431.6" y1="234" x2="431.6" y2="272" /><line x1="556.9" y1="234" x2="556.9" y2="272" /><line x1="646.4" y1="234" x2="646.4" y2="272" />
+  </g>
+  <g text-anchor="middle" class="s">
+    <text x="395.8" y="260" class="s">chunk 1</text><text x="494.3" y="260" class="s">chunk 2</text>
+    <text x="601.7" y="260" class="s">chunk 3</text><text x="673.2" y="260" class="s">chunk 4</text>
+  </g>
+  <text x="530" y="288" text-anchor="middle" class="mut s">sentences in order →</text>
+  <text x="530" y="310" text-anchor="middle" class="mut">Chunks come out in different sizes</text>
+</svg>

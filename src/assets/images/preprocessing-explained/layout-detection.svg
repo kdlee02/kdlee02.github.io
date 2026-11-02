@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="t">
+  <title id="t">Layout detection in two steps. Step 1 draws and labels boxes around the title, paragraphs and table on a page. Step 2 reads the text inside each box, copying it if the PDF has real text or using OCR if the page is only a picture.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; font-size: 11px; }
+    .lab { font-size: 10px; font-weight: 700; }
+    .chip { font-size: 11px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <g id="page">
+      <rect x="0" y="0" width="170" height="210" rx="3" fill="#ffffff" stroke="#94a3b8" />
+      <rect x="14" y="16" width="110" height="12" rx="2" fill="#1e293b" />
+      <g stroke="#94a3b8" stroke-width="4" stroke-linecap="round">
+        <line x1="14" y1="46" x2="156" y2="46" /><line x1="14" y1="58" x2="150" y2="58" /><line x1="14" y1="70" x2="156" y2="70" /><line x1="14" y1="82" x2="110" y2="82" />
+        <line x1="14" y1="188" x2="156" y2="188" /><line x1="14" y1="200" x2="120" y2="200" />
+      </g>
+      <rect x="14" y="102" width="142" height="70" fill="none" stroke="#94a3b8" />
+      <g stroke="#cbd5e1"><line x1="14" y1="119" x2="156" y2="119" /><line x1="14" y1="136" x2="156" y2="136" /><line x1="14" y1="153" x2="156" y2="153" /><line x1="61" y1="102" x2="61" y2="172" /><line x1="108" y1="102" x2="108" y2="172" /></g>
+    </g>
+  </defs>
+  <rect x="1" y="1" width="718" height="298" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Method 1: Layout detection (two steps)</text>
+
+  <text x="24" y="54" class="b">The page</text>
+  <use href="#page" x="24" y="62" />
+  <line x1="200" y1="167" x2="242" y2="167" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="250" y="54" class="b">Step 1: find and label boxes</text>
+  <use href="#page" x="250" y="62" />
+  <g fill="none" stroke-width="2">
+    <rect x="258" y="72" width="122" height="24" rx="3" stroke="#2563eb" />
+    <rect x="258" y="99" width="156" height="52" rx="3" stroke="#d97706" />
+    <rect x="258" y="158" width="156" height="82" rx="3" stroke="#7c3aed" />
+    <rect x="258" y="242" width="156" height="26" rx="3" stroke="#d97706" />
+  </g>
+  <text x="426" y="88" class="lab" style="fill:#2563eb">Title</text>
+  <text x="426" y="128" class="lab" style="fill:#b45309">Narrative</text>
+  <text x="426" y="203" class="lab" style="fill:#6d28d9">Table</text>
+  <text x="426" y="259" class="lab" style="fill:#b45309">Narrative</text>
+  <line x1="480" y1="167" x2="514" y2="167" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="520" y="54" class="b">Step 2: read each box</text>
+  <rect x="520" y="62" width="176" height="210" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <rect x="530" y="74" width="66" height="20" rx="10" fill="#dbeafe" stroke="#2563eb" />
+  <text x="563" y="88" text-anchor="middle" class="chip" style="fill:#1d4ed8">Title</text>
+  <text x="604" y="88">Storm warning</text>
+  <rect x="530" y="102" width="66" height="20" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="563" y="116" text-anchor="middle" class="chip" style="fill:#b45309">Narrative</text>
+  <text x="604" y="116">Heavy rain is…</text>
+  <rect x="530" y="130" width="66" height="20" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="563" y="144" text-anchor="middle" class="chip" style="fill:#6d28d9">Table</text>
+  <text x="604" y="144">rows, columns</text>
+  <rect x="530" y="158" width="66" height="20" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="563" y="172" text-anchor="middle" class="chip" style="fill:#b45309">Narrative</text>
+  <text x="604" y="172">Officials say…</text>
+  <line x1="530" y1="190" x2="686" y2="190" stroke="#e2e8f0" />
+  <text x="530" y="208" class="b" style="font-size:11px">PDF has real text inside?</text>
+  <text x="530" y="223" class="mut">→ copy what’s in the box</text>
+  <text x="530" y="244" class="b" style="font-size:11px">Only a picture (a scan)?</text>
+  <text x="530" y="259" class="mut">→ use OCR to read the letters</text>
+
+  <text x="360" y="292" text-anchor="middle" class="mut" style="font-size:12px">A popular model for step 1 is called YOLOX.</text>
+</svg>

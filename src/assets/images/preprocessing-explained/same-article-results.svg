@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" role="img" aria-labelledby="t">
+  <title id="t">The same news article processed two ways. As a web page: 35 blocks, 23 paragraphs, 10 titles and 2 other. As a PDF with layout detection: 39 blocks, 28 paragraphs, 6 headers, 4 titles and 1 footer.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .in { font-size: 11px; font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="718" height="238" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Same article, two formats, nearly the same blocks</text>
+
+  <!-- html row: 12px per block -->
+  <text x="24" y="84" class="b">Web page (HTML)</text>
+  <text x="24" y="102" class="mut">35 blocks</text>
+  <g stroke="#ffffff" stroke-width="2">
+    <rect x="200" y="68" width="276" height="38" fill="#fde68a" />
+    <rect x="476" y="68" width="120" height="38" fill="#93c5fd" />
+    <rect x="596" y="68" width="24" height="38" fill="#cbd5e1" />
+  </g>
+  <text x="338" y="92" text-anchor="middle" class="in">23 paragraphs</text>
+  <text x="536" y="92" text-anchor="middle" class="in">10 titles</text>
+  <text x="608" y="92" text-anchor="middle" class="in">2</text>
+
+  <!-- pdf row -->
+  <text x="24" y="148" class="b">PDF (layout detection)</text>
+  <text x="24" y="166" class="mut">39 blocks</text>
+  <g stroke="#ffffff" stroke-width="2">
+    <rect x="200" y="132" width="336" height="38" fill="#fde68a" />
+    <rect x="536" y="132" width="72" height="38" fill="#bfdbfe" />
+    <rect x="608" y="132" width="48" height="38" fill="#93c5fd" />
+    <rect x="656" y="132" width="12" height="38" fill="#cbd5e1" />
+  </g>
+  <text x="368" y="156" text-anchor="middle" class="in">28 paragraphs</text>
+  <text x="572" y="156" text-anchor="middle" class="in">6 headers</text>
+  <text x="632" y="156" text-anchor="middle" class="in">4</text>
+
+  <g>
+    <rect x="200" y="196" width="12" height="12" fill="#fde68a" /><text x="218" y="206" class="mut">paragraph</text>
+    <rect x="300" y="196" width="12" height="12" fill="#93c5fd" /><text x="318" y="206" class="mut">title</text>
+    <rect x="370" y="196" width="12" height="12" fill="#bfdbfe" /><text x="388" y="206" class="mut">header</text>
+    <rect x="450" y="196" width="12" height="12" fill="#cbd5e1" /><text x="468" y="206" class="mut">other / footer</text>
+  </g>
+  <text x="24" y="228" class="mut">Not identical, but close enough that your app can treat both versions the same way.</text>
+</svg>

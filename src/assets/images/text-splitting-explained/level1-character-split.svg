@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" role="img" aria-labelledby="t">
+  <title id="t">Cutting a sentence every 35 characters splits the word chunk into ch and unk. With 4 characters of overlap, the end of each piece repeats at the start of the next.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .m { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 15px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .cut { fill: #dc2626; font-weight: 700; }
+    .ov { fill: #7c3aed; font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="718" height="378" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="24" y="36" class="h">Cut every 35 characters</text>
+  <rect x="24" y="52" width="380" height="34" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <rect x="24" y="94" width="380" height="34" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <rect x="24" y="136" width="380" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="36" y="74" class="m" xml:space="preserve">This is the text I would like to <tspan class="cut">ch</tspan></text>
+  <text x="36" y="116" class="m" xml:space="preserve"><tspan class="cut">unk</tspan> up. It is the example text for</text>
+  <text x="36" y="158" class="m">this exercise</text>
+  <text x="424" y="96" class="cut">✂ The word “chunk” got cut</text>
+  <text x="424" y="116" class="cut">into “ch” and “unk”.</text>
+
+  <line x1="24" y1="192" x2="696" y2="192" stroke="#e2e8f0" />
+
+  <text x="24" y="226" class="h">With 4 characters of overlap</text>
+  <rect x="24" y="242" width="380" height="34" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <rect x="24" y="284" width="380" height="34" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <rect x="24" y="326" width="380" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="36" y="264" class="m" xml:space="preserve">This is the text I would like t<tspan class="ov">o ch</tspan></text>
+  <text x="36" y="306" class="m" xml:space="preserve"><tspan class="ov">o ch</tspan>unk up. It is the example t<tspan class="ov">ext</tspan></text>
+  <text x="36" y="348" class="m" xml:space="preserve"><tspan class="ov">ext</tspan> for this exercise</text>
+  <text x="424" y="286" class="ov">The purple letters show up in</text>
+  <text x="424" y="306" class="ov">two pieces, so an idea on the</text>
+  <text x="424" y="326" class="ov">edge isn’t lost.</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 335" role="img" aria-labelledby="t">
+  <title id="t">Three ways to search one thing and hand the AI another: search a summary and return the full section; search practice questions and return the chat messages; search a small piece and return the bigger section around it.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; }
+    .s { font-size: 11px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="333" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="150" y="36" text-anchor="middle" class="h">What gets searched</text>
+  <text x="560" y="36" text-anchor="middle" class="h">What the AI reads</text>
+
+  <!-- row 1: summary -->
+  <rect x="40" y="73" width="220" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="150" y="97" text-anchor="middle">Short summary of a section</text>
+  <text x="345" y="84" text-anchor="middle" class="b">1. Summary</text>
+  <line x1="270" y1="93" x2="420" y2="93" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="430" y="56" width="260" height="74" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <g stroke="#cbd5e1" stroke-width="4" stroke-linecap="round">
+    <line x1="445" y1="70" x2="675" y2="70" /><line x1="445" y1="82" x2="660" y2="82" /><line x1="445" y1="94" x2="675" y2="94" />
+    <line x1="445" y1="106" x2="640" y2="106" /><line x1="445" y1="118" x2="600" y2="118" />
+  </g>
+
+  <!-- row 2: questions -->
+  <rect x="40" y="157" width="220" height="52" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="52" y="178">“When is the team meeting?”</text>
+  <text x="52" y="198">“Who is bringing snacks?”</text>
+  <text x="345" y="174" text-anchor="middle" class="b">2. Practice questions</text>
+  <line x1="270" y1="183" x2="420" y2="183" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="430" y="146" width="260" height="74" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <rect x="442" y="152" width="90" height="20" rx="10" fill="#e2e8f0" />
+  <text x="487" y="166" text-anchor="middle" class="s">Meet at 3?</text>
+  <rect x="580" y="174" width="60" height="20" rx="10" fill="#dbeafe" />
+  <text x="610" y="188" text-anchor="middle" class="s">Sure!</text>
+  <rect x="442" y="196" width="120" height="20" rx="10" fill="#e2e8f0" />
+  <text x="502" y="210" text-anchor="middle" class="s">I’ll bring chips</text>
+
+  <!-- row 3: small to big -->
+  <rect x="60" y="261" width="180" height="24" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <text x="150" y="277" text-anchor="middle">One small, exact piece</text>
+  <text x="345" y="264" text-anchor="middle" class="b">3. Small → big</text>
+  <line x1="270" y1="273" x2="420" y2="273" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="430" y="236" width="260" height="74" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <rect x="440" y="266" width="240" height="16" rx="3" fill="#dbeafe" stroke="#2563eb" />
+  <g stroke="#cbd5e1" stroke-width="4" stroke-linecap="round">
+    <line x1="445" y1="250" x2="675" y2="250" /><line x1="445" y1="262" x2="660" y2="262" />
+    <line x1="445" y1="286" x2="675" y2="286" /><line x1="445" y1="298" x2="620" y2="298" />
+  </g>
+  <line x1="450" y1="274" x2="665" y2="274" stroke="#2563eb" stroke-width="4" stroke-linecap="round" />
+
+  <text x="360" y="327" text-anchor="middle" class="mut">Search whatever matches best, then give the AI the full context.</text>
+</svg>

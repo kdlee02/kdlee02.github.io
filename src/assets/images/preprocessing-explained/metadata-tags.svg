@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" role="img" aria-labelledby="t">
+  <title id="t">A paragraph about a hockey team with five labels attached: its type, file name and language, the ID of the section title it belongs to, and a chapter label added by you.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .k { font-weight: 700; font-size: 12px; }
+    .v { font-size: 12px; }
+  </style>
+  <rect x="1" y="1" width="718" height="248" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">One piece of text, plus its labels</text>
+
+  <rect x="24" y="54" width="320" height="120" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="38" y="76" class="mut">The text itself</text>
+  <text x="38" y="100">It is a wonderful sight to watch a</text>
+  <text x="38" y="120">first-rate team, each member of which</text>
+  <text x="38" y="140">knows the play of the other five</text>
+  <text x="38" y="160">players.</text>
+
+  <g stroke="#cbd5e1" stroke-width="1.5">
+    <line x1="344" y1="114" x2="400" y2="67" /><line x1="344" y1="114" x2="400" y2="99" /><line x1="344" y1="114" x2="400" y2="131" />
+    <line x1="344" y1="114" x2="400" y2="163" /><line x1="344" y1="114" x2="400" y2="195" />
+  </g>
+
+  <rect x="400" y="54" width="296" height="26" rx="13" fill="#dbeafe" stroke="#2563eb" />
+  <text x="414" y="72"><tspan class="k">type:</tspan> <tspan class="v">Narrative text</tspan></text>
+  <rect x="400" y="86" width="296" height="26" rx="13" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="414" y="104"><tspan class="k">file:</tspan> <tspan class="v">winter-sports.epub</tspan></text>
+  <rect x="400" y="118" width="296" height="26" rx="13" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="414" y="136"><tspan class="k">language:</tspan> <tspan class="v">English</tspan></text>
+  <rect x="400" y="150" width="296" height="26" rx="13" fill="#dbeafe" stroke="#2563eb" />
+  <text x="414" y="168"><tspan class="k">parent:</tspan> <tspan class="v">ID of the “ICE HOCKEY” title</tspan></text>
+  <rect x="400" y="182" width="296" height="26" rx="13" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="414" y="200"><tspan class="k">chapter:</tspan> <tspan class="v">Ice Hockey</tspan></text>
+
+  <rect x="24" y="222" width="12" height="12" rx="6" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="42" y="232" class="mut">read straight from the file</text>
+  <rect x="220" y="222" width="12" height="12" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <text x="238" y="232" class="mut">figured out while processing</text>
+  <rect x="430" y="222" width="12" height="12" rx="6" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="448" y="232" class="mut">added by you, using the parent label</text>
+</svg>

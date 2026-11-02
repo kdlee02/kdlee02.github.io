@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" role="img" aria-labelledby="t">
+  <title id="t">Three ways to read a table from a PDF. A table transformer finds a box for every cell, so cells trace back to the page, but it needs many slow model calls. A vision transformer writes HTML from the picture in one step and can take a prompt, but it can make things up and gives no cell boxes. OCR plus rules is fast but only works on neat, simple tables.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .ch { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; }
+    .pro { fill: #15803d; font-weight: 600; }
+    .con { fill: #dc2626; font-weight: 600; }
+    .m { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+    .chip { font-size: 11px; font-weight: 700; fill: #6d28d9; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <g id="html">
+      <rect x="0" y="0" width="52" height="22" rx="11" fill="#ede9fe" stroke="#7c3aed" />
+      <text x="26" y="15" text-anchor="middle" class="chip">HTML</text>
+    </g>
+  </defs>
+  <rect x="1" y="1" width="718" height="288" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Three ways to read a table from a PDF</text>
+
+  <g fill="#f8fafc" stroke="#cbd5e1">
+    <rect x="24" y="52" width="208" height="222" rx="8" /><rect x="256" y="52" width="208" height="222" rx="8" /><rect x="488" y="52" width="208" height="222" rx="8" />
+  </g>
+
+  <!-- table transformer -->
+  <text x="38" y="78" class="ch">Table transformer</text>
+  <g fill="#ffffff" stroke="#2563eb" stroke-dasharray="3 2">
+    <rect x="40" y="96" width="26" height="14" /><rect x="68" y="96" width="26" height="14" /><rect x="96" y="96" width="26" height="14" />
+    <rect x="40" y="113" width="26" height="14" /><rect x="68" y="113" width="26" height="14" /><rect x="96" y="113" width="26" height="14" />
+    <rect x="40" y="130" width="26" height="14" /><rect x="68" y="130" width="26" height="14" /><rect x="96" y="130" width="26" height="14" />
+  </g>
+  <line x1="130" y1="120" x2="152" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#a)" />
+  <use href="#html" x="158" y="109" />
+  <text x="38" y="172" class="mut">Finds the table, then a box for</text>
+  <text x="38" y="188" class="mut">every cell, then reads each one.</text>
+  <text x="38" y="216" class="pro">+ Cells trace back to the page</text>
+  <text x="38" y="236" class="con">− Many slow model calls</text>
+
+  <!-- vision transformer -->
+  <text x="270" y="78" class="ch">Vision transformer</text>
+  <rect x="272" y="94" width="82" height="52" rx="3" fill="#ffffff" stroke="#94a3b8" />
+  <g stroke="#cbd5e1"><line x1="272" y1="111" x2="354" y2="111" /><line x1="272" y1="128" x2="354" y2="128" /><line x1="299" y1="94" x2="299" y2="146" /><line x1="326" y1="94" x2="326" y2="146" /></g>
+  <line x1="362" y1="120" x2="384" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#a)" />
+  <use href="#html" x="390" y="109" />
+  <text x="270" y="172" class="mut">Looks at the picture of the table</text>
+  <text x="270" y="188" class="mut">and writes HTML in one step.</text>
+  <text x="270" y="216" class="pro">+ One step, can take a prompt</text>
+  <text x="270" y="236" class="con">− Can make things up</text>
+  <text x="270" y="256" class="con">− No cell boxes to check</text>
+
+  <!-- ocr + rules -->
+  <text x="502" y="78" class="ch">OCR + rules</text>
+  <text x="504" y="108" class="m">Eagles 12 4</text>
+  <text x="504" y="124" class="m">Bears 9 7</text>
+  <text x="504" y="140" class="m">Owls 5 11</text>
+  <line x1="594" y1="120" x2="616" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#a)" />
+  <use href="#html" x="622" y="109" />
+  <text x="502" y="172" class="mut">Reads the letters with OCR, then</text>
+  <text x="502" y="188" class="mut">rules rebuild rows and columns.</text>
+  <text x="502" y="216" class="pro">+ Fast</text>
+  <text x="502" y="236" class="con">− Only for neat, simple tables</text>
+</svg>

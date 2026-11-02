@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="t">
+  <title id="t">Your files go through slow, costly extraction once and are saved as a JSON file. From that saved file you can try several chunking approaches quickly and cheaply.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .m { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="258" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Do the expensive part once</text>
+
+  <!-- files -->
+  <rect x="40" y="74" width="96" height="112" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <rect x="32" y="82" width="96" height="112" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <rect x="24" y="90" width="96" height="112" rx="6" fill="#ffffff" stroke="#64748b" />
+  <text x="72" y="130" text-anchor="middle" class="b">Your files</text>
+  <text x="72" y="150" text-anchor="middle" class="mut">PDFs, slides,</text>
+  <text x="72" y="166" text-anchor="middle" class="mut">web pages</text>
+
+  <line x1="146" y1="140" x2="206" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="176" y="130" text-anchor="middle" class="b" style="font-size:12px">extract</text>
+  <text x="176" y="160" text-anchor="middle" style="fill:#dc2626;font-size:11px">slow, costly</text>
+
+  <!-- saved json -->
+  <path d="M214 84 h86 l22 22 v98 h-108 z" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" />
+  <path d="M300 84 v22 h22" fill="none" stroke="#16a34a" stroke-width="1.5" />
+  <text x="268" y="140" text-anchor="middle" class="m b">saved.json</text>
+  <text x="268" y="160" text-anchor="middle" class="mut">labeled blocks</text>
+  <text x="268" y="224" text-anchor="middle" class="b" style="font-size:12px;fill:#15803d">done once</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M326 140 C380 140 390 80 452 80" /><path d="M326 140 L452 140" /><path d="M326 140 C380 140 390 200 452 200" />
+  </g>
+
+  <g fill="#f8fafc" stroke="#94a3b8">
+    <rect x="460" y="58" width="236" height="44" rx="6" />
+    <rect x="460" y="118" width="236" height="44" rx="6" />
+    <rect x="460" y="178" width="236" height="44" rx="6" />
+  </g>
+  <text x="474" y="85"><tspan class="b">Try A:</tspan> chunk by section</text>
+  <text x="474" y="145"><tspan class="b">Try B:</tspan> smaller chunks</text>
+  <text x="474" y="205"><tspan class="b">Try C:</tspan> bigger chunks</text>
+  <g style="fill:#15803d;font-size:11px" text-anchor="end">
+    <text x="686" y="85" style="fill:#15803d;font-size:11px">fast</text>
+    <text x="686" y="145" style="fill:#15803d;font-size:11px">fast</text>
+    <text x="686" y="205" style="fill:#15803d;font-size:11px">fast</text>
+  </g>
+  <text x="578" y="246" text-anchor="middle" class="mut">Change your mind? Reload the file.</text>
+</svg>

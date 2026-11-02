@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-labelledby="t">
+  <title id="t">Step 1: "Greg went to the park. He likes walking." becomes two facts that stand alone, with "He" replaced by "Greg". Step 2: an AI checks each new fact and either adds it to a matching pile or starts a new pile.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .s { font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="358" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- step 1 -->
+  <text x="24" y="34" class="h">Step 1: Rewrite into facts that make sense alone</text>
+  <rect x="24" y="50" width="250" height="50" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="36" y="71">Greg went to the park.</text>
+  <text x="36" y="89"><tspan class="b" style="fill:#dc2626">He</tspan> likes walking.</text>
+  <line x1="284" y1="75" x2="346" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="356" y="48" width="200" height="24" rx="5" fill="#dcfce7" stroke="#16a34a" />
+  <text x="366" y="65">Greg went to the park.</text>
+  <rect x="356" y="78" width="200" height="24" rx="5" fill="#dcfce7" stroke="#16a34a" />
+  <text x="366" y="95"><tspan class="b" style="fill:#16a34a">Greg</tspan> likes walking.</text>
+  <text x="572" y="70" class="mut">“He” → “Greg”:</text>
+  <text x="572" y="88" class="mut">now it stands alone</text>
+
+  <line x1="24" y1="124" x2="696" y2="124" stroke="#e2e8f0" />
+
+  <!-- step 2 -->
+  <text x="24" y="154" class="h">Step 2: Sort each fact into a pile</text>
+  <text x="24" y="194" class="mut">new fact</text>
+  <rect x="24" y="200" width="170" height="34" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="36" y="222">Greg enjoys hiking.</text>
+  <line x1="196" y1="217" x2="236" y2="217" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="240" y="185" width="150" height="64" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="315" y="211" text-anchor="middle" class="b">AI asks:</text>
+  <text x="315" y="231" text-anchor="middle" class="s">Does this fit a pile?</text>
+
+  <line x1="392" y1="205" x2="450" y2="205" stroke="#2563eb" stroke-width="2" marker-end="url(#a)" />
+  <text x="421" y="198" text-anchor="middle" class="b s" style="fill:#2563eb">yes</text>
+  <line x1="392" y1="236" x2="450" y2="294" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="408" y="276" class="b s" style="fill:#64748b">no</text>
+
+  <rect x="455" y="164" width="240" height="100" rx="8" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5" />
+  <text x="467" y="183" class="b s">Pile: Greg’s free time</text>
+  <rect x="467" y="191" width="216" height="20" rx="4" fill="#dcfce7" stroke="#16a34a" />
+  <text x="475" y="205" class="s">Greg went to the park.</text>
+  <rect x="467" y="215" width="216" height="20" rx="4" fill="#dcfce7" stroke="#16a34a" />
+  <text x="475" y="229" class="s">Greg likes walking.</text>
+  <rect x="467" y="239" width="216" height="20" rx="4" fill="#fef3c7" stroke="#d97706" stroke-dasharray="4 3" />
+  <text x="475" y="253" class="s">+ Greg enjoys hiking.</text>
+
+  <rect x="455" y="278" width="240" height="40" rx="8" fill="none" stroke="#94a3b8" stroke-dasharray="5 4" />
+  <text x="575" y="303" text-anchor="middle" class="mut">New pile (if nothing fits)</text>
+
+  <text x="24" y="345" class="mut">The AI updates each pile’s title as it grows. It’s slow and costly, but the piles come out very tidy.</text>
+</svg>

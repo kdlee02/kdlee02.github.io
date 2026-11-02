@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" role="img" aria-labelledby="t">
+  <title id="t">The splitter tries paragraph breaks first, then line breaks, then spaces, and only cuts between letters as a last resort. A document with three paragraphs becomes three chunks.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 14px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; font-size: 11px; }
+    .tag { font-size: 11px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="308" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="36" class="h">Try the biggest natural break first</text>
+
+  <rect x="24" y="56" width="280" height="40" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <text x="38" y="81">1. Paragraph breaks</text>
+  <text x="292" y="81" text-anchor="end" class="tag" style="fill:#2563eb">TRY FIRST</text>
+  <rect x="24" y="116" width="280" height="40" rx="6" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="38" y="141">2. Line breaks</text>
+  <rect x="24" y="176" width="280" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="38" y="201">3. Spaces between words</text>
+  <rect x="24" y="236" width="280" height="40" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="38" y="261">4. Between letters</text>
+  <text x="292" y="261" text-anchor="end" class="tag" style="fill:#dc2626">LAST RESORT</text>
+
+  <g stroke="#64748b" stroke-width="1.5" marker-end="url(#a)">
+    <line x1="60" y1="97" x2="60" y2="114" /><line x1="60" y1="157" x2="60" y2="174" /><line x1="60" y1="217" x2="60" y2="234" />
+  </g>
+  <text x="72" y="110" class="mut">still too big?</text>
+  <text x="72" y="170" class="mut">still too big?</text>
+  <text x="72" y="230" class="mut">still too big?</text>
+
+  <!-- document cut at paragraphs -->
+  <rect x="380" y="56" width="310" height="220" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <g stroke-width="6" stroke-linecap="round">
+    <g stroke="#93c5fd"><line x1="398" y1="78" x2="670" y2="78" /><line x1="398" y1="92" x2="660" y2="92" /><line x1="398" y1="106" x2="560" y2="106" /></g>
+    <g stroke="#fcd34d"><line x1="398" y1="140" x2="670" y2="140" /><line x1="398" y1="154" x2="664" y2="154" /><line x1="398" y1="168" x2="670" y2="168" /><line x1="398" y1="182" x2="520" y2="182" /></g>
+    <g stroke="#86efac"><line x1="398" y1="214" x2="670" y2="214" /><line x1="398" y1="228" x2="650" y2="228" /><line x1="398" y1="242" x2="600" y2="242" /></g>
+  </g>
+  <g stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 4">
+    <line x1="384" y1="123" x2="686" y2="123" /><line x1="384" y1="198" x2="686" y2="198" />
+  </g>
+  <text x="694" y="128" style="fill:#dc2626">✂</text>
+  <text x="694" y="203" style="fill:#dc2626">✂</text>
+  <text x="535" y="298" text-anchor="middle" style="fill:#64748b;font-size:13px">Each paragraph becomes its own chunk</text>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 332" role="img" aria-labelledby="t">
+  <title id="t">Three document types with their own cut lines: notes are cut at each heading, code keeps each block together, and a PDF table is summarized so the summary can be searched.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .m { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .ph { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; }
+    .c { font-size: 10px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="330" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="36" class="h">Different documents, different cut lines</text>
+
+  <g fill="#f8fafc" stroke="#cbd5e1">
+    <rect x="24" y="52" width="208" height="232" rx="8" />
+    <rect x="256" y="52" width="208" height="232" rx="8" />
+    <rect x="488" y="52" width="208" height="232" rx="8" />
+  </g>
+
+  <!-- notes -->
+  <text x="36" y="78" class="ph">Notes &amp; webpages</text>
+  <text x="36" y="106" class="m" style="font-weight:700"># Fun in California</text>
+  <g stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 3">
+    <line x1="32" y1="117" x2="224" y2="117" /><line x1="32" y1="165" x2="224" y2="165" /><line x1="32" y1="213" x2="224" y2="213" />
+  </g>
+  <text x="36" y="135" class="m" style="fill:#2563eb">## Driving</text>
+  <text x="36" y="153" class="m">Take the coast road</text>
+  <text x="36" y="183" class="m" style="fill:#2563eb">## Food</text>
+  <text x="36" y="201" class="m">Try a burrito</text>
+  <text x="36" y="231" class="m" style="fill:#2563eb">## Hiking</text>
+  <text x="36" y="249" class="m">Go to Yosemite</text>
+  <text x="128" y="306" text-anchor="middle" class="mut">Cut at each heading</text>
+
+  <!-- code -->
+  <text x="268" y="78" class="ph">Code</text>
+  <rect x="264" y="92" width="192" height="76" rx="4" fill="#dbeafe" stroke="#2563eb" />
+  <text x="272" y="110" class="m">class Person:</text>
+  <text x="272" y="126" class="m" xml:space="preserve">  def __init__(self):</text>
+  <text x="272" y="142" class="m" xml:space="preserve">    self.name = name</text>
+  <text x="272" y="158" class="m" xml:space="preserve">    self.age = age</text>
+  <rect x="264" y="178" width="192" height="60" rx="4" fill="#fef3c7" stroke="#d97706" />
+  <text x="272" y="196" class="m">p1 = Person()</text>
+  <text x="272" y="212" class="m">for i in range(10):</text>
+  <text x="272" y="228" class="m" xml:space="preserve">    print(i)</text>
+  <text x="360" y="306" text-anchor="middle" class="mut">Keep each block together</text>
+
+  <!-- pdf table -->
+  <text x="500" y="78" class="ph">PDF tables</text>
+  <rect x="508" y="92" width="168" height="72" fill="#ffffff" stroke="#94a3b8" />
+  <rect x="508" y="92" width="168" height="18" fill="#e2e8f0" stroke="#94a3b8" />
+  <g stroke="#94a3b8">
+    <line x1="508" y1="128" x2="676" y2="128" /><line x1="508" y1="146" x2="676" y2="146" />
+    <line x1="564" y1="92" x2="564" y2="164" /><line x1="620" y1="92" x2="620" y2="164" />
+  </g>
+  <g class="c" text-anchor="middle">
+    <text x="536" y="105" class="c" style="font-weight:700">Quarter</text><text x="592" y="105" class="c" style="font-weight:700">Sales</text><text x="648" y="105" class="c" style="font-weight:700">Growth</text>
+    <text x="536" y="123" class="c">Q1</text><text x="592" y="123" class="c">$10</text><text x="648" y="123" class="c">+4%</text>
+    <text x="536" y="141" class="c">Q2</text><text x="592" y="141" class="c">$12</text><text x="648" y="141" class="c">+6%</text>
+    <text x="536" y="159" class="c">Q3</text><text x="592" y="159" class="c">$13</text><text x="648" y="159" class="c">+3%</text>
+  </g>
+  <line x1="592" y1="170" x2="592" y2="196" stroke="#64748b" stroke-width="1.5" marker-end="url(#a)" />
+  <text x="600" y="188" class="mut" style="font-size:11px">AI writes</text>
+  <rect x="508" y="200" width="168" height="46" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="518" y="219" style="font-size:12px">Summary: sales grew</text>
+  <text x="518" y="236" style="font-size:12px">every quarter.</text>
+  <text x="592" y="304" text-anchor="middle" class="mut">Search the summary,</text>
+  <text x="592" y="320" text-anchor="middle" class="mut">hand over the table</text>
+</svg>

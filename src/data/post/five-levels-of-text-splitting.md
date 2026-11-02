@@ -1,177 +1,185 @@
 ---
-title: 'The 5 Levels of Text Splitting, and What to Actually Use'
-excerpt: 'Greg Kamradt’s chunking taxonomy, from fixed-character splits to agentic chunking: what each level assumes about your text, what it costs, and why the levels are a menu rather than a ranking.'
-publishDate: 2026-09-28T00:00:00Z
+title: 'How to Cut Up a Book So an AI Can Read It'
+excerpt: 'The 5 levels of text splitting, plus a bonus level, explained in plain words with pictures. No code required.'
+publishDate: 2026-11-03T00:00:00Z
 category: 'RAG'
 tags:
   - retrieval
   - chunking
+  - beginner
 draft: false
 ---
 
-Chunking happens before embedding, before retrieval, before the model sees anything, so a bad split
-caps the quality of everything downstream. No reranker rescues a chunk that cut a definition in
-half.
+_Based on Greg Kamradt's video
+[The 5 Levels Of Text Splitting For Retrieval](https://www.youtube.com/watch?v=8OJC21T2SL4) and its notebook._
 
-Greg Kamradt's [The 5 Levels Of Text Splitting For Retrieval](https://www.youtube.com/watch?v=8OJC21T2SL4)
-(Jan 2024) is still the clearest map of the options. Each level drops an assumption the previous
-one made about your text, and each costs more. The
-[companion notebook](https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/main/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb)
-has code for every level. This post sticks to the ideas.
+Say you have an open-book test, but you can only bring one index card. You wouldn't copy the first few pages of your
+textbook onto it. You'd find the parts the test will probably ask about and write down exactly those.
 
-## Why split at all
+AI apps that answer questions about your own documents work much the same way. People call this **retrieval**. The AI
+can't read your whole library every time you ask something. Your app has to find the few pieces of text that matter and
+hand only those over.
 
-1. **Context limits.** You can't pass unlimited text to a model.
-2. **Signal to noise.** Even when everything fits, irrelevant text hurts. Kamradt quotes Anton
-   Troynikov (Chroma) on this: distracting content in the context degrades the whole application.
+Before it can find those pieces, it needs pieces to find. Cutting a big document into smaller parts is called **text
+splitting** or **chunking**, and it's one of the first and most important choices you make when you build one of these
+apps.
 
-His "Chunking Commandment" sets the goal:
+![A big document is split into small chunks. A question picks the two best chunks, and only those go to the AI, which writes the answer.](../../assets/images/text-splitting-explained/retrieval-flow.svg)
 
-> Your goal is not to chunk for chunking sake, our goal is to get our data in a format where it
-> can be retrieved for value later.
+## Why not just give the AI everything?
 
-So chunking is a retrieval design decision, not a preprocessing chore.
+There are two reasons.
 
-## Level 1: Fixed characters
+1. **AI models have a reading limit.** Each model has a maximum amount of text it can take in at once, called its
+   _context window_. Go past it and the model simply can't take the rest.
+2. **Extra stuff makes the AI worse.** Even under the limit, unrelated text distracts the model. If someone asks about
+   World War II, handing over a chapter that also covers cooking and car repair just adds noise. You want a high
+   **signal-to-noise ratio**: lots of useful information and very little else.
 
-Cut every N characters, ignoring words and structure. At 35 characters, "I would like to chunk up"
-becomes `...like to ch` and `unk up...`. That's the whole failure mode in one example. Changing the
-size only moves the bad cut somewhere else.
+Greg has a rule he calls the **chunking commandment**:
 
-This level introduces two settings that every later level keeps:
+> Your goal isn't to chunk for the sake of chunking. Your goal is to get your data into a shape that can be found and
+> used later.
 
-- **Chunk size**: how much text goes in each chunk.
-- **Chunk overlap**: how much of the end of one chunk is repeated at the start of the next, so an
-  idea crossing a boundary appears whole at least once. The cost is duplicated text in the index.
+Keep that in mind, because every level below is a different way of following it.
 
-Nobody uses this in production, Kamradt says. It's useful because the failure is so visible. His
-[ChunkViz](https://www.chunkviz.com/) tool lets you drag the size slider and watch boundaries land
-in bad places.
+## Level 1: Cut every N letters
 
-## Level 2: Recursive character splitting
+The simplest method is to pick a number, say 35 characters, and cut the text every 35 characters no matter what.
 
-Instead of one cut rule, use an ordered list of separators: paragraph break, line break, space,
-then individual characters as a last resort. Split on the first. Any piece still over the size limit
-gets split again with the next separator.
+It's like running a long scroll through a paper cutter at fixed intervals. It's fast and easy. But it doesn't care what
+the text says, so it cuts words in half and splits sentences mid-thought.
 
-The effect is that cuts snap to the nearest natural boundary. On three paragraphs of a Paul Graham
-essay, a size of 450 splits them exactly at the paragraphs, and so does 469. Nearby sizes give
-identical splits, which makes this forgiving to tune. One quirk: a period isn't in the default list,
-so sentence ends aren't preferred over spaces.
+Level 1 introduces two ideas that matter at every level:
 
-Kamradt calls it the swiss army knife and his default starting point: one line, fast, high return
-on effort. His real-world starting range is roughly **2,000 to 6,000 characters**, rising as
-long-context models improve. I'd go further: most production systems should _stay_ here until an
-eval says otherwise.
+- **Chunk size** is how big each piece is.
+- **Chunk overlap** is how much each piece repeats from the end of the one before it. Think of roof shingles laid so
+  each one covers the edge of the last. If an important idea lands right on a cut, the overlap makes sure it shows up
+  whole in at least one piece.
 
-## Level 3: Document-specific splitting
+Here's what both look like on a real sentence:
 
-Markdown, code and PDFs have structure a generic splitter throws away. For text formats, this level
-is Level 2 with separators chosen for the format:
+![Top: cutting every 35 characters turns the word "chunk" into "ch" and "unk". Bottom: with 4 characters of overlap, the end of each piece repeats at the start of the next.](../../assets/images/text-splitting-explained/level1-character-split.svg)
 
-- **Markdown**: headers, code fences, horizontal rules, then the usual fallbacks.
-- **Python**: `class`, `def`, indented `def`. **JavaScript**: statement keywords like `function`,
-  `const`, `if`, `for`.
+Almost nobody uses Level 1 in real products. It's mainly useful for learning the basic ideas. If you want to play with
+it yourself, [ChunkViz](https://www.chunkviz.com/) lets you slide the size and overlap and watch the cuts move.
 
-The goal is to keep a section or a class in one chunk. Even then, Kamradt had to try a few sizes to
-get a clean split of a small Python file. That's another reason to choose chunk size with an eval,
-not by eye.
+## Level 2: Cut at natural break points
 
-### Tables and images need a different representation
+Writing already has places where it's okay to cut: paragraph breaks, line breaks, the spaces between words.
 
-You can't split a table with character separators. The notebook uses a layout-detection model to
-pull tables out of a PDF as HTML. LLMs read HTML and Markdown tables much better than tab- or
-comma-separated text.
+Level 2, called **recursive character splitting**, uses them in order. It tries the biggest break first and only moves
+down the list when a piece is still too big.
 
-The bigger point is retrieval: **a raw table embeds badly**. A question in plain language isn't close
-to a grid of numbers in vector space. The fix is to have an LLM summarize the table, embed the
-summary, and hand the model the raw table when the summary matches.
+![A ladder of break points: paragraph breaks first, then line breaks, then spaces, and letters only as a last resort. Next to it, a document with three paragraphs is cut into three chunks.](../../assets/images/text-splitting-explained/level2-recursive.svg)
 
-Images get the same treatment. Text and image embeddings usually aren't comparable, so you can't
-search one with the other. Kamradt tried CLIP, a shared text-image model, and found its quality
-lacking at the time. Instead, a vision model writes a description, you embed that, and you return
-the original image.
+It's like slicing a cake along the lines already marked on the frosting, and only cutting through a decoration when you
+have to.
 
-## Level 4: Semantic chunking
+Writers usually keep one idea per paragraph, so this method tends to keep ideas together. Greg calls it the Swiss Army
+knife of splitters: **if you don't know where to start, start here.**
 
-Levels 1–3 assume text that's physically close is about the same topic. That's usually true for
-clean prose and often false for transcripts, scraped pages and chat logs. Kamradt also asks why
-chunk size should be a global constant at all, when it has nothing to do with the content.
+## Level 3: Cut based on what kind of document it is
 
-Semantic chunking drops that assumption by finding where the topic changes:
+Not everything is an essay. A recipe, a computer program, a webpage and a PDF full of tables are each organized
+differently, so each one has its own natural break points.
 
-1. Split the text into sentences.
-2. Embed each sentence together with its neighbors. Single sentences were too noisy to embed alone.
-3. Measure the distance between each window and the next. Plotted, you see long low stretches with
-   occasional spikes.
-4. Treat the spikes as break points, using a percentile threshold such as the 95th as the one knob.
-   Group the sentences between them.
+![Three panels: notes are cut at each heading, code keeps each block together, and a PDF table gets a short summary that is searched instead of the table itself.](../../assets/images/text-splitting-explained/level3-document-types.svg)
 
-Chunk size is now an output of the content, not a setting. Kamradt's analogy: the first three levels
-shelve books by physical size, and this one shelves them by genre.
+- **Formatted notes and webpages:** cut at section headings, so "Driving" and "Hiking" end up in separate pieces.
+- **Computer code:** cut where each block of related code starts, so a block stays together instead of being split
+  mid-thought.
+- **Tables in PDFs:** cutting a table by letters scrambles it. Instead, special tools pull out the whole table and keep
+  its rows and columns intact. A handy trick: **have an AI write a short summary of the table**, and search the
+  summaries. When a summary matches the question, hand the AI the full table.
+- **Images:** a search system can't search a picture by its words, because it doesn't have any. One fix is to have an AI
+  that can see images write a description of each one, and search those descriptions.
 
-He presented it as an exploration. There was no maximum chunk size and no evals. It has since become
-a library feature (LangChain's `SemanticChunker`). The cost is an embedding call per sentence window
-before you index anything. It's worth it when the corpus is messy enough that its paragraph
-structure doesn't track its topics.
+The main lesson of Level 3 is that **the right way to split depends on what the data looks like.**
 
-## Level 5: Agentic chunking
+## Level 4: Cut where the topic changes
 
-Could an LLM chunk a document the way a person would? A person takes a scratch pad, starts a chunk
-with the first piece, and for each following piece decides whether it belongs to an existing chunk
-or starts a new one.
+The first three levels share a problem. They look at _where_ the text sits and how it's formatted, but not at _what it
+means_. Greg compares it to organizing a library by how big the books are instead of what they're about.
 
-Raw sentences don't work for this. "They meant well, but this is rarely true" means nothing on its
-own. So the text is first rewritten into **propositions**, short statements that stand alone, with
-pronouns replaced by what they refer to
-([Chen et al., 2023](https://arxiv.org/abs/2312.06648)). Five paragraphs of an essay became 26
-propositions.
+Level 4, called **semantic splitting**, tries to cut based on meaning. It uses **embeddings**.
 
-The chunker keeps a list of chunks, each with a title and a one-sentence summary. For each
-proposition, an LLM looks at the outline and either names a matching chunk or asks for a new one.
-After each addition, the chunk's summary and title are regenerated, so the chunk drifts like a
-centroid. The prompts tell the model to _generalize_: a month goes under "Date & Times", an apple
-under "food". Otherwise it would create a new chunk for every proposition.
+An embedding turns a piece of text into a list of numbers that act like coordinates on a map of meaning. Sentences about
+similar things land close together. Sentences about different things land far apart.
 
-Count the calls: one per proposition to route it, plus two more to update or create a chunk, plus
-the extraction calls before any of that. Kamradt calls it slow and expensive, and frames the level
-as a bet on token costs approaching zero.
+![Left: on a map of meaning, the two dog sentences sit close together and the two school sentences sit together, far from the dog ones. Right: a line of meaning jumps between sentences has three spikes above a cutoff, and cutting at those spikes makes four chunks of different sizes.](../../assets/images/text-splitting-explained/level4-semantic.svg)
 
-Inference is much cheaper now than when he recorded this. Latency and non-determinism haven't gone
-away, though. Several sequential LLM calls per sentence are still hard to justify against Level 2
-or 3, and the splits change between runs unless you pin the model and cache. I wouldn't use it by
-default.
+Level 4 works like this:
 
-## Bonus level: embed something other than the raw text
+1. Break the text into sentences.
+2. Pair each sentence with its neighbors so it has a little context.
+3. Place each group on the meaning map.
+4. Walk through the text one step at a time and measure how far the meaning jumps between neighbors.
+5. Where there's an unusually big jump (Greg used the biggest 5%), the topic probably changed, so **cut there**.
 
-The last section changes the question. Does the thing you embed have to be the thing you return?
-If not, chunking becomes part of indexing design:
+It's like listening to a friend talk and noticing the moment they go from talking about their weekend to complaining
+about homework. That shift is where you'd draw a line.
 
-| Representation         | You embed                       | You return                     | Good for                                             |
-| ---------------------- | ------------------------------- | ------------------------------ | ---------------------------------------------------- |
-| Summaries              | An LLM summary of a large chunk | The raw chunk                  | Long, dense sections                                 |
-| Hypothetical questions | Questions the chunk answers     | The raw chunk                  | Q&A bots, sparse or informal data like Slack threads |
-| Parent document        | Small child chunks              | Their larger parent            | Precise matching with enough context                 |
-| Graph                  | Entities and relationships      | Nodes, edges, source sentences | Entity-heavy data                                    |
+The nice part is that pieces end up whatever size the ideas need, not one fixed size. Greg is clear that this is still
+an experiment, not a finished, proven method.
 
-All four address a problem that boundary placement can't. A user's question and the passage that
-answers it often share very few words. I'd try this level before Level 5.
+## Level 5: Let an AI do the cutting
 
-## The levels are a menu, not a ranking
+Level 5 asks a bigger question: could an AI split a document the way a careful person would?
 
-Kamradt deliberately didn't benchmark the levels against each other. The right strategy depends on
-the domain, so any single eval would mislead. He points to [RAGAS](https://github.com/explodinggradients/ragas)
-and similar tools and says to measure on your own data.
+Think about how _you_ would do it. You'd grab a notepad, start reading, and write the first idea at the top of the page.
+For each new sentence you'd ask, "Does this belong with something I already have, or is it a new topic?" Then you'd add
+it to a group or start a new one, all the way to the end.
 
-That's the lesson that gets lost when this taxonomy is repeated as a listicle. A higher level isn't
-a better chunker. It's a more expensive guess about your data, and you still have to test it.
+That's basically a set of instructions, so Greg had an AI follow them in two steps.
 
-If you're starting today:
+![Step 1: "Greg went to the park. He likes walking." becomes two facts that stand alone, with "He" replaced by "Greg". Step 2: an AI checks a new fact, "Greg enjoys hiking," and adds it to the matching pile, or starts a new pile if nothing fits.](../../assets/images/text-splitting-explained/level5-agentic.svg)
 
-1. Use Level 2 as the baseline.
-2. Move to Level 3 if your documents have real structure.
-3. Build an eval set before anything else.
-4. Try alternative representations before agentic chunking.
+**Step 1: Rewrite sentences as stand-alone facts.** Real sentences often depend on what came before. "He likes walking"
+doesn't make sense alone, because you don't know who "he" is. So the AI first rewrites the text into **propositions**,
+short statements that make sense alone.
 
-I don't have my own numbers yet. When I run this comparison on a corpus I care about, it'll be its
-own post, with the eval harness included.
+**Step 2: Sort the facts into piles.** The AI looks at each fact and decides whether it fits an existing pile. If so, it
+adds the fact there and updates that pile's title and summary. If not, it starts a new pile.
+
+The result is very tidy, topic-based groups. The downside is that it's **slow and expensive**, because the AI gets asked
+a question for every single fact. It makes the most sense if you believe AI keeps getting cheaper.
+
+## Bonus Level: What you search doesn't have to be what you hand over
+
+Every level so far splits the original text. The bonus level goes a step further: **sometimes the original text isn't
+the best thing to search.**
+
+![Three ways to search one thing and hand the AI another: search a summary and return the full section, search practice questions and return the chat messages, or search a small piece and return the bigger section around it.](../../assets/images/text-splitting-explained/bonus-search-vs-return.svg)
+
+1. **Summaries.** Search short summaries of each piece. When one matches, hand over the full piece behind it.
+2. **Practice questions.** Have an AI write the questions each piece would answer, then match the user's real question
+   against those. This helps a lot with messy text like group chats, where the raw messages don't match questions well
+   on their own.
+3. **Small piece to find, big piece to read.** Small pieces are easier to match to a question, but they often lack
+   context. So you search the small pieces, then hand the AI the bigger section the match came from. It's like finding a
+   term in a textbook's index and then reading the whole page around it.
+
+There's one more idea that skips chunks entirely:
+
+![A graph: Greg is connected to Bobby by a "friends with" line and to New York by a "lives in" line.](../../assets/images/text-splitting-explained/bonus-graph.svg)
+
+4. **Graphs.** Some information is mostly about how things connect: who's friends with whom, who lives where, which
+   company owns what. Instead of chunks, you can pull out a web of people, places and links. "Greg lives in New York"
+   and "Greg is friends with Bobby" become dots joined by lines, which makes questions about relationships easier to
+   answer.
+
+At this point you've gone past splitting into a bigger topic called **indexing**: deciding how to store your information
+so it can be found later.
+
+## So which method is best?
+
+There isn't one best method, and that's the point. The right choice depends on your data and what you're trying to do.
+Some advice to take away:
+
+- **Start with Level 2.** It's simple and works well most of the time.
+- **Match the method to the material.** Code, tables and images each need their own handling.
+- **Test it.** You can't know whether a change helped unless you measure how well your app finds the right information.
+  Tools for this are called _evaluations_.
+- **Remember the commandment.** You're not splitting text for its own sake. You're preparing it so the right piece can
+  be found when someone needs it.

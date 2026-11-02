@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-labelledby="t">
+  <title id="t">A graph: Greg is connected to Bobby by a "friends with" line and to New York by a "lives in" line.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; }
+  </style>
+  <rect x="1" y="1" width="718" height="218" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="32" class="h">A graph: facts as dots and lines</text>
+
+  <g stroke="#94a3b8" stroke-width="2">
+    <line x1="200" y1="120" x2="420" y2="70" /><line x1="200" y1="120" x2="420" y2="175" />
+  </g>
+  <text x="300" y="84" text-anchor="middle" class="mut">friends with</text>
+  <text x="300" y="170" text-anchor="middle" class="mut">lives in</text>
+
+  <circle cx="200" cy="120" r="34" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+  <text x="200" y="125" text-anchor="middle" class="b">Greg</text>
+  <circle cx="420" cy="70" r="30" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+  <text x="420" y="75" text-anchor="middle" class="b">Bobby</text>
+  <circle cx="420" cy="172" r="40" fill="#dcfce7" stroke="#16a34a" stroke-width="2" />
+  <text x="420" y="180" text-anchor="middle" class="b">New York</text>
+
+  <text x="490" y="110" class="mut">Good for questions about</text>
+  <text x="490" y="128" class="mut">who is connected to what.</text>
+</svg>

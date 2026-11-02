@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-labelledby="t">
+  <title id="t">The same document with a Skiing section and an Ice Hockey section. Cutting at a fixed size makes a middle chunk that mixes skiing and hockey text. Cutting at each title makes one chunk per section.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .s { font-size: 12px; }
+  </style>
+  <defs>
+    <g id="doc">
+      <rect x="24" y="0" width="90" height="44" fill="#dbeafe" stroke="#2563eb" />
+      <text x="69" y="27" text-anchor="middle" class="b">Skiing</text>
+      <rect x="114" y="0" width="130" height="44" fill="#eff6ff" stroke="#93c5fd" />
+      <rect x="244" y="0" width="110" height="44" fill="#eff6ff" stroke="#93c5fd" />
+      <rect x="354" y="0" width="100" height="44" fill="#fef3c7" stroke="#d97706" />
+      <text x="404" y="27" text-anchor="middle" class="b">Ice Hockey</text>
+      <rect x="454" y="0" width="130" height="44" fill="#fffbeb" stroke="#fcd34d" />
+      <rect x="584" y="0" width="112" height="44" fill="#fffbeb" stroke="#fcd34d" />
+      <g stroke-width="3" stroke-linecap="round">
+        <g stroke="#93c5fd"><line x1="124" y1="16" x2="234" y2="16" /><line x1="124" y1="28" x2="210" y2="28" /><line x1="254" y1="16" x2="344" y2="16" /><line x1="254" y1="28" x2="320" y2="28" /></g>
+        <g stroke="#fcd34d"><line x1="464" y1="16" x2="574" y2="16" /><line x1="464" y1="28" x2="540" y2="28" /><line x1="594" y1="16" x2="686" y2="16" /><line x1="594" y1="28" x2="660" y2="28" /></g>
+      </g>
+    </g>
+  </defs>
+  <rect x="1" y="1" width="718" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Cutting at a fixed size vs. cutting at titles</text>
+
+  <!-- fixed size -->
+  <text x="24" y="66" class="b">Every N characters</text>
+  <use href="#doc" y="78" />
+  <g stroke="#dc2626" stroke-width="2.5"><line x1="248" y1="72" x2="248" y2="128" /><line x1="472" y1="72" x2="472" y2="128" /></g>
+  <g fill="none" stroke="#64748b" stroke-width="1.5">
+    <path d="M28 132 v6 h216 v-6" /><path d="M252 132 v6 h216 v-6" /><path d="M476 132 v6 h216 v-6" />
+  </g>
+  <text x="136" y="156" text-anchor="middle" class="s">chunk 1</text>
+  <text x="360" y="156" text-anchor="middle" class="s b" style="fill:#dc2626">chunk 2: skiing + hockey mixed</text>
+  <text x="584" y="156" text-anchor="middle" class="s">chunk 3</text>
+
+  <line x1="24" y1="180" x2="696" y2="180" stroke="#e2e8f0" />
+
+  <!-- by title -->
+  <text x="24" y="212" class="b">At each title</text>
+  <use href="#doc" y="224" />
+  <g stroke="#dc2626" stroke-width="2.5"><line x1="354" y1="218" x2="354" y2="274" /></g>
+  <g fill="none" stroke="#64748b" stroke-width="1.5">
+    <path d="M28 278 v6 h322 v-6" /><path d="M358 278 v6 h334 v-6" />
+  </g>
+  <text x="189" y="302" text-anchor="middle" class="s b" style="fill:#2563eb">chunk 1: all skiing</text>
+  <text x="525" y="302" text-anchor="middle" class="s b" style="fill:#b45309">chunk 2: all hockey</text>
+
+  <text x="360" y="328" text-anchor="middle" class="mut">Cut at titles and a hockey question only ever gets hockey text back.</text>
+</svg>

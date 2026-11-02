@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="t">
+  <title id="t">A big document is split into small chunks. A question picks the two best chunks, and only those go to the AI.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="258" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- big document -->
+  <rect x="30" y="50" width="100" height="150" rx="6" fill="#f8fafc" stroke="#94a3b8" />
+  <g stroke="#cbd5e1" stroke-width="3" stroke-linecap="round">
+    <line x1="42" y1="70" x2="118" y2="70" /><line x1="42" y1="82" x2="110" y2="82" />
+    <line x1="42" y1="94" x2="118" y2="94" /><line x1="42" y1="106" x2="104" y2="106" />
+    <line x1="42" y1="118" x2="118" y2="118" /><line x1="42" y1="130" x2="112" y2="130" />
+    <line x1="42" y1="142" x2="118" y2="142" /><line x1="42" y1="154" x2="100" y2="154" />
+    <line x1="42" y1="166" x2="118" y2="166" /><line x1="42" y1="178" x2="108" y2="178" />
+  </g>
+  <text x="80" y="225" text-anchor="middle" class="b">Big document</text>
+
+  <line x1="140" y1="125" x2="185" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="162" y="115" text-anchor="middle" class="mut">split</text>
+
+  <!-- chunks -->
+  <g stroke-width="1.5">
+    <rect x="195" y="70" width="70" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+    <rect x="275" y="70" width="70" height="55" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" />
+    <rect x="355" y="70" width="70" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+    <rect x="195" y="135" width="70" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+    <rect x="275" y="135" width="70" height="55" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+    <rect x="355" y="135" width="70" height="55" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5" />
+  </g>
+  <g stroke="#cbd5e1" stroke-width="3" stroke-linecap="round">
+    <line x1="205" y1="88" x2="255" y2="88" /><line x1="205" y1="100" x2="245" y2="100" /><line x1="205" y1="112" x2="252" y2="112" />
+    <line x1="365" y1="88" x2="415" y2="88" /><line x1="365" y1="100" x2="405" y2="100" /><line x1="365" y1="112" x2="412" y2="112" />
+    <line x1="205" y1="153" x2="255" y2="153" /><line x1="205" y1="165" x2="245" y2="165" /><line x1="205" y1="177" x2="252" y2="177" />
+    <line x1="285" y1="153" x2="335" y2="153" /><line x1="285" y1="165" x2="325" y2="165" /><line x1="285" y1="177" x2="332" y2="177" />
+  </g>
+  <g stroke="#93c5fd" stroke-width="3" stroke-linecap="round">
+    <line x1="285" y1="88" x2="335" y2="88" /><line x1="285" y1="100" x2="325" y2="100" /><line x1="285" y1="112" x2="332" y2="112" />
+    <line x1="365" y1="153" x2="415" y2="153" /><line x1="365" y1="165" x2="405" y2="165" /><line x1="365" y1="177" x2="412" y2="177" />
+  </g>
+  <text x="310" y="225" text-anchor="middle" class="b">Small chunks</text>
+
+  <!-- question -->
+  <rect x="440" y="18" width="160" height="40" rx="20" fill="#fef3c7" stroke="#d97706" />
+  <text x="520" y="43" text-anchor="middle">“How did WW2 end?”</text>
+  <line x1="530" y1="60" x2="538" y2="92" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <line x1="432" y1="125" x2="492" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="462" y="115" text-anchor="middle" class="mut">top 2</text>
+
+  <!-- AI and answer -->
+  <rect x="495" y="95" width="90" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="540" y="130" text-anchor="middle" class="b">AI</text>
+  <line x1="587" y1="125" x2="615" y2="125" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="618" y="100" width="82" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="659" y="130" text-anchor="middle" class="b">Answer</text>
+  <text x="540" y="180" text-anchor="middle" class="mut">reads only what it needs</text>
+</svg>
