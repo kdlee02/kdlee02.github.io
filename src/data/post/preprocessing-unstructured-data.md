@@ -10,7 +10,7 @@ tags:
   - tables
   - chunking
   - beginner
-draft: true
+draft: false
 ---
 
 _Based on DeepLearning.AI's
