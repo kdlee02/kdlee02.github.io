@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" role="img" aria-labelledby="t">
+  <title id="t">A map of meaning with chunks as dots. The short question lands far from the real passage that answers it. A fake answer written by a small AI, starting "NVIDIA is pursuing a multifaceted strategy to aggressively expand its AI infrastructure globally", lands right next to the real passage.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+  </style>
+  <rect x="1" y="1" width="718" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Searching with a fake answer lands closer</text>
+
+  <!-- map -->
+  <rect x="24" y="52" width="396" height="240" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="38" y="72" class="mut">Map of meaning (each dot is a chunk)</text>
+  <g fill="#cbd5e1">
+    <circle cx="70" cy="110" r="6" /><circle cx="130" cy="95" r="6" /><circle cx="200" cy="120" r="6" />
+    <circle cx="250" cy="90" r="6" /><circle cx="390" cy="100" r="6" /><circle cx="160" cy="180" r="6" />
+    <circle cx="230" cy="215" r="6" /><circle cx="390" cy="230" r="6" /><circle cx="300" cy="260" r="6" />
+    <circle cx="60" cy="170" r="6" /><circle cx="190" cy="265" r="6" /><circle cx="370" cy="170" r="6" />
+  </g>
+  <g stroke-width="1.5" stroke-dasharray="5 4" fill="none">
+    <line x1="92" y1="244" x2="320" y2="136" stroke="#d97706" />
+    <line x1="296" y1="158" x2="318" y2="138" stroke="#2563eb" />
+  </g>
+  <text x="196" y="205" class="b s" style="fill:#b45309">far</text>
+  <text x="270" y="140" class="b s" style="fill:#1d4ed8">close</text>
+
+  <circle cx="326" cy="130" r="9" fill="#22c55e" stroke="#15803d" stroke-width="2" />
+  <text x="342" y="125" class="b s">real</text>
+  <text x="342" y="140" class="b s">passage</text>
+  <circle cx="290" cy="164" r="8" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2" />
+  <text x="290" y="190" text-anchor="middle" class="s" style="fill:#1d4ed8">fake answer</text>
+  <circle cx="84" cy="250" r="8" fill="#f59e0b" stroke="#b45309" stroke-width="2" />
+  <text x="84" y="276" text-anchor="middle" class="s" style="fill:#b45309">your question</text>
+
+  <!-- bubbles -->
+  <rect x="440" y="52" width="256" height="90" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="454" y="74" class="b s" style="fill:#b45309">Your question</text>
+  <text x="454" y="95" class="s">“What strategic initiatives is</text>
+  <text x="454" y="112" class="s">NVIDIA taking to expand AI</text>
+  <text x="454" y="129" class="s">infrastructure globally?”</text>
+
+  <rect x="440" y="156" width="256" height="136" rx="10" fill="#dbeafe" stroke="#2563eb" />
+  <text x="454" y="178" class="b s" style="fill:#1d4ed8">Fake answer from a small AI</text>
+  <text x="454" y="199" class="s">“NVIDIA is pursuing a</text>
+  <text x="454" y="216" class="s">multifaceted strategy to</text>
+  <text x="454" y="233" class="s">aggressively expand its AI</text>
+  <text x="454" y="250" class="s">infrastructure globally…”</text>
+  <text x="454" y="278" class="mut">sounds like a real report</text>
+
+  <text x="360" y="316" text-anchor="middle" class="mut">The fake answer may get facts wrong. It only has to sound like the page you want.</text>
+</svg>

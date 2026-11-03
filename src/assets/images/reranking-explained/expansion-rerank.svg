@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" role="img" aria-labelledby="t">
+  <title id="t">Reranking after query expansion. The original question plus 5 AI-written questions makes 6 searches. Each returns 10 chunks, 60 in total. Removing duplicates leaves 23. Each of the 23 is scored against the original question, and the top 5 go to the AI.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .xs { font-size: 11px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="248" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Expand the question, then rerank the pile</text>
+  <rect x="24" y="62" width="116" height="74" rx="8" fill="#ffedd5" stroke="#ea580c" />
+  <text x="82.0" y="95" text-anchor="middle" class="b">6 questions</text>
+  <text x="82.0" y="111" text-anchor="middle" class="s">original + 5 new</text>
+  <line x1="142" y1="99" x2="158" y2="99" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="160" y="62" width="116" height="74" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="218.0" y="95" text-anchor="middle" class="b">60 chunks</text>
+  <text x="218.0" y="111" text-anchor="middle" class="s">10 per question</text>
+  <line x1="278" y1="99" x2="294" y2="99" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="296" y="62" width="116" height="74" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="354.0" y="95" text-anchor="middle" class="b">23 unique</text>
+  <text x="354.0" y="111" text-anchor="middle" class="s">duplicates removed</text>
+  <line x1="414" y1="99" x2="430" y2="99" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="432" y="62" width="116" height="74" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="490.0" y="95" text-anchor="middle" class="b">23 scores</text>
+  <text x="490.0" y="111" text-anchor="middle" class="s">each vs. the original</text>
+  <line x1="550" y1="99" x2="566" y2="99" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="568" y="62" width="116" height="74" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="626.0" y="95" text-anchor="middle" class="b">top 5</text>
+  <text x="626.0" y="111" text-anchor="middle" class="s">go to the AI</text>
+  <text x="24" y="172" class="s">Scoring each chunk against the <tspan class="b">original</tspan> question, not the variant that found it, keeps</text>
+  <text x="24" y="190" class="s">chunks that answer a neighboring question (like “what decreased revenue?”) from sneaking in.</text>
+  <text x="24" y="226" class="mut">Numbers are from the reranking notebook: 6 × 10 = 60 results, 23 after removing duplicates.</text>
+</svg>

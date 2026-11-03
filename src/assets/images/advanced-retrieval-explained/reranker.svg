@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="t">
+  <title id="t">20 candidate chunks from search go into the reranker, which reads the question and each chunk together and gives each a score. Chunk 1 scores high, chunk 2 about half as high, and chunk 3 falls below the cutoff and is dropped.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <g id="r"><rect width="18" height="18" rx="3" fill="#ede9fe" stroke="#7c3aed" /></g>
+    <g id="row"><use href="#r" /><use href="#r" x="24" /><use href="#r" x="48" /><use href="#r" x="72" /><use href="#r" x="96" /></g>
+  </defs>
+  <rect x="1" y="1" width="718" height="318" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">The reranker reads the shortlist closely and scores it</text>
+
+  <use href="#row" x="28" y="100" /><use href="#row" x="28" y="124" /><use href="#row" x="28" y="148" /><use href="#row" x="28" y="172" />
+  <text x="85" y="216" text-anchor="middle" class="b s">20 candidates</text>
+  <text x="85" y="232" text-anchor="middle" class="mut">from search</text>
+
+  <line x1="150" y1="145" x2="198" y2="145" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="204" y="80" width="180" height="130" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="294" y="104" text-anchor="middle" class="b">Reranker</text>
+  <rect x="222" y="116" width="144" height="26" rx="6" fill="#ffffff" stroke="#d97706" />
+  <text x="294" y="134" text-anchor="middle" class="s">the question</text>
+  <text x="294" y="157" text-anchor="middle" class="b">+</text>
+  <rect x="222" y="166" width="144" height="26" rx="6" fill="#ffffff" stroke="#d97706" />
+  <text x="294" y="184" text-anchor="middle" class="s">one chunk</text>
+  <text x="294" y="230" text-anchor="middle" class="mut">read together, one pair at a time</text>
+
+  <line x1="390" y1="145" x2="430" y2="145" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="504" y="90" class="mut">score</text>
+  <text x="440" y="120" class="s">chunk 1</text>
+  <rect x="504" y="104" width="150" height="22" rx="4" fill="#22c55e" />
+  <text x="662" y="120" class="b s" style="fill:#15803d">keep</text>
+  <text x="440" y="156" class="s">chunk 2</text>
+  <rect x="504" y="140" width="75" height="22" rx="4" fill="#f59e0b" />
+  <text x="662" y="156" class="b s" style="fill:#15803d">keep</text>
+  <g opacity="0.55">
+    <text x="440" y="192" class="s">chunk 3</text>
+    <rect x="504" y="176" width="14" height="22" rx="4" fill="#94a3b8" />
+    <text x="662" y="192" class="b s" style="fill:#b91c1c">drop</text>
+  </g>
+  <line x1="544" y1="96" x2="544" y2="208" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4" />
+  <text x="544" y="226" text-anchor="middle" class="s" style="fill:#b91c1c">cutoff</text>
+
+  <text x="360" y="276" text-anchor="middle">Scores let you drop weak chunks, or say “I don’t know” when nothing passes.</text>
+  <text x="360" y="296" text-anchor="middle" class="mut">Bars show the pattern from the video’s demo, not exact numbers.</text>
+</svg>

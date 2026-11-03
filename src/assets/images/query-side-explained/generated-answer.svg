@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" role="img" aria-labelledby="t">
+  <title id="t">Expansion with a generated answer. The question “Was there significant turnover in the executive team?” goes to an AI, which writes a pretend answer saying the core executive team remained unchanged. The question and pretend answer are glued together and used as the new search text. On the map, the glued search point moves away from the plain question and into a group of chunks about leadership and the board.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+    .halo { stroke: #f8fafc; stroke-width: 4px; paint-order: stroke; stroke-linejoin: round; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Glue a pretend answer onto the question</text>
+  <rect x="24" y="54" width="320" height="64" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="38" y="74" class="b s" style="fill:#b91c1c">Question</text>
+  <text x="38" y="92" class="s">“Was there significant turnover in the executive</text>
+  <text x="38" y="108" class="s">team?”</text>
+  <line x1="184" y1="120" x2="184" y2="128" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="24" y="130" width="320" height="76" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="38" y="152" class="b s" style="fill:#1d4ed8">Pretend answer written by an AI</text>
+  <text x="38" y="172" class="s">“In the past fiscal year there was no significant</text>
+  <text x="38" y="189" class="s">turnover… the core members remained unchanged…”</text>
+  <line x1="184" y1="208" x2="184" y2="224" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="24" y="226" width="320" height="56" rx="8" fill="#ffedd5" stroke="#ea580c" />
+  <text x="38" y="248" class="b s" style="fill:#c2410c">New search text</text>
+  <text x="38" y="268" class="s">question + pretend answer, sent to Chroma together</text>
+  <rect x="368" y="54" width="328" height="228" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+  <g fill="#94a3b8"><circle cx="518.5" cy="108.9" r="2.6" /><circle cx="522.2" cy="136.9" r="2.6" /><circle cx="534.2" cy="129.8" r="2.6" /><circle cx="535.4" cy="133.8" r="2.6" /><circle cx="568.9" cy="117.3" r="2.6" /><circle cx="476.2" cy="195.1" r="2.6" /><circle cx="415.8" cy="206.2" r="2.6" /><circle cx="401.9" cy="140.1" r="2.6" /><circle cx="668.9" cy="222.9" r="2.6" /><circle cx="564.8" cy="108.1" r="2.6" /><circle cx="434.7" cy="238.2" r="2.6" /><circle cx="406.9" cy="185.3" r="2.6" /><circle cx="444.0" cy="211.6" r="2.6" /><circle cx="521.8" cy="165.0" r="2.6" /><circle cx="515.1" cy="183.8" r="2.6" /><circle cx="571.8" cy="87.3" r="2.6" /><circle cx="531.9" cy="131.6" r="2.6" /><circle cx="469.0" cy="185.8" r="2.6" /><circle cx="673.3" cy="240.1" r="2.6" /><circle cx="591.0" cy="110.5" r="2.6" /><circle cx="479.5" cy="206.5" r="2.6" /><circle cx="409.9" cy="206.6" r="2.6" /><circle cx="607.6" cy="79.5" r="2.6" /><circle cx="499.8" cy="214.0" r="2.6" /><circle cx="662.1" cy="179.4" r="2.6" /><circle cx="449.6" cy="211.9" r="2.6" /><circle cx="648.5" cy="92.2" r="2.6" /><circle cx="502.9" cy="195.0" r="2.6" /><circle cx="410.7" cy="156.3" r="2.6" /><circle cx="466.6" cy="178.6" r="2.6" /><circle cx="414.7" cy="158.3" r="2.6" /><circle cx="605.3" cy="175.0" r="2.6" /><circle cx="423.5" cy="199.4" r="2.6" /><circle cx="407.0" cy="194.3" r="2.6" /><circle cx="616.4" cy="140.7" r="2.6" /><circle cx="517.1" cy="193.8" r="2.6" /><circle cx="444.2" cy="209.8" r="2.6" /><circle cx="572.8" cy="99.4" r="2.6" /><circle cx="423.1" cy="183.3" r="2.6" /><circle cx="466.6" cy="219.2" r="2.6" /><circle cx="665.7" cy="190.3" r="2.6" /><circle cx="641.3" cy="133.0" r="2.6" /><circle cx="449.8" cy="173.2" r="2.6" /><circle cx="572.3" cy="143.8" r="2.6" /><circle cx="418.5" cy="212.2" r="2.6" /><circle cx="463.4" cy="210.6" r="2.6" /><circle cx="609.4" cy="110.6" r="2.6" /><circle cx="410.8" cy="205.5" r="2.6" /><circle cx="415.6" cy="175.2" r="2.6" /><circle cx="560.8" cy="109.3" r="2.6" /><circle cx="495.6" cy="127.9" r="2.6" /><circle cx="527.4" cy="170.5" r="2.6" /><circle cx="553.2" cy="135.2" r="2.6" /><circle cx="433.8" cy="194.5" r="2.6" /><circle cx="648.0" cy="169.7" r="2.6" /><circle cx="443.9" cy="193.7" r="2.6" /><circle cx="600.0" cy="130.7" r="2.6" /><circle cx="659.8" cy="170.1" r="2.6" /><circle cx="640.5" cy="131.4" r="2.6" /><circle cx="419.5" cy="179.4" r="2.6" /><circle cx="401.0" cy="193.8" r="2.6" /><circle cx="590.1" cy="107.3" r="2.6" /><circle cx="463.0" cy="227.2" r="2.6" /><circle cx="473.3" cy="177.0" r="2.6" /><circle cx="439.8" cy="207.9" r="2.6" /><circle cx="454.9" cy="203.5" r="2.6" /><circle cx="548.9" cy="149.3" r="2.6" /><circle cx="469.6" cy="181.4" r="2.6" /><circle cx="650.5" cy="166.2" r="2.6" /><circle cx="466.5" cy="215.3" r="2.6" /><circle cx="516.6" cy="179.8" r="2.6" /><circle cx="494.7" cy="196.4" r="2.6" /><circle cx="552.5" cy="141.4" r="2.6" /><circle cx="643.0" cy="173.4" r="2.6" /><circle cx="668.5" cy="164.6" r="2.6" /><circle cx="556.0" cy="89.6" r="2.6" /><circle cx="429.9" cy="208.8" r="2.6" /><circle cx="648.5" cy="163.5" r="2.6" /><circle cx="589.1" cy="116.6" r="2.6" /><circle cx="570.7" cy="112.3" r="2.6" /><circle cx="527.0" cy="149.6" r="2.6" /><circle cx="673.8" cy="169.6" r="2.6" /><circle cx="411.4" cy="147.4" r="2.6" /><circle cx="645.7" cy="147.0" r="2.6" /><circle cx="599.3" cy="101.7" r="2.6" /><circle cx="649.9" cy="120.7" r="2.6" /><circle cx="489.9" cy="173.5" r="2.6" /><circle cx="637.4" cy="98.5" r="2.6" /><circle cx="508.5" cy="187.8" r="2.6" /><circle cx="552.7" cy="75.6" r="2.6" /><circle cx="567.5" cy="90.0" r="2.6" /><circle cx="562.9" cy="140.1" r="2.6" /><circle cx="412.8" cy="137.2" r="2.6" /><circle cx="639.9" cy="89.8" r="2.6" /><circle cx="596.8" cy="81.9" r="2.6" /><circle cx="555.0" cy="149.7" r="2.6" /><circle cx="515.1" cy="172.6" r="2.6" /><circle cx="603.1" cy="107.6" r="2.6" /><circle cx="398.5" cy="149.0" r="2.6" /><circle cx="455.4" cy="195.6" r="2.6" /><circle cx="588.3" cy="76.2" r="2.6" /><circle cx="651.4" cy="166.6" r="2.6" /><circle cx="462.7" cy="233.5" r="2.6" /><circle cx="582.6" cy="112.6" r="2.6" /><circle cx="447.5" cy="239.0" r="2.6" /><circle cx="577.4" cy="160.1" r="2.6" /><circle cx="515.5" cy="184.1" r="2.6" /><circle cx="579.1" cy="97.1" r="2.6" /><circle cx="446.4" cy="170.1" r="2.6" /><circle cx="649.6" cy="183.2" r="2.6" /><circle cx="640.0" cy="126.7" r="2.6" /><circle cx="479.9" cy="226.0" r="2.6" /><circle cx="428.7" cy="154.7" r="2.6" /><circle cx="631.0" cy="142.4" r="2.6" /><circle cx="592.0" cy="131.6" r="2.6" /><circle cx="438.0" cy="202.6" r="2.6" /><circle cx="518.0" cy="160.6" r="2.6" /><circle cx="507.6" cy="193.6" r="2.6" /><circle cx="567.7" cy="92.7" r="2.6" /><circle cx="628.3" cy="139.2" r="2.6" /></g>
+  <g fill="none" stroke="#16a34a" stroke-width="1.8"><circle cx="499.8" cy="214.0" r="6" /><circle cx="494.7" cy="196.4" r="6" /><circle cx="502.9" cy="195.0" r="6" /><circle cx="479.5" cy="206.5" r="6" /><circle cx="507.6" cy="193.6" r="6" /></g>
+  <line x1="437.0" y1="180.0" x2="488.9" y2="201.1" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a)" />
+  <path d="M431.0 174.0L443.0 186.0M443.0 174.0L431.0 186.0" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M490.9 197.1L502.9 209.1M502.9 197.1L490.9 209.1" stroke="#ea580c" stroke-width="3.5" stroke-linecap="round" />
+  <text x="437.0" y="168.0" text-anchor="middle" class="s b halo" style="fill:#b91c1c">question</text>
+  <text x="496.9" y="235.1" text-anchor="middle" class="s b halo" style="fill:#c2410c">question + answer</text>
+  <text x="360" y="314" text-anchor="middle" class="mut">Adding the answer moves the search point toward chunks about leadership and the board.</text>
+</svg>

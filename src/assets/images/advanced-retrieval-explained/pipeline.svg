@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" role="img" aria-labelledby="t">
+  <title id="t">The pipeline from left to right: a question, a fake answer written by a small AI, two searches that are merged and filtered, a reranker that reads each candidate closely, and the best chunks with scores. 20 candidates go into the reranker and 3 come out.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .tag { font-size: 11px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="288" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">The advanced retrieval pipeline, step by step</text>
+
+  <rect x="24" y="60" width="105" height="160" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="76.5" y="88" text-anchor="middle" class="b">Question</text>
+  <text x="76.5" y="120" text-anchor="middle" class="s">“NVDA data</text>
+  <text x="76.5" y="137" text-anchor="middle" class="s">center revenue</text>
+  <text x="76.5" y="154" text-anchor="middle" class="s">Q3 2025?”</text>
+
+  <rect x="165" y="60" width="105" height="160" rx="10" fill="#dbeafe" stroke="#2563eb" />
+  <text x="217.5" y="88" text-anchor="middle" class="b">Fake answer</text>
+  <text x="217.5" y="120" text-anchor="middle" class="s">a small AI</text>
+  <text x="217.5" y="137" text-anchor="middle" class="s">writes a guess</text>
+  <text x="217.5" y="154" text-anchor="middle" class="s">to search with</text>
+  <text x="217.5" y="204" text-anchor="middle" class="tag" style="fill:#1d4ed8">HyDE</text>
+
+  <rect x="306" y="60" width="105" height="160" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="358.5" y="88" text-anchor="middle" class="b">Two searches</text>
+  <text x="358.5" y="120" text-anchor="middle" class="s">by meaning</text>
+  <text x="358.5" y="137" text-anchor="middle" class="s">+ exact words,</text>
+  <text x="358.5" y="154" text-anchor="middle" class="s">merged, filtered</text>
+  <text x="358.5" y="204" text-anchor="middle" class="tag" style="fill:#6d28d9">hybrid search</text>
+
+  <rect x="447" y="60" width="105" height="160" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="499.5" y="88" text-anchor="middle" class="b">Close read</text>
+  <text x="499.5" y="120" text-anchor="middle" class="s">reads question</text>
+  <text x="499.5" y="137" text-anchor="middle" class="s">and chunk</text>
+  <text x="499.5" y="154" text-anchor="middle" class="s">together</text>
+  <text x="499.5" y="204" text-anchor="middle" class="tag" style="fill:#b45309">reranking</text>
+
+  <rect x="588" y="60" width="105" height="160" rx="10" fill="#fce7f3" stroke="#db2777" />
+  <text x="640.5" y="88" text-anchor="middle" class="b">Best chunks</text>
+  <text x="640.5" y="120" text-anchor="middle" class="s">with scores,</text>
+  <text x="640.5" y="137" text-anchor="middle" class="s">handed to</text>
+  <text x="640.5" y="154" text-anchor="middle" class="s">the AI</text>
+  <text x="640.5" y="204" text-anchor="middle" class="tag" style="fill:#be185d">results</text>
+
+  <g stroke="#64748b" stroke-width="2" marker-end="url(#a)">
+    <line x1="131" y1="140" x2="163" y2="140" />
+    <line x1="272" y1="140" x2="304" y2="140" />
+    <line x1="413" y1="140" x2="445" y2="140" />
+    <line x1="554" y1="140" x2="586" y2="140" />
+  </g>
+  <text x="429" y="130" text-anchor="middle" class="b s">20</text>
+  <text x="570" y="130" text-anchor="middle" class="b s">3</text>
+
+  <text x="360" y="254" text-anchor="middle">Search hands 20 candidates to the reranker, and the reranker keeps the best 3.</text>
+  <text x="360" y="274" text-anchor="middle" class="mut">Each step fixes a different kind of miss.</text>
+</svg>

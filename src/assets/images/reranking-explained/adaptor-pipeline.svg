@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="t">
+  <title id="t">Where an embedding adaptor sits. The question goes through the embedding model to get 384 numbers, then through the adaptor, a learned 384 by 384 grid that adjusts those numbers, and only then to Chroma. The 349 saved chunks are never changed.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .xs { font-size: 11px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="258" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">An adaptor adjusts the question, never the chunks</text>
+  <rect x="24" y="70" width="128" height="60" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="88.0" y="96" text-anchor="middle" class="b">Question</text>
+  <text x="88.0" y="112" text-anchor="middle" class="s">“R&amp;D spending?”</text>
+  <rect x="180" y="70" width="128" height="60" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="244.0" y="96" text-anchor="middle" class="b">Embedding model</text>
+  <text x="244.0" y="112" text-anchor="middle" class="s">→ 384 numbers</text>
+  <rect x="336" y="58" width="152" height="84" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2" />
+  <text x="412" y="80" text-anchor="middle" class="b">Adaptor</text>
+  <g><rect x="372" y="90" width="12" height="9" rx="1" fill="#16a34a" /><rect x="386" y="90" width="12" height="9" rx="1" fill="#86efac" /><rect x="400" y="90" width="12" height="9" rx="1" fill="#86efac" /><rect x="414" y="90" width="12" height="9" rx="1" fill="#86efac" /><rect x="428" y="90" width="12" height="9" rx="1" fill="#86efac" /><rect x="442" y="90" width="12" height="9" rx="1" fill="#16a34a" /><rect x="372" y="101" width="12" height="9" rx="1" fill="#86efac" /><rect x="386" y="101" width="12" height="9" rx="1" fill="#16a34a" /><rect x="400" y="101" width="12" height="9" rx="1" fill="#86efac" /><rect x="414" y="101" width="12" height="9" rx="1" fill="#86efac" /><rect x="428" y="101" width="12" height="9" rx="1" fill="#86efac" /><rect x="442" y="101" width="12" height="9" rx="1" fill="#86efac" /><rect x="372" y="112" width="12" height="9" rx="1" fill="#86efac" /><rect x="386" y="112" width="12" height="9" rx="1" fill="#86efac" /><rect x="400" y="112" width="12" height="9" rx="1" fill="#16a34a" /><rect x="414" y="112" width="12" height="9" rx="1" fill="#86efac" /><rect x="428" y="112" width="12" height="9" rx="1" fill="#86efac" /><rect x="442" y="112" width="12" height="9" rx="1" fill="#86efac" /><rect x="372" y="123" width="12" height="9" rx="1" fill="#86efac" /><rect x="386" y="123" width="12" height="9" rx="1" fill="#86efac" /><rect x="400" y="123" width="12" height="9" rx="1" fill="#86efac" /><rect x="414" y="123" width="12" height="9" rx="1" fill="#16a34a" /><rect x="428" y="123" width="12" height="9" rx="1" fill="#86efac" /><rect x="442" y="123" width="12" height="9" rx="1" fill="#86efac" /></g>
+  <text x="412" y="160" text-anchor="middle" class="s">a learned 384 × 384 grid</text>
+  <rect x="516" y="58" width="180" height="84" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="606" y="86" text-anchor="middle" class="b">Chroma</text>
+  <text x="606" y="106" text-anchor="middle" class="s">349 chunks,</text>
+  <text x="606" y="122" text-anchor="middle" class="s">saved once, untouched</text>
+  <line x1="154" y1="100" x2="178" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="310" y1="100" x2="334" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="490" y1="100" x2="514" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="360" y="204" text-anchor="middle" class="s">No need to re-save the chunks, and no AI call when someone asks a question.</text>
+  <text x="360" y="230" text-anchor="middle" class="mut">The grid is trained once, ahead of time, from examples of good and bad results.</text>
+</svg>

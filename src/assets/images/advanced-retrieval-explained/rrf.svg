@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" role="img" aria-labelledby="t">
+  <title id="t">Meaning search ranks chunks A, B, C, D. Exact-word search ranks C, A, E, F. Each chunk earns 1 divided by 60 plus its place in each list. A and C appear in both lists, so the merged list is A, C, B, E.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <g id="rowA"><rect width="180" height="30" rx="6" fill="#dbeafe" stroke="#2563eb" /></g>
+    <g id="rowC"><rect width="180" height="30" rx="6" fill="#ede9fe" stroke="#7c3aed" /></g>
+    <g id="rowX"><rect width="180" height="30" rx="6" fill="#f8fafc" stroke="#cbd5e1" /></g>
+  </defs>
+  <rect x="1" y="1" width="718" height="298" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Merging two ranked lists by place, not by score</text>
+
+  <text x="114" y="68" text-anchor="middle" class="b">By meaning</text>
+  <use href="#rowA" x="24" y="80" /><text x="38" y="100">1   Chunk A</text>
+  <use href="#rowX" x="24" y="118" /><text x="38" y="138">2   Chunk B</text>
+  <use href="#rowC" x="24" y="156" /><text x="38" y="176">3   Chunk C</text>
+  <use href="#rowX" x="24" y="194" /><text x="38" y="214">4   Chunk D</text>
+
+  <text x="318" y="68" text-anchor="middle" class="b">By exact words</text>
+  <use href="#rowC" x="228" y="80" /><text x="242" y="100">1   Chunk C</text>
+  <use href="#rowA" x="228" y="118" /><text x="242" y="138">2   Chunk A</text>
+  <use href="#rowX" x="228" y="156" /><text x="242" y="176">3   Chunk E</text>
+  <use href="#rowX" x="228" y="194" /><text x="242" y="214">4   Chunk F</text>
+
+  <line x1="414" y1="152" x2="460" y2="152" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="582" y="58" text-anchor="middle" class="b">Merged</text>
+  <text x="582" y="73" text-anchor="middle" class="mut">points = 1 ÷ (60 + place)</text>
+  <rect x="468" y="80" width="228" height="30" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <text x="482" y="100" class="b">1   Chunk A</text><text x="684" y="100" text-anchor="end" class="s">1/61 + 1/62</text>
+  <rect x="468" y="118" width="228" height="30" rx="6" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="482" y="138" class="b">2   Chunk C</text><text x="684" y="138" text-anchor="end" class="s">1/63 + 1/61</text>
+  <rect x="468" y="156" width="228" height="30" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="482" y="176">3   Chunk B</text><text x="684" y="176" text-anchor="end" class="s">1/62</text>
+  <rect x="468" y="194" width="228" height="30" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="482" y="214">4   Chunk E</text><text x="684" y="214" text-anchor="end" class="s">1/63</text>
+
+  <text x="360" y="260" text-anchor="middle">A and C show up in both lists, so they collect points twice and rise to the top.</text>
+  <text x="360" y="280" text-anchor="middle" class="mut">Raw scores are ignored. Only each chunk’s place in each list counts.</text>
+</svg>

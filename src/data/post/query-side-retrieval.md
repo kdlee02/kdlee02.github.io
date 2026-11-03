@@ -1,7 +1,7 @@
 ---
-title: 'Fixing Retrieval From the Query Side'
-excerpt: 'Multi-query expansion and embedding adaptors improve retrieval without touching your index. How each works, what it costs per query, and how each one fails.'
-publishDate: 2026-09-29T00:00:00Z
+title: 'Why AI Search Brings Back the Wrong Pages (Part 1)'
+excerpt: 'Part 1 of 2 on the Chroma course: what a vector database actually does, why its results can miss even on simple questions, and two ways an AI can rewrite your question so search finds more of what you need.'
+publishDate: 2026-07-20T00:00:00Z
 category: 'RAG'
 tags:
   - retrieval
@@ -10,154 +10,173 @@ tags:
 draft: false
 ---
 
-Most retrieval advice targets the index: chunk better, embed better, add a keyword branch. But a
-similarity comparison has two sides, and the query side is cheaper to change. Your index might hold
-millions of embeddings. Your query is one string.
+_Based on lessons 2 and 3 of DeepLearning.AI's
+[Advanced Retrieval for AI with Chroma](https://www.deeplearning.ai/short-courses/advanced-retrieval-for-ai/) and
+their notebooks._
 
-[HyDE](/engineering/advanced-retrieval-pipeline) is one query-side fix. This post covers the other
-two from labs 3–5 of DeepLearning.AI's
-[Advanced Retrieval for AI with Chroma](https://www.deeplearning.ai/short-courses/advanced-retrieval-for-ai/):
-rewriting one query into several, and learning a transformation of the query vector. Neither
-requires re-embedding your corpus.
+When you ask an AI app a question about your own documents, it first has to find the right pages. That step is called
+**retrieval**, and it's often handled by a **vector database**: a database that finds text by meaning instead of by
+exact words. The course uses one called **Chroma**.
 
-## The mismatch
+This is part 1 of 2, and it covers two lessons. The first shows how a simple Chroma search can go wrong, even on easy
+questions. The second shows how an AI can rewrite your question before searching, so the search lands in a better spot.
+[Part 2](/engineering/reranking-and-embedding-adaptors) covers the rest of the course: reranking, embedding adaptors,
+and what's next.
 
-A question and the passage that answers it are different kinds of text. The question is short,
-interrogative, and uses whatever words the user picked. The passage is long, declarative, and uses
-the author's vocabulary. Cosine similarity between them is a lossy proxy for "does this answer
-that."
+## What Chroma does
 
-There are three escalating responses:
+Every example in the course searches one document: Microsoft's 2022 annual report. It's cut into small pieces called
+**chunks** (349 of them), and each chunk is saved in a Chroma **collection**, which is like a table for one set of
+documents.
 
-|             | How                                   | Cost per query            | Training? |
-| ----------- | ------------------------------------- | ------------------------- | --------- |
-| Multi-query | Rewrite the query several ways        | 1 LLM call + N retrievals | No        |
-| HyDE        | Embed a generated answer              | 1 LLM call                | No        |
-| Adaptor     | Learn a transform of the query vector | 1 matrix multiply         | Yes       |
+When a chunk is saved, an **embedding model** turns it into a list of 384 numbers that captures what the chunk means.
+Chunks with similar meanings end up with similar numbers. When you ask a question, the same model turns your question
+into 384 numbers, and Chroma returns the chunks whose numbers are closest. The course asks for 5 each time.
 
-They aren't exclusive, but they fail in different ways, and that's the useful part.
+![How Chroma works. Saving, done once: the annual report is cut into 349 chunks, an embedding model turns each chunk into 384 numbers, and the chunks are saved with their numbers in a Chroma collection. Searching: your question goes through the same embedding model, and Chroma returns the 5 chunks whose numbers are closest.](../../assets/images/query-side-explained/chroma-collection.svg)
 
-The lab also shows a HyDE variant from [Jagerman et al.](https://arxiv.org/abs/2305.03653):
-concatenate the question and the generated answer and embed both together. The original wording
-stays in the vector, which hedges against a hallucinated answer pulling the query somewhere the user
-never meant.
+Think of each chunk as a pin on a giant map, where pins about similar things sit near each other. Your question becomes
+one more pin, and Chroma hands back the 5 nearest ones.
 
-## Multi-query expansion
+## Seeing the map
 
-One query gives you one point in embedding space. If that point lands slightly off, everything you
-retrieve is slightly off, and nothing recovers it.
+There's a catch with that map: it has 384 directions instead of two, so no one can picture it. The course uses a tool
+called **UMAP** to flatten it to two dimensions, the way a world map flattens a globe. Like a world map, some shapes get
+stretched in the process, so two pins that look far apart on the flat version might be close in the real one. It's
+still a good way to build intuition.
 
-So have an LLM write several phrasings, retrieve for each, and merge the lists with
-[reciprocal rank fusion](/engineering/advanced-retrieval-pipeline). RRF doesn't care whether its
-lists came from different retrievers or from one retriever run on different queries. A document
-found by several phrasings collects score from each and rises. Being robust across phrasings is
-better evidence of relevance than one high cosine score.
+Here's what four questions look like on the flattened map. These are redrawn from the plots the notebook produced:
 
-Things to get right:
+![Four questions plotted on a flattened map of the 349 chunks, with the 5 chunks Chroma returned circled. Total revenue lands inside the cloud and its results sit close together. The AI strategy question lands right on a chunk, with four close results and one stray. The R&D question lands in a gap and its results are spread out. The Michael Jordan question has nothing nearby, and its results come from all over the map.](../../assets/images/query-side-explained/query-maps.svg)
 
-- **Keep the original query in the list.** Rewrites can all drift the same way, and the original is
-  your anchor.
-- **Ask for different vocabulary, not different topics.** Ask for ten variants and the model starts
-  inventing neighboring questions. Four is usually plenty.
-- **Deduplicate before reranking.** Overlap between result sets is expected. Fusing by document ID
-  stops a reranker from scoring the same chunk five times.
-- **Cost is one LLM call plus N retrievals,** not N LLM calls. One generation produces all the
-  variants, and the retrievals run in parallel.
+- **"What is the total revenue?"** lands in the middle of the cloud, and the results are close together. Most are
+  revenue tables, including the one with total revenue of $198,270 million for 2022. But a couple are about _unearned_
+  revenue and how costs are split between business groups. They're about money, just not the question.
+- **"What is the strategy around AI?"** lands right on top of a chunk, so that result is extremely relevant. Most
+  results mention AI, like Microsoft's responsible AI standard with its 17 goals. But one is mostly about databases, and
+  another mixes in the metaverse.
+- **"What has been the investment in research and development?"** lands in a gap, so its results are spread out.
+- **"What has Michael Jordan done for us lately?"** has nothing to do with the report, and its results come from all
+  over the map.
 
-### Aspects instead of phrasings, and why that needs a reranker
+There's a pattern here. Picture all your chunks as a cloud of points. A question that lands _inside_ the cloud finds
+neighbors packed tightly around it. A question that lands _outside_ the cloud reaches for the nearest points in every
+direction, so its results come from all over.
 
-The lab's prompt asks for something different: questions that cover _different aspects_ of the
-topic. Given "what were the most important factors that contributed to increases in revenue?", it
-produced questions about revenue sources, pricing strategy, product lines, new customers, and
-factors that contributed to _decreases_ in revenue.
+## Distractors: results that hurt
 
-That last one is the tell. Aspect queries reach parts of the corpus one query never would, which is
-the point for a broad question. They also pull in chunks that answer a neighboring question, and
-six queries times k results is far more than you want to give the model.
+Look closer at the research and development question. Three of its five results are useful. The best one says R&D
+spending was $24,512 million, up 18% from the year before. The other two are off topic: one is about 23 million people
+getting digital skills training, and one is about a partner growth program.
 
-The re-ranking lab's fix: score every deduplicated candidate with a cross-encoder against the
-**original** query, not the variant that found it, and keep the top few. The variants widen the net,
-and the original decides what stays in it. Without the rerank, expansion just hands the model more
-noise.
+![The R&D question returned 5 chunks. Three are about research and development, including R&D expenses of $24,512 million, up 18 percent. Two are distractors about digital skills training and a partner growth program. The Michael Jordan question returned 5 chunks and none are relevant.](../../assets/images/query-side-explained/distractors.svg)
 
-With an LLM in the retrieval loop, the prompt becomes a parameter. Phrasings versus aspects is one
-prompt choice with very different results, so try both on your own queries.
+The course calls results like these **distractors**. They're bad because the search hands all five chunks to the AI,
+and the AI tends to get pulled off course by the irrelevant ones. Worse, a wrong answer caused by a distractor is hard
+to trace. Neither the user nor the engineer can easily see why the AI said what it did.
 
-### Decomposition solves a different problem
+The Michael Jordan question shows the extreme case. None of its five results are relevant: business metrics, employee
+rewards, and the CEO's closing letter. But Chroma returned five anyway, because a nearest-neighbor search always returns
+the nearest neighbors, even when none of them are near. Every chunk the AI gets is a distractor.
 
-If the question has several parts ("how did margins and headcount both change?"), no single passage
-covers both, so no single retrieval finds one. Split it into sub-questions, retrieve for each, and
-give the model the union.
+### Why this happens
 
-Rewriting hedges against bad phrasing. Decomposition handles an answer that's genuinely spread
-across documents. The mechanism is the same and the diagnosis differs, so detect which case you're
-in rather than always doing both.
+The embedding model was trained to capture meaning in general. It knows nothing about _your_ task. When you search the
+annual report for "total revenue," it can't tell that you want the one headline number rather than anything
+money-related. You're asking a general tool to do a specific job.
 
-## Embedding adaptors
+The next lesson tries to close that gap by fixing the question before it goes to search.
 
-Query expansion works around the embedding model. An adaptor changes what it outputs.
+## Query expansion: rewrite the question first
 
-Your embedding model learned a general notion of similarity. Your corpus and your users' questions
-are specific. In principle there's a transformation of the query vector that makes relevant
-documents score higher _in your domain_, and you can learn it.
+A search engine can only work with the question it's given. **Query expansion** uses an AI to improve that question
+before the search runs. The course shows two ways to do it.
 
-The setup is minimal: multiply the query embedding by a learned square matrix before comparing. For
-a 384-dimension model that's about 147K parameters, small enough to train on a laptop. Only the query
-passes through it. Document embeddings don't change.
+_A note on sources: the notebook for this lesson didn't run for me, because the AI model it calls wasn't available. So
+the examples below come from the lesson video, and the maps are my redrawings of the plots shown there._
 
-### Labels without hand-labeling
+### Way 1: Glue a pretend answer onto the question
 
-Training needs (query, document, relevant or not) examples.
+Ask an AI to write a pretend answer to the question, as if it came from an annual report. Then glue the question and the
+pretend answer together, and search with the whole thing.
 
-- **Best source: your users.** If your app collects thumbs up or down on answers, join that back to
-  the retrieved chunks. That beats anything synthetic.
-- **Without users, synthesize.** Have an LLM write questions typical of your domain, retrieve for
-  each with your existing pipeline, and have an LLM judge each pair. The lab uses 15 questions times
-  10 chunks, 150 pairs, and trains in seconds.
+In the video, the AI is told it's a "helpful expert financial research assistant" and asked for an example answer "that
+might be found in a document like an annual report." The question was "Was there significant turnover in the executive
+team?" and the AI wrote that there was no significant turnover and the core members of the team stayed the same.
 
-Labels are **+1 / −1**, not 1 / 0, because the target is cosine similarity, which ranges from −1 to
+![The question "Was there significant turnover in the executive team?" goes to an AI, which writes a pretend answer. The question and pretend answer are glued together and used as the new search text. On the map, the glued search point moves from the plain question into a group of chunks about leadership and the board.](../../assets/images/query-side-explained/generated-answer.svg)
 
-1. Training pushes relevant pairs toward 1 and irrelevant pairs toward −1.
+The instructor admits this is basically asking the AI to make things up, but the made-up text is useful. It reads like
+the kind of passage you're hoping to find, so it moves the search pin to a better neighborhood. In the video, the
+results were about leadership, Microsoft's directors and its board committees.
 
-### What the matrix learned
+This is close to the HyDE trick in the [advanced retrieval post](/engineering/advanced-retrieval-pipeline), with one
+difference. HyDE searches with the pretend answer alone. Here the original question stays in, so if the pretend answer
+wanders off, the question still pulls the search back toward what the user asked. The idea comes from a 2023 paper by
+[Jagerman and others](https://arxiv.org/abs/2305.03653).
 
-Multiply the adaptor by a vector of ones and plot each output dimension. Some come out large
-(stretched: this direction matters for your queries), some near zero (squeezed: ignore it), and some
-negative (flipped: it points away from what users want). That's the intuition for the whole
-technique. It stretches and squeezes embedding space along the directions your domain cares about.
-Each bar mixes in off-diagonal weights, so treat the plot as a picture, not a measurement.
+### Way 2: Ask several related questions
 
-### Why it's attractive
+One question is one pin on the map, and one pin can only reach one neighborhood. A broad question might need answers
+from several parts of the report.
 
-- **Your index never changes.** Fine-tuning the embedding model means re-embedding the whole corpus,
-  which for a big index is a migration. An adaptor is one matrix multiply on one vector. You can A/B
-  test it, roll it back, or keep several for different query types.
-- **No LLM call at query time.** The LLM work happens once, offline, to build the training set.
+So ask an AI to suggest a few _related_ questions, then search with all of them. The video's prompt asks for:
 
-### What to be skeptical about
+- up to five extra questions,
+- short ones, without compound sentences,
+- covering _different aspects_ of the topic, not just the same question reworded,
+- each a complete question that's still related to the original.
 
-- **The judge is your ceiling.** The labels are an LLM's opinion of relevance. If the judge is
-  systematically wrong, you train a matrix that faithfully reproduces the error. Hand-check a sample
-  of labels first. This step is the most likely to quietly invalidate the result.
-- **It's linear.** A single matrix can rotate and scale the query space and nothing more. The lab
-  suggests a small MLP as a next step. Linearity is also a safety property, since it's hard for a
-  linear map to do something wild on an unusual query.
-- **It's tied to the embedding model and the corpus.** Change the model and the adaptor is
-  meaningless. If the documents drift, retrain.
-- **Teaching code isn't production code.** The lab has no held-out set. Do it properly with batches
-  and a validation split you never train on, so "it improved" is a measurement. A UMAP plot showing
-  adapted queries moving toward the documents proves something happened, not that retrieval got
-  better.
+The original question was "What were the most important factors that contributed to increases in revenue?" The AI
+suggested questions about factors behind _decreases_ in revenue, the sources of revenue, how sales split across product
+lines, changes in pricing strategy, and whether the company gained new customers.
 
-## How I'd sequence it
+![The original question about what increased revenue goes to an AI, which writes five related questions. All six go to Chroma in one call, each returns 5 chunks, and duplicates are removed. On the map, the extra questions land in different places, so the results come from several parts of the report instead of one.](../../assets/images/query-side-explained/multiple-queries.svg)
 
-1. **Start with multi-query, reranked against the original query.** No training and no data, and it
-   reuses the fusion and reranker from a hybrid pipeline. It's the most value per unit of effort here.
-2. **Try a domain-specific embedding model** before building a labeling pipeline. Sometimes the fix
-   is swapping the model, which is less machinery to own.
-3. **Use adaptors when you have volume and a tight latency budget.** They're the only option without
-   a generation call on the critical path, which makes them right at high query rates. They're also
-   the only one with a training pipeline to maintain, so you need enough traffic to justify that.
+Chroma can take a whole list of questions in one call, so all six go together and each gets its own 5 results. Since the
+questions are related, the same chunk often shows up more than once, so you remove duplicates before passing anything
+on. In the video, the results covered Windows revenue growth, sales and marketing costs, investments and taxes. On the
+map, the new questions land in several different spots, reaching parts of the report the original question never would
+have.
 
-Every technique here is a hypothesis about your data. I haven't run these on a corpus I care about
-yet, so there are no numbers. When I do, the eval harness ships with the post.
+### An example of my own
+
+To try the idea on a question from the first lesson, here's how I might expand the research and development question.
+I wrote these myself and haven't run them, so they show the idea, not a result:
+
+- How much did research and development spending grow this year?
+- Which areas drove the increase in research and development?
+- What does Microsoft Research work on?
+- How does research and development compare with sales and marketing spending?
+
+Each one points at something specific that the report actually covers, like the spending table or Microsoft Research.
+That should pull in more of the useful chunks and leave less room for distractors like the digital skills programs.
+
+It's also worth thinking about what expansion _can't_ fix. Ask the AI to expand the Michael Jordan question and it will
+happily write a pretend answer or five new questions. But nothing in the report is about him, so a better question
+still finds nothing relevant. Expansion helps when the answer exists and the question is aimed badly, not when the
+answer isn't there.
+
+## The catch: more results to sort
+
+Way 2 creates a new problem. Six questions times five results is up to 30 chunks instead of 5, and some of them answer a
+neighboring question rather than yours. The "decreases in revenue" question is a good example: it's related, but it's
+not what was asked.
+
+So you need a way to score every chunk against the _original_ question and keep only the best. That's the job of a
+**reranker**, which reads the question and each chunk together and scores how well they match. That's the course's next
+lesson, and it's where [part 2](/engineering/reranking-and-embedding-adaptors) picks up.
+
+## Things to take away
+
+- **Look at your results, not just the answer.** A plot like the ones above shows quickly whether a question landed
+  inside your data or outside it.
+- **Search always returns something.** If nothing in your documents fits, you still get the closest chunks, and every
+  one of them is a distractor.
+- **Rewrite the question when it's aimed badly.** Glue on a pretend answer for short questions, or split broad ones into
+  related questions.
+- **The prompt is part of your search now.** Once an AI writes your questions, small prompt changes give very different
+  results. The instructor's advice is to experiment with the prompts, the questions and the models.
+
+Next up, [part 2](/engineering/reranking-and-embedding-adaptors): sorting the results with a reranker, and training a
+small adjustment that makes questions land in the right place.

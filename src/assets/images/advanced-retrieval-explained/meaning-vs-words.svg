@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="t">
+  <title id="t">Two questions tried both ways. "How much did sales grow?" is found by meaning search, which returns "Revenue went up compared with last quarter", but exact-word search misses it because no words are shared. "NVDA Q3 2025" trips up meaning search, which returns the similar-looking Q2 2024 report, while exact-word search finds the Q3 2025 report.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="718" height="318" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">Search by meaning vs. search by exact words</text>
+
+  <text x="24" y="72" class="b">Question</text>
+  <text x="348" y="72" text-anchor="middle" class="b">By meaning</text>
+  <text x="584" y="72" text-anchor="middle" class="b">By exact words</text>
+
+  <!-- row 1 -->
+  <rect x="24" y="86" width="196" height="80" rx="8" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="40" y="131">“How much did sales grow?”</text>
+
+  <rect x="236" y="86" width="224" height="80" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="250" y="110" class="ok">✓ Found it</text>
+  <text x="250" y="130" class="s">“Revenue went up compared</text>
+  <text x="250" y="146" class="s">with last quarter…”</text>
+
+  <rect x="472" y="86" width="224" height="80" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="486" y="110" class="no">✗ Missed it</text>
+  <text x="486" y="130" class="s">No words in common with</text>
+  <text x="486" y="146" class="s">the passage, so it ranks low.</text>
+
+  <!-- row 2 -->
+  <rect x="24" y="180" width="196" height="80" rx="8" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="40" y="225">“NVDA Q3 2025”</text>
+
+  <rect x="236" y="180" width="224" height="80" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="250" y="204" class="no">✗ Wrong report</text>
+  <text x="250" y="224" class="s">“NVDA Q2 2024 report…”</text>
+  <text x="250" y="240" class="s">Close in meaning, wrong quarter.</text>
+
+  <rect x="472" y="180" width="224" height="80" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="486" y="204" class="ok">✓ Found it</text>
+  <text x="486" y="224" class="s">“NVDA Q3 2025 report…”</text>
+  <text x="486" y="240" class="s">Every word matches exactly.</text>
+
+  <text x="360" y="298" text-anchor="middle" class="mut">Each search misses where the other one works, so run both.</text>
+</svg>

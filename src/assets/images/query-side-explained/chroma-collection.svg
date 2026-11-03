@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="t">
+  <title id="t">How Chroma works. Saving, done once: the Microsoft annual report is cut into 349 chunks, an embedding model turns each chunk into 384 numbers, and the chunks are saved with their numbers in a Chroma collection. Searching: your question goes through the same embedding model, and Chroma returns the 5 chunks whose numbers are closest.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+    .halo { stroke: #f8fafc; stroke-width: 4px; paint-order: stroke; stroke-linejoin: round; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="318" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">What Chroma does with your document</text>
+  <text x="24" y="56" class="mut">Saving (done once)</text>
+  <rect x="24" y="64" width="130" height="52" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="89.0" y="86" text-anchor="middle" class="b">Annual report</text>
+  <text x="89.0" y="102" text-anchor="middle" class="s">Microsoft, 2022</text>
+  <rect x="184" y="64" width="130" height="52" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="249.0" y="86" text-anchor="middle" class="b">349 chunks</text>
+  <text x="249.0" y="102" text-anchor="middle" class="s">small pieces of text</text>
+  <rect x="344" y="64" width="130" height="52" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="409.0" y="86" text-anchor="middle" class="b">Embedding model</text>
+  <text x="409.0" y="102" text-anchor="middle" class="s">text → 384 numbers</text>
+  <text x="24" y="146" class="mut">Searching (every question)</text>
+  <rect x="24" y="154" width="130" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="89.0" y="176" text-anchor="middle" class="b">Your question</text>
+  <text x="89.0" y="192" text-anchor="middle" class="s">“Total revenue?”</text>
+  <rect x="344" y="154" width="130" height="52" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="409.0" y="176" text-anchor="middle" class="b">Same model</text>
+  <text x="409.0" y="192" text-anchor="middle" class="s">→ 384 numbers</text>
+  <rect x="504" y="64" width="192" height="142" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="600" y="92" text-anchor="middle" class="b">Chroma collection</text>
+  <text x="600" y="116" text-anchor="middle" class="s">each chunk saved with</text>
+  <text x="600" y="132" text-anchor="middle" class="s">its 384 numbers</text>
+  <text x="600" y="164" text-anchor="middle" class="s">finds the chunks whose</text>
+  <text x="600" y="180" text-anchor="middle" class="s">numbers are closest</text>
+  <rect x="504" y="232" width="192" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="600.0" y="256" text-anchor="middle" class="b">5 closest chunks</text>
+  <line x1="156" y1="90" x2="182" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="316" y1="90" x2="342" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="476" y1="90" x2="502" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="156" y1="180" x2="342" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="476" y1="180" x2="502" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="600" y1="208" x2="600" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="360" y="304" text-anchor="middle" class="mut">Closest numbers means closest meaning, at least as far as the embedding model can tell.</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" role="img" aria-labelledby="t">
+  <title id="t">The R&amp;D question's 10 search results before and after reranking. Before, in search order: R&amp;D spending, plans to keep investing, long-term commitment, digital skills training, a partner growth initiative, licensing, how R&amp;D costs are counted, emissions, patents, and a carbon pledge. After reranking by score, the top five are plans to keep investing (2.64), R&amp;D spending (0.99), long-term commitment (-0.27), how R&amp;D costs are counted (-4.30, up from 7th), and licensing (-5.65, up from 6th). The digital skills and partner chunks fall to 9th and 8th.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .b { font-weight: 700; }
+    .s { font-size: 12px; }
+    .xs { font-size: 11px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .ok { fill: #15803d; font-weight: 700; }
+    .no { fill: #b91c1c; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="468" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="24" y="34" class="h">The R&amp;D question, before and after reranking</text>
+  <text x="24" y="62" class="b">Search order</text>
+  <text x="420" y="62" class="b">Reranked by score</text>
+  <text x="696" y="62" text-anchor="end" class="mut">score</text>
+  <rect x="24" y="74" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="93" class="s"><tspan class="b">1</tspan>   R&amp;D spending: $24,512M, up 18%</text>
+  <rect x="24" y="110" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="129" class="s"><tspan class="b">2</tspan>   Plans to invest; Microsoft Research</text>
+  <rect x="24" y="146" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="165" class="s"><tspan class="b">3</tspan>   Long-term commitment to R&amp;D</text>
+  <rect x="24" y="182" width="276" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="36" y="201" class="s"><tspan class="b">4</tspan>   Digital skills training</text>
+  <rect x="24" y="218" width="276" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="36" y="237" class="s"><tspan class="b">5</tspan>   Black Partner Growth Initiative</text>
+  <rect x="24" y="254" width="276" height="28" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="36" y="273" class="s"><tspan class="b">6</tspan>   Licensing and research</text>
+  <rect x="24" y="290" width="276" height="28" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="36" y="309" class="s"><tspan class="b">7</tspan>   How R&amp;D costs are counted</text>
+  <rect x="24" y="326" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="345" class="s"><tspan class="b">8</tspan>   Emissions and datacenter growth</text>
+  <rect x="24" y="362" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="381" class="s"><tspan class="b">9</tspan>   Patent portfolio</text>
+  <rect x="24" y="398" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="36" y="417" class="s"><tspan class="b">10</tspan>   Carbon-negative pledge</text>
+  <rect x="420" y="74" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="93" class="s"><tspan class="b">1</tspan>   Plans to invest; Microsoft Research</text>
+  <text x="688" y="93" text-anchor="end" class="s b">2.64</text>
+  <rect x="420" y="110" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="129" class="s"><tspan class="b">2</tspan>   R&amp;D spending: $24,512M, up 18%</text>
+  <text x="688" y="129" text-anchor="end" class="s b">0.99</text>
+  <rect x="420" y="146" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="165" class="s"><tspan class="b">3</tspan>   Long-term commitment to R&amp;D</text>
+  <text x="688" y="165" text-anchor="end" class="s b">-0.27</text>
+  <rect x="420" y="182" width="276" height="28" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="432" y="201" class="s"><tspan class="b">4</tspan>   How R&amp;D costs are counted</text>
+  <text x="688" y="201" text-anchor="end" class="s b">-4.30</text>
+  <rect x="420" y="218" width="276" height="28" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="432" y="237" class="s"><tspan class="b">5</tspan>   Licensing and research</text>
+  <text x="688" y="237" text-anchor="end" class="s b">-5.65</text>
+  <rect x="420" y="254" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="273" class="s"><tspan class="b">6</tspan>   Patent portfolio</text>
+  <text x="688" y="273" text-anchor="end" class="s b">-7.04</text>
+  <rect x="420" y="290" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="309" class="s"><tspan class="b">7</tspan>   Carbon-negative pledge</text>
+  <text x="688" y="309" text-anchor="end" class="s b">-7.32</text>
+  <rect x="420" y="326" width="276" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="432" y="345" class="s"><tspan class="b">8</tspan>   Black Partner Growth Initiative</text>
+  <text x="688" y="345" text-anchor="end" class="s b">-7.71</text>
+  <rect x="420" y="362" width="276" height="28" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="432" y="381" class="s"><tspan class="b">9</tspan>   Digital skills training</text>
+  <text x="688" y="381" text-anchor="end" class="s b">-10.73</text>
+  <rect x="420" y="398" width="276" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="432" y="417" class="s"><tspan class="b">10</tspan>   Emissions and datacenter growth</text>
+  <text x="688" y="417" text-anchor="end" class="s b">-10.93</text>
+  <path d="M302 124 C360 124 360 88 418 88" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <path d="M302 88 C360 88 360 124 418 124" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <path d="M302 160 C360 160 360 160 418 160" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <path d="M302 304 C360 304 360 196 418 196" fill="none" stroke="#16a34a" stroke-width="2" />
+  <path d="M302 268 C360 268 360 232 418 232" fill="none" stroke="#16a34a" stroke-width="2" />
+  <path d="M302 376 C360 376 360 268 418 268" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <path d="M302 412 C360 412 360 304 418 304" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <path d="M302 232 C360 232 360 340 418 340" fill="none" stroke="#dc2626" stroke-width="2" />
+  <path d="M302 196 C360 196 360 376 418 376" fill="none" stroke="#dc2626" stroke-width="2" />
+  <path d="M302 340 C360 340 360 412 418 412" fill="none" stroke="#cbd5e1" stroke-width="1.2" />
+  <line x1="412" y1="250" x2="700" y2="250" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4" />
+  <line x1="20" y1="250" x2="304" y2="250" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4" />
+  <text x="360" y="448" text-anchor="middle" class="mut">Dashed lines mark the top 5. Red: the two distractors drop out. Green: two long-tail chunks move in.</text>
+</svg>
