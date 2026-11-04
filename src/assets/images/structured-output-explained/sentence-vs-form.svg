@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="t">
+  <title id="t">Left: the AI answers in a chatty sentence. Right: the same facts in a filled-in form with three labeled boxes.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="258" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="170" y="38" text-anchor="middle" class="b">What the AI wants to write</text>
+  <rect x="30" y="58" width="280" height="130" rx="16" fill="#fef3c7" stroke="#d97706" />
+  <text x="50" y="92">“Oh, it's from some web company,</text>
+  <text x="50" y="114">due at the end of January,</text>
+  <text x="50" y="136">about ninety bucks. Hope that</text>
+  <text x="50" y="158">helps!”</text>
+  <text x="170" y="222" text-anchor="middle" class="mut">Fine for a person. A program can't use it.</text>
+
+  <line x1="325" y1="123" x2="385" y2="123" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="550" y="38" text-anchor="middle" class="b">What your program needs</text>
+  <rect x="400" y="58" width="300" height="130" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <g>
+    <text x="418" y="93" class="mono">vendor</text>
+    <rect x="510" y="76" width="175" height="26" rx="4" fill="#dbeafe" stroke="#2563eb" />
+    <text x="520" y="94" class="mono">"Acme Web Co."</text>
+    <text x="418" y="131" class="mono">due_date</text>
+    <rect x="510" y="114" width="175" height="26" rx="4" fill="#dbeafe" stroke="#2563eb" />
+    <text x="520" y="132" class="mono">2016-01-31</text>
+    <text x="418" y="169" class="mono">total_due</text>
+    <rect x="510" y="152" width="175" height="26" rx="4" fill="#dbeafe" stroke="#2563eb" />
+    <text x="520" y="170" class="mono">90.00</text>
+  </g>
+  <text x="550" y="222" text-anchor="middle" class="mut">Every box has a label and a type.</text>
+</svg>

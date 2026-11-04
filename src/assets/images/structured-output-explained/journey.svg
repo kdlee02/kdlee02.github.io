@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" role="img" aria-labelledby="t">
+  <title id="t">Four steps from left to right: chat and hope, the AI company's JSON feature, re-prompting libraries like Instructor, and structured generation like Outlines. An arrow underneath runs from prompt hacking to AI engineering. Steps 2 and 3 are covered in part 1, step 4 in part 2.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="248" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="25" y="50" width="150" height="80" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="100" y="84" text-anchor="middle" class="b">Chat and hope</text>
+  <text x="100" y="104" text-anchor="middle" class="mut">“reply only in JSON”</text>
+
+  <line x1="178" y1="90" x2="196" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="200" y="50" width="150" height="80" rx="10" fill="#dbeafe" stroke="#2563eb" />
+  <text x="275" y="84" text-anchor="middle" class="b">AI company's</text>
+  <text x="275" y="102" text-anchor="middle" class="b">JSON feature</text>
+  <text x="275" y="120" text-anchor="middle" class="mut">e.g. OpenAI</text>
+
+  <line x1="353" y1="90" x2="371" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="375" y="50" width="150" height="80" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="450" y="84" text-anchor="middle" class="b">Check and retry</text>
+  <text x="450" y="104" text-anchor="middle" class="mut">e.g. Instructor</text>
+
+  <line x1="528" y1="90" x2="546" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="550" y="50" width="150" height="80" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2" />
+  <text x="625" y="84" text-anchor="middle" class="b">Structured</text>
+  <text x="625" y="102" text-anchor="middle" class="b">generation</text>
+  <text x="625" y="120" text-anchor="middle" class="mut">e.g. Outlines</text>
+
+  <!-- part brackets -->
+  <path d="M205 30 V24 H520 V30" fill="none" stroke="#94a3b8" />
+  <text x="362" y="18" text-anchor="middle" class="mut">Part 1</text>
+  <path d="M555 30 V24 H695 V30" fill="none" stroke="#94a3b8" />
+  <text x="625" y="18" text-anchor="middle" class="mut">Part 2</text>
+
+  <line x1="60" y1="170" x2="660" y2="170" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <circle cx="60" cy="170" r="5" fill="#64748b" />
+  <text x="60" y="200" class="b">“Prompt hacking”</text>
+  <text x="60" y="218" class="mut">reword it until it seems to work</text>
+  <text x="660" y="200" text-anchor="end" class="b">AI engineering</text>
+  <text x="660" y="218" text-anchor="end" class="mut">the format is guaranteed by code</text>
+</svg>

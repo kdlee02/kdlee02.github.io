@@ -1,42 +1,128 @@
 ---
-title: 'Structured Output: Ask, Retry, or Make It Impossible to Fail'
-excerpt: 'Vendor APIs, retry-with-validation, and constrained decoding are three different mechanisms with different failure modes. One of them cannot produce invalid output at all, and it still cannot make the output correct.'
-publishDate: 2026-09-29T12:00:00Z
+title: 'How to Make an AI Fill Out a Form'
+excerpt: 'Why programs need neat, structured answers from an AI instead of paragraphs, and the first two ways to get them: let the AI company enforce a form, or check the answer and ask again. Part 1 of 2.'
+publishDate: 2026-07-25T00:00:00Z
 category: 'LLM Engineering'
 tags:
   - structured-output
   - pydantic
-  - constrained-decoding
 draft: false
 ---
 
-You write a Pydantic class, you get JSON back, it works. When it stops working, the fix depends on
-_why_ it worked in the first place. Depending on the mechanism, a broken output calls for a retry,
-a prompt fix, or nothing at all, because it can't happen.
+_Based on DeepLearning.AI's
+[Getting Structured LLM Output](https://www.deeplearning.ai/courses/getting-structured-llm-output) course, built with
+[.txt](https://dottxt.ai/) and taught by Will Kurt and Cameron Pfiffer. This is part 1 of 2.
+[Part 2](/engineering/structured-generation-with-outlines) covers the third way, structured generation._
 
-These are notes from DeepLearning.AI's
-[Getting Structured LLM Output](https://www.deeplearning.ai/courses/getting-structured-llm-output),
-built with [.txt](https://dottxt.ai/) and taught by Will Kurt and Cameron Pfiffer. Its organizing
-claim is that there are three mechanisms, not three libraries:
+Ask a friend to read an invoice and tell you who sent it, when it's due and how much it costs. They'll say something
+like "Oh, it's from some web company, due at the end of January, about ninety bucks." That's a fine answer for a person.
+It's a terrible answer for a computer program, which wants three boxes filled in: **vendor**, **due date**, **total**.
 
-| Mechanism                          | Where the constraint lives    | Can it produce invalid output? |
-| ---------------------------------- | ----------------------------- | ------------------------------ |
-| Vendor API (`response_format`)     | Provider's server             | Yes, as a catchable error      |
-| Retry with validation (Instructor) | Your client, after generation | Yes, after N retries           |
-| Constrained decoding (Outlines)    | The decoder, at every token   | **No**                         |
+AI models talk like your friend. They write sentences. If your program needs to save the answer in a spreadsheet, sort
+it by date, or decide whether to send an alert, a sentence is useless until somebody digs the facts back out of it.
 
-I'd add a fourth row the course merges into the first: **asking in the prompt.** "Respond only with
-JSON matching this schema" fails _silently_. You get a dict that parses fine with the wrong keys. A
-vendor `response_format` is enforced by the provider and fails loudly. Those are different
-mechanisms.
+Getting an AI to fill in boxes instead of writing sentences is called **structured output**. The most common format
+for those boxes is **JSON**, a plain-text way of writing labels and values inside curly braces, like
+`{"name": "Dolly Parton", "age": 79}`.
 
-## Vendor APIs: the schema as a program interface
+![Left: the AI answers in a chatty sentence. Right: the same facts in a filled-in form with three labeled boxes.](../../assets/images/structured-output-explained/sentence-vs-form.svg)
 
-Pass a class as the response format and you get back an instance, not a string. The interesting
-part is the course's running example, a social media agent, where the schema becomes the boundary
-between the model and your code:
+## Why not just read the sentence?
+
+The course makes this concrete with a **social media agent**: a program that reads posts people tag your company in,
+asks an AI to write a reply, and posts that reply for you.
+
+The first version is simple. The AI writes a reply, and your program passes it along. But you still need to pull the
+reply out of whatever the AI wrote, so you write a small **parser**, a few rules that cut the useful part out of the
+text. Parsers like this take a long time to write and break easily, because the AI keeps phrasing things in ways you
+didn't expect.
+
+Then your boss asks for one small change: **if the post is a complaint, send it to customer support instead of replying
+automatically.** Now your parser has to figure out two things from free text: is this a complaint, and what's the
+reply? Every new feature makes the parser messier.
+
+If the AI answers with a predictable form instead, the change is one line. The form has a `complaint` box and a
+`response` box, and your program checks `if complaint:` the same way it checks any other true-or-false value.
+
+![Top: the AI's free-text answer goes through a fragile hand-written parser that has to guess both "is it a complaint?" and "what's the reply?". Bottom: the AI fills a form with a complaint box and a response box, and a simple if-statement sends it to support or to the social media site.](../../assets/images/structured-output-explained/parser-vs-form.svg)
+
+## The three ways, and the journey between them
+
+The course sorts the ways to get structured output into three groups, and presents them as steps on a journey from
+"prompt hacking" (rewording your request until it seems to work) toward real engineering:
+
+![Four steps from left to right: chatting with the AI and hoping, the AI company's JSON feature, re-prompting libraries like Instructor, and structured generation. An arrow underneath runs from "prompt hacking" to "AI engineering".](../../assets/images/structured-output-explained/journey.svg)
+
+1. **Let the AI company enforce it.** Big providers like OpenAI accept a form along with your question and promise to
+   fill it in.
+2. **Check the answer and ask again.** A library like Instructor checks the AI's answer on your computer. If it's
+   wrong, it sends the AI the error and asks for a fix.
+3. **Make wrong answers impossible to type.** This is called **structured generation**. It reaches inside the model
+   and blocks every word that would break the form, before the model can pick it.
+
+This post covers the first two. Part 2 covers the third, which is where the course spends most of its time.
+
+## First, describe the form
+
+Every method starts with writing down what the form looks like. The official way to describe the shape of a JSON form
+is a **JSON Schema**. Here's one for a person:
+
+```json
+{
+  "properties": {
+    "name": { "title": "Name", "type": "string" },
+    "age": { "title": "Age", "type": "integer" },
+    "email": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Email" }
+  },
+  "required": ["name", "age"],
+  "title": "User",
+  "type": "object"
+}
+```
+
+That's a lot of punctuation for three boxes, and real forms are much bigger. So in Python, people describe the form
+with **Pydantic** instead, a library that checks data has the right shape. You write a short class and Pydantic
+produces the schema for you:
 
 ```python
+from typing import Optional
+from pydantic import BaseModel
+
+class User(BaseModel):
+    name: str                    # any text
+    age: int                     # a whole number
+    email: Optional[str] = None  # text, or nothing at all
+```
+
+The words `str`, `int` and `Optional[str]` are **types**: they say what kind of value may go in each box. `= None`
+means the box can be left out.
+
+## Way 1: Let the AI company enforce it
+
+With OpenAI's Python library, you hand over the class and get back a filled-in `User`, not text:
+
+```python
+completion = client.beta.chat.completions.parse(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Make up a user."},
+    ],
+    response_format=User,
+)
+user = completion.choices[0].message.parsed
+```
+
+In the course notebook this came back as `User(name='Alice Johnson', age=34, email='alice.johnson@example.com')`. The
+result is a real Python object, so `user.age` is a number you can do math with.
+
+### The social media agent, rebuilt
+
+Here's the form for the social media agent:
+
+```python
+from typing import List, Literal, Optional
+
 class Mention(BaseModel):
     product: Literal['app', 'website', 'not_applicable']
     sentiment: Literal['positive', 'negative', 'neutral']
@@ -45,137 +131,192 @@ class Mention(BaseModel):
     support_ticket_description: Optional[str]
 ```
 
-Read it as an interface. `Literal` fields are routing keys. `needs_response` is a control-flow
-decision the model makes and your `if` statement consumes. `support_ticket_description` is a side
-effect the model is allowed to request. One call does classification, routing, drafting and
-escalation, and returns a typed row.
+`Literal[...]` means "pick exactly one of these words." `bool` means true or false. A single question to the AI now
+does four jobs at once: it says which product the post is about, judges the mood, decides whether to reply and writes
+the reply, and decides whether to open a support ticket.
 
-In the recorded run, "website is down again" gets a reply _and_ a ticket, and "you're so evil" gets
-`needs_response=False`. The "don't respond to bait" rule is one sentence in the system prompt, and
-its effect arrives as a boolean, not a paragraph you have to interpret.
+The notebook ran three posts through it and turned the results straight into a table:
 
-### Field order is chain-of-thought
+| Post                                                       | product          | sentiment | needs_response | support ticket                            |
+| ---------------------------------------------------------- | ---------------- | --------- | -------------- | ----------------------------------------- |
+| "@techcorp your app is amazing! The new design is perfect" | `app`            | positive  | `True`         | none                                      |
+| "@techcorp website is down again, please fix!"             | `website`        | negative  | `True`         | "User reported that the website is down." |
+| "hey @techcorp you're so evil"                             | `not_applicable` | negative  | `False`        | none                                      |
 
-The course includes a class that looks like a joke: `user_mood`, `internal_monologue`, then
-`message`. It's not a joke. JSON fields are generated in order, so every field above `message` is in
-context when `message` is written. Put reasoning fields _before_ the output fields and they
-condition it. Put them after and they rationalize text that's already committed. The type system
-won't warn you either way.
+The "don't reply to bait" rule was one sentence in the instructions, and it came back as a plain `False` your program
+can act on. The instructions also had a personality setting. Switching it from "friendly" to "rude" turned the reply to
+the first post into "Thanks for the compliment! It's about time someone appreciated good design around here." Same
+form, different voice.
 
-### Two traps
+### The order of the boxes matters
 
-- **The supported schema is smaller than Pydantic.** The course's notes say OpenAI's structured
-  output doesn't support `date` fields or regex patterns. You write Python types and silently get
-  a smaller language.
-- **`Optional[str]` without a default is required.** In Pydantic v2 it means "required, may be
-  null." Add `= None` if you mean omittable.
-
-## Retry: validate, then ask again
-
-Instructor moves the guarantee to your client. It parses the response into your model, and if
-validation fails, re-prompts with the error attached.
-
-The payoff is the full Pydantic feature set, because Pydantic does the validating, not the
-provider. That means dates, regex patterns, nested models and, most importantly, your own validators.
-Anything you can write as a Python assertion becomes a retry condition, including cross-field rules
-like "end date after start date" that no JSON Schema can express.
-
-**The cost is tokens.** Every retry resends the whole conversation, so three retries cost about four
-times the input tokens, not 1.3 times. The course instruments the retry count, and I'd keep that in
-production. A retry loop without a counter is a cost you'll find on the invoice.
-
-**It can still fail.** The course's adversarial demo asks for an essay on Dolly Parton, with the
-system prompt "Don't give me what I want," against a schema of an enum, an int and a bool. Three
-retries, four paid calls, then an exception. Retry gives you a probabilistic guarantee with a token
-cost and unbounded tail latency. You're negotiating with the model, and sometimes it declines.
-
-## Constrained decoding: make invalid tokens unreachable
-
-Outlines doesn't check output after generation. It compiles the schema into a finite state machine,
-and at each step sets the probability of every token that can't legally come next to zero. Invalid
-output isn't rejected. It's unreachable.
-
-The course demonstrates this with **SmolLM2-135M**, a model far too small to follow a "respond only
-in JSON" instruction reliably. It produces valid JSON on the first try anyway, because the
-constraint moved out of the model's competence and into the decoder.
-
-The best part of the course plots the token distribution at each position, with and without the
-constraint. There are three regimes:
-
-1. **Where structure is forced, the constraint does everything.** At position 0 the unconstrained
-   model wants to write prose: `Here` at 35.6%. Under the constraint only `{` (90.8%) and `{"`
-   (9.2%) survive.
-2. **At a field name, it nearly collapses.** `name` goes from 67.3% to 99.7%. The leftover 0.3% is
-   spread over `n`, `na`, `nam`, alternate tokenizations that also spell `name`. The machine
-   constrains the string, and several token paths produce it.
-3. **Inside a free string, it does nothing.** For the person's first name, the constrained and
-   unconstrained bars are identical: `John` 7.1% in both.
-
-The third plot answers the first objection people raise. Constrained decoding doesn't make the model
-dumber. It clamps the parts that were never the model's decision (braces, quotes, field names) and
-leaves the content alone.
-
-Two limits:
-
-- **Valid isn't correct.** `Person(name='John', age=30)` parses perfectly and means nothing. Every
-  evaluation problem you had before is still there, now with a type.
-- **You need the logits.** This requires local weights or an inference server that exposes the
-  output distribution. Behind a closed API it's unavailable, which is why providers run their own
-  version of it.
-
-## Beyond JSON: any grammar works
-
-JSON was never special. It's one grammar you can compile to a state machine, and so is a regex, a
-fixed list of choices, or a CSV layout.
-
-- A two-item **choice** makes classification exact. `Positive.` with a period is unreachable, so
-  there's nothing to clean up.
-- A **regex** for phone numbers yields pre-formatted output.
-- A tic-tac-toe board regex gets a 135M model to emit a correct grid every time. That isn't a
-  language skill. The grammar does the layout, and the model only picks X, O or blank.
-
-**Constraining the reasoning, not just the answer.** The course's GSM8K example builds a grammar of
-`Reasoning: <1–2 sentences>` followed by `So the answer is: <1–4 digits>`. The model can't state the
-answer first, because the grammar doesn't allow it. Chain-of-thought becomes a shape the output must
-have, and extracting the answer is a `split`.
-
-Be careful with the bounds. Capping reasoning at two sentences is fine for grade-school arithmetic.
-On a six-step problem you've constrained the model into being wrong, in the correct format.
-Constraining the answer's shape is free. Constraining the reasoning's length has an accuracy cost
-you should measure.
-
-### A wrong constraint succeeds at the wrong thing
-
-The course's CSV pattern has a typo:
+The AI fills in the form from top to bottom, one word at a time, and it can see everything it has already written. The
+course uses this on purpose with a form for _fake customer posts_ that puts `user_mood` and an `internal_monologue`
+list **above** the `message` box:
 
 ```python
-r'Code,Amount,Cost\n([A-Z]{3},[1]*[0-9],1]*[0-9]\.[0-9]{2}\n){1,3}'
-#                                        ^ should be [1]*
+class UserPostWithExtras(BaseModel):
+    user_mood: Literal["awful", "bad", "evil"]
+    product: Literal['app', 'website', 'not_applicable']
+    sentiment: Literal['positive', 'negative', 'neutral']
+    internal_monologue: List[str]
+    message: str
 ```
 
-I checked it with `re.match`. `ABC,5,12.50` matches and `ABC,5,7.50` doesn't. The stray bracket makes
-the leading `1` mandatory, so every price is silently forced into the 10–19 range. Nothing errors,
-`pd.read_csv` is happy, and the model will dutifully produce a thousand rows that obey the typo.
-Test a pattern against known-good and known-bad strings before you point a model at it.
+In the notebook the AI first wrote the mood `awful` and thoughts like "This app is really frustrating me." Only then did
+it write the message: "I've been having constant issues with the app crashing on my phone…" Fed back into the agent,
+that post got an apology and the ticket "User reported constant app crashes on their phone, requesting a fix."
 
-## Choosing
+It's like making students show their work before the final answer. Put the "thinking" boxes first. If you put them
+after the answer, the AI is just explaining a choice it already made.
 
-|             | Closed APIs       | Custom validators | Failure mode            | Extra cost      |
-| ----------- | ----------------- | ----------------- | ----------------------- | --------------- |
-| Vendor API  | Yes               | No                | API error / refusal     | None            |
-| Retry       | Yes               | Yes               | Exception after N tries | Extra calls     |
-| Constrained | No (needs logits) | No                | Can't be invalid        | Grammar compile |
+### How do the AI companies do it?
 
-- **Default to the vendor API** when your provider has one and your schema fits its subset.
-- **Use retry when validation is the hard part:** business rules and cross-field constraints. Track
-  the retry count from day one.
-- **Use constrained decoding when you self-host anyway, or the format isn't JSON.** If you own the
-  weights it's close to free. For a CSV, a log line or a DSL, it's the only option of the three.
+The course lists the tricks providers use, and you usually can't tell which one you're getting:
 
-They also compose: vendor structure for the outer envelope, validators over the result, constrained
-decoding for the one field nobody's API supports.
+- **Function calling** (or **tool use**): the model was trained to produce JSON when it wants to "call" a tool, and the
+  form is dressed up as a tool.
+- **JSON mode**: the model was trained to answer in JSON when asked to.
+- **Constrained decoding**: the provider blocks invalid words as the model writes. This is the technique Part 2 covers.
+- Something else they haven't told anyone about.
 
-The image I'd keep is the position-0 histogram: `Here` at 35.6% unconstrained, zero under
-constraint. Every structured-output bug I've written started from assuming the model was _trying_
-to produce my schema and got confused. It wasn't. It was trying to write a sentence, and the only
-question is where in the stack you stop it.
+### The good and the bad
+
+The good part is that it's easy. If you already use OpenAI, it's a few extra lines, and the providers keep improving it.
+
+The course lists four problems:
+
+- **You're tied to one company.** Code written for OpenAI's version needs rewriting to use someone else's.
+- **Results can be inconsistent**, depending on the provider.
+- **The effect on answer quality is unclear.** Some people have found that forcing a format makes answers worse on
+  tests. The course says this isn't proven, but it's a worry.
+- **Only part of Pydantic is allowed.** At the time of the course, OpenAI rejected `date` types and pattern rules like
+  "must look like an email address." You write a rich form, and the provider only accepts a simpler one.
+
+## Way 2: Check the answer, and ask again
+
+This is what the library **Instructor** does. The course calls it a **re-prompting** library. It sends your form to the
+AI, then checks the answer on your own computer using Pydantic. If a box is wrong, it sends the answer back to the AI
+along with the exact error message and asks for a fix. Think of a teacher handing back homework with red marks on it.
+
+![The AI fills in the form. A Pydantic check on your computer looks at it. If it passes, your program gets the result. If it fails, the error goes back to the AI for another try, up to max_retries.](../../assets/images/structured-output-explained/retry-loop.svg)
+
+Pydantic and Instructor do different jobs. Pydantic on its own never talks to an AI. It only checks data you already
+have. Instructor is the wrapper that does the asking, and the asking again. You could write that loop yourself in
+about fifteen lines. Instructor saves you the trouble.
+
+### One set of code for many AI companies
+
+Most AI providers copy OpenAI's way of sending requests, so OpenAI's own Python library can talk to them if you change
+the web address it sends to. The course uses this to reach **Together AI**, a company that hosts open models like
+Meta's Llama but doesn't offer a structured output feature of its own:
+
+```python
+import instructor
+from openai import OpenAI
+
+together_client = OpenAI(base_url="https://api.together.xyz/v1", api_key=...)
+instructor_client = instructor.from_openai(together_client)
+```
+
+Wrapping the client is the only change. After that you ask for a `response_model` and get back an object:
+
+```python
+class Greeting(BaseModel):
+    hello: str
+
+instructor_client.chat.completions.create(
+    model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+    messages=[{"role": "user", "content": "sup"}],
+    response_model=Greeting,
+)
+```
+
+Watch the name: OpenAI calls this setting `response_format`, Instructor calls it `response_model`. (And the word
+_Instruct_ in a model's name has nothing to do with Instructor. It means the model was trained to follow instructions
+like a chatbot.)
+
+### All of Pydantic is allowed
+
+Because the checking happens on your computer, every Pydantic feature works, including the ones OpenAI rejected. The
+course's example turns an event description into a calendar entry:
+
+```python
+from datetime import date
+from typing import List
+from pydantic import BaseModel, Field
+
+class Person(BaseModel):
+    name: str
+
+class CalendarEvent(BaseModel):
+    name: str
+    date: date                                   # a real date
+    participants: List[Person]
+    address_number: str
+    street_name: str
+    city_name: str
+    state_code: str = Field(pattern=r'[A-Z]{2}') # exactly two capital letters, like OR
+    zip_code: str = Field(pattern=r'\d{5}')      # exactly five digits
+```
+
+The `pattern=` parts are **regular expressions**, a mini-language for describing what text must look like. `[A-Z]{2}`
+means "two capital letters." `\d{5}` means "five digits." If the AI writes `Oregon` or a four-digit zip code, the check
+fails and Instructor asks again.
+
+`participants` is a list of `Person` rather than a list of names. That's ordinary good programming: when you later want
+each person's email, you add one line to `Person`.
+
+The course fed this the sentence "Alice and Bob are going to a science fair on Friday, January 2024… at Hazeldale
+Elementary School at 20080 SW Farmington Road in Beaverton Oregon." The description never mentions a zip code, but the
+form has a box for one, so the model has to come up with something. Asking for a box is a way of asking for
+information. Just remember that a made-up zip code passes the five-digit check whether it's right or not.
+
+### The bad part: retries cost money and time
+
+The course is honest about the downsides:
+
+- **Retries are expensive.** Every retry resends the whole conversation, so each failed try costs a full request's worth
+  of tokens (the small chunks of text AI companies charge by). Your user waits through every one.
+- **It can still fail.** There's no guarantee the AI ever gets it right.
+- **It's hard to see what happened.** Instructor doesn't show you how many tries it took. The course had to add its own
+  counter to find out.
+- **It only works with chat-style models** that already support function calling or JSON mode.
+
+The course demonstrates the failure on purpose. The form asks for three simple values:
+
+```python
+class Complicated(BaseModel):
+    a: Literal["cat", "dog", "hat"]
+    b: int
+    c: bool
+```
+
+The user asks for "a short essay on Dolly Parton," and the system prompt says "Don't give me what I want." With
+`max_retries=3`, Instructor tries three times in total, gets an essay each time, and gives up with an
+`InstructorRetryException`. Three paid requests, no answer. When the prompt simply asks for a, b and c, it works on the
+first try.
+
+That example is rigged, but the course's point holds. If you call a model thousands of times, some calls will fail by
+chance, and each one costs you extra tokens and waiting time.
+
+## Which one should you use?
+
+|                                | Way 1: AI company      | Way 2: Check and retry          |
+| ------------------------------ | ---------------------- | ------------------------------- |
+| Works with paid AI services    | Yes, that company only | Yes, almost any of them         |
+| Dates, patterns, custom rules  | Limited                | Everything Pydantic can check   |
+| Can the answer break the form? | Rarely, with an error  | Yes, after it runs out of tries |
+| Extra cost                     | None                   | A full request for every retry  |
+
+- **Start with Way 1** if you use one provider and your form is simple.
+- **Use Way 2** when you need dates, patterns or your own rules, or want to switch providers easily. Count your
+  retries.
+
+One thing neither way does: make sure the answer is **true**. A form that passes every check can still hold the wrong
+company name or a made-up zip code. Structured output turns a messy problem into a tidy one, but you still have to check
+the facts.
+
+Both ways also share a deeper limit: they ask the model to behave, then check whether it did. The course argues that the
+next step is to stop asking, and to make a broken form impossible for the model to write at all.
+[Part 2](/engineering/structured-generation-with-outlines) shows how that works, one token at a time.
