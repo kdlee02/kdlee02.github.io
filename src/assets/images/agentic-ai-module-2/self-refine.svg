@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" role="img" aria-labelledby="t">
+  <title id="t">Points GPT-4 gained by adding Self-Refine reflection, by task: dialogue response plus 49.2, sentiment reversal plus 32.4, constrained generation plus 30.0, code readability plus 28.8, acronym generation plus 25.6, code optimization plus 8.7, math reasoning plus 0.2.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="718" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="360" y="36" text-anchor="middle" class="b">GPT-4 with reflection: points gained on each task</text>
+
+  <g text-anchor="end">
+    <text x="200" y="83">Dialogue response</text>
+    <text x="200" y="117">Sentiment reversal</text>
+    <text x="200" y="151">Constrained generation</text>
+    <text x="200" y="185">Code readability</text>
+    <text x="200" y="219">Acronym generation</text>
+    <text x="200" y="253">Code optimization</text>
+    <text x="200" y="287" class="b">Math reasoning</text>
+  </g>
+
+  <g fill="#ede9fe" stroke="#7c3aed">
+    <rect x="215" y="69" width="400" height="18" rx="4" />
+    <rect x="215" y="103" width="263" height="18" rx="4" />
+    <rect x="215" y="137" width="244" height="18" rx="4" />
+    <rect x="215" y="171" width="234" height="18" rx="4" />
+    <rect x="215" y="205" width="208" height="18" rx="4" />
+    <rect x="215" y="239" width="71" height="18" rx="4" />
+  </g>
+  <rect x="215" y="273" width="3" height="18" fill="#d97706" />
+
+  <g class="b">
+    <text x="623" y="83">+49.2</text>
+    <text x="486" y="117">+32.4</text>
+    <text x="467" y="151">+30.0</text>
+    <text x="457" y="185">+28.8</text>
+    <text x="431" y="219">+25.6</text>
+    <text x="294" y="253">+8.7</text>
+    <text x="226" y="287">+0.2</text>
+  </g>
+  <text x="268" y="287" class="mut">almost no gain</text>
+
+  <text x="360" y="316" text-anchor="middle" class="mut">Numbers from Madaan et al. (2023), “Self-Refine”, as shown in the course</text>
+</svg>

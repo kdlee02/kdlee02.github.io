@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" role="img" aria-labelledby="t">
+  <title id="t">A sketch of quality against time spent improving the prompt. Without reflection, quality rises and then flattens out. Adding reflection lifts it higher. Reflection with outside facts lifts it highest.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="718" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <line x1="80" y1="260" x2="80" y2="30" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="80" y1="260" x2="530" y2="260" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="56" y="150" text-anchor="middle" transform="rotate(-90 56 150)" class="b">Quality</text>
+  <text x="305" y="286" text-anchor="middle" class="b">Time spent tweaking the prompt</text>
+
+  <path d="M80 258 C 130 180, 190 155, 250 148 S 420 136, 520 133" fill="none" stroke="#dc2626" stroke-width="3" />
+  <path d="M250 148 C 290 115, 340 102, 520 99" fill="none" stroke="#2563eb" stroke-width="3" />
+  <path d="M250 148 C 280 90, 320 62, 520 57" fill="none" stroke="#d97706" stroke-width="3" />
+  <circle cx="250" cy="148" r="4" fill="#1e293b" />
+  <text x="250" y="172" text-anchor="middle" class="mut">add a review step here</text>
+
+  <text x="532" y="61" class="b" style="fill:#b45309">Reflection +</text>
+  <text x="532" y="77" class="b" style="fill:#b45309">outside facts</text>
+  <text x="532" y="103" class="b" style="fill:#1d4ed8">Reflection</text>
+  <text x="532" y="137" class="b" style="fill:#b91c1c">No reflection</text>
+
+  <text x="360" y="314" text-anchor="middle" class="mut">A sketch of the idea from the course, not measured data</text>
+</svg>

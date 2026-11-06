@@ -1,209 +1,137 @@
 ---
-title: 'Agentic AI, Module 3: Tool Use'
-excerpt: 'Part 3 of 5 on Andrew Ng’s Agentic AI course: letting the LLM decide which functions to call, why writing code beats writing one tool per operation, how to run that code safely, and what MCP changes about building tools.'
+title: 'Giving an AI Tools It Can Choose to Use'
+excerpt: 'Tool use explained in plain words: how an AI asks for a function to be run, picks from several tools and chains them, writes its own code when no tool fits, and why MCP lets everyone share tools. Part 3 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-10T00:00:00Z
 category: 'LLM Engineering'
 tags:
   - agents
   - agentic-workflows
   - tool-use
-  - code-execution
-  - mcp
 draft: false
 ---
 
-[Module 2](/engineering/agentic-ai-module-2-reflection) ended on the point that reflection gets
-much better when the model receives a fact from outside itself: an execution result, a word count,
-a search snippet. Module 3 is about how the model gets those facts on its own. You hand it
-functions, and it decides when to ask for them.
+_Based on DeepLearning.AI's [Agentic AI](https://www.deeplearning.ai/courses/agentic-ai/) course, taught by Andrew Ng.
+This is part 3 of 5. [Part 2](/engineering/agentic-ai-module-2-reflection) covered reflection._
 
-Ng's framing is that humans can do a lot more with tools than with bare hands, and LLMs are the
-same. The module has three parts: the basic mechanism, code execution as a general-purpose tool,
-and MCP, a standard for sharing tools between applications. Unlike module 2, there's no lab
-material in what I have for this one, so everything below comes from the lectures.
+Ask an AI chatbot "what time is it?" and, on its own, it can't know. It learned from text collected months ago and has
+no clock. The best it can do is say "sorry, I don't have access to the current time."
 
-## What tool use is
+People are much more capable with tools than with bare hands, and AI is the same. Give the AI a small function that
+reads the clock, and it can answer. Module 3 is about **tool use**: handing the AI functions it can ask to use, and
+letting it decide when.
 
-Ask a model trained months ago "what time is it?" and the best case is "sorry, I don't have access
-to the current time." Give it a `getCurrentTime` function and it can answer.
+## The AI decides when to use a tool
 
-A precise definition matters here. The LLM doesn't call anything. It **requests** that a function
-be called, your code runs it, and the result goes back into the conversation. The sequence:
+In the course's first lab, the AI (`gpt-4o`) gets one tool, `get_current_time`. Asked "What time is it?", it answered
+"The current time is 06:19:19." (The lab's servers run on Greenwich time, which is why it's so early.)
 
-1. The prompt comes in: "what time is it?"
-2. The LLM looks at the tools it has been given and decides to request `getCurrentTime`.
-3. Your code runs the function and gets a value.
-4. The value is appended to the conversation history.
-5. The LLM writes the final answer: "It's 3:20 pm."
+The important part is that the tool is **optional**. Ask the same AI, with the same tool, how much caffeine is in green
+tea, and it just answers. It never touches the clock.
 
-That's the same loop as in the [LangChain agents post](/engineering/functions-tools-and-agents-with-langchain),
-described from the workflow side.
+![Top: asked what time it is, the AI uses its get_current_time tool, gets 06:19:19 back, and answers with it. Bottom: asked how much caffeine is in green tea, the same AI with the same tool answers from what it already knows and never uses the tool.](../../assets/images/agentic-ai-module-3/tool-choice.svg)
 
-### The model decides
+This is a step up the autonomy scale from module 1. Before, the programmer wrote "always run a web search here." Now the
+programmer says "here are some tools, use them if you think you should," and the AI makes the call.
 
-The important property is that the use of a tool is optional, and the LLM makes the call. Ask the
-same setup "how much caffeine is in green tea?" and it answers directly, without touching
-`getCurrentTime`.
+## How a tool call really works
 
-Ng contrasts this with the research agent from module 1, where the developer hard-coded "always
-run a web search at this step." In his slides a dashed box above the LLM means "here is a set of
-tools, use them if you think you should." Without the box, the steps are fixed. This is the
-autonomy spectrum from module 1 again: a dashed box moves a step from "programmer decides" to
-"model decides."
+"The AI uses a tool" is a slight lie. The AI can't run anything. It can only write text. So what actually happens is:
 
-### Examples
+![Two lanes. In the AI lane, the AI reads the question and the tool descriptions, then writes a request: get_current_time with Pacific/Auckland. In the program lane, your program runs the real function and gets 04:00:00. The result goes back to the AI, which writes the answer.](../../assets/images/agentic-ai-module-3/tool-request.svg)
 
-| Request                                  | Tool the LLM might request  |
-| ---------------------------------------- | --------------------------- |
-| Italian restaurants near Mountain View   | Web search                  |
-| Customers who bought white sunglasses    | Query against a sales table |
-| $500 at 5% for 10 years, what do I have? | Interest calculation        |
+1. Along with the question, the AI receives a short **description** of each tool: its name, what it does, and what
+   information it needs. For example: `get_current_time` returns the current time for a time zone like
+   `Pacific/Auckland`.
+2. If the AI decides a tool would help, it replies with a **request** instead of an answer: "please run
+   `get_current_time` with `Pacific/Auckland`."
+3. Your program sees the request, runs the real function, and sends the result back.
+4. Now the AI has the fact it was missing, and it writes the final answer.
 
-The last one can also be done by having the model write a math expression and evaluating it, which
-is the next section.
+You can see step 2 in the lab's raw output. The AI's reply has no text at all. Its content is empty, and instead it
+lists one `tool_calls` entry naming `get_current_time`, with the reason for stopping marked as `"tool_calls"`.
 
-Which tools exist is up to you. A restaurant recommender, a retail Q&A bot and a finance assistant
-need different functions, so part of the job is deciding what the application should be able to
-do and then writing those functions.
+Since the description is all the AI knows about a tool, it matters a lot. A clear one-line description is how the AI
+tells your tools apart.
 
-### More than one tool
+## Picking from many tools, and chaining them
 
-Most of the early examples have a single tool. The more interesting case is several, with the
-model choosing among them and chaining them.
+Next, the lab gives `gpt-5-mini` four tools: get the time, get the weather, write a text file, and make a QR code. Each
+request got the right tool:
 
-Ng's example is a calendar assistant with three tools (check the calendar, make an appointment,
-delete an appointment). The request is "find a free slot on Thursday and make an appointment with
-Alice." The model:
+- "Can you get the weather for my location?" → the weather tool, which reported 59.6°F with a high of 65.2°F.
+- "Make a txt note called reminders.txt that reminds me to call Daniel tomorrow at 7PM" → the file tool, with the
+  file name and the sentence filled in from the request.
+- "Make a QR code using my company's logo that goes to www.deeplearning.ai" → the QR tool.
 
-1. Requests **check calendar**, which returns Thursday's free times.
-2. Picks a slot, say 3 pm, and requests **make appointment**, which sends the invite and adds it
-   to the calendar.
-3. Gets the confirmation back and replies: "Your appointment with Alice is set for 3 pm Thursday."
+Here's that QR code. The real one had the course's logo in the middle. This copy was made with the same library,
+settings and link, minus the logo:
 
-Delete-appointment is available the whole time and just isn't needed for this request. Nobody
-wrote the order of calls. The model derived it from the task and from what each result said, and
-the second call depends on the first call's output. That's the part a fixed pipeline can't do
-without you anticipating every case.
+![A QR code that links to www.deeplearning.ai, made with the same qrcode library and settings as the lab's tool, without the logo in the middle.](../../assets/images/agentic-ai-module-3/qr-code.png)
 
-## Code execution as a tool
+The most interesting run asked for two things at once:
 
-Ng says that in several agentic applications he gave the model the option to write code, and was
-surprised and pleased by how clever the solutions were.
+![One request asks for a QR code and a weather note. The AI made four tool calls in this order: get the weather, get the current time, generate the QR code, and write the text file, which included the time.](../../assets/images/agentic-ai-module-3/lab-chain.svg)
 
-The motivating example is a math word problem solver. You could write `add`, `subtract`,
-`multiply` and `divide` tools. Then someone asks for the square root of two. You write a `sqrt`
-tool, then need exponentiation, and a scientific calculator has a lot of buttons. One tool per
-operation doesn't end.
+Nobody wrote that order. The AI planned it from the request. It even looked up the time without being asked, and used it
+to stamp the note "generated at 06:20:39."
 
-The alternative is to let the model write the code and run it.
+One small thing I noticed: the lab's request says `www.deeplearning.com`, not `.ai`. The AI made the QR code for
+exactly what it was told. A tool does what the request says, so a mistake in the request becomes a mistake in the
+result.
 
-### The mechanism
+## The tools you give are the only things it can do
 
-The prompt asks for code in delimiters:
+The second lab is an **email assistant** working on a practice inbox. It gets tools like "list unread emails," "search
+emails," "mark as read," and "send email." Here's what happened with three requests:
 
-```text
-Write code to solve the user's query. Return your answer as Python code delimited with
-<execute_python> and </execute_python> tags.
-```
+| Request                                                                                 | Tools available   | What the AI did                                                                         |
+| --------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------- |
+| "Check for unread emails from my boss, mark them as read, and send a polite follow-up." | No delete tool    | Find unread from boss → mark as read → send a reply about the quarterly report          |
+| "Delete Alice's email"                                                                  | No delete tool    | Found the email, then said "I can't delete emails" and offered to mark it read or reply |
+| "Delete Alice's email"                                                                  | Delete tool added | Search → delete. "Done — I found and deleted the email from alice@work.com."            |
 
-For "what is the square root of two?" the model returns a couple of lines of Python between the
-tags. A regular expression pulls out what's between them, you execute it, and the printed
-`1.4142...` goes back to the LLM, which writes a properly worded reply. The chart lab in module 2
-used the same pattern.
+The middle row is the lesson: without the right tool, the AI can still think about the task, but it can't do it. The
+list of tools is the list of things your agent is able to do.
 
-Ng mentions two ways to do the execution step:
+One thing I'd change before using this on a real inbox. The lab's prompt tells the AI "never ask the user for
+confirmation before performing an action." That's fine for a practice inbox. For real deletions, I'd want a person to
+approve, like the human sign-off step in module 1.
 
-- Python's built-in `exec`, which runs whatever you give it. Powerful, and with security
-  implications covered below.
-- A tool that runs the code in a safer sandbox.
+## When no tool fits, let the AI write code
 
-This scales past square roots. The model can write the interest calculation or a much harder
-calculation, which is why it's a better answer than a growing list of arithmetic tools.
+Imagine building a calculator assistant. You make tools for add, subtract, multiply and divide. Then someone asks for
+the square root of 2. You add a square root tool. Then someone needs powers, then logarithms. A scientific calculator
+has a lot of buttons.
 
-### Errors feed back in
+![Left: one tool per calculator button. Add, subtract, multiply and divide exist, but square root, powers, logarithms and more are missing. Right: the AI writes two lines of Python, the code runs and prints 1.4142135623730951, and the AI answers that the square root of 2 is about 1.4142.](../../assets/images/agentic-ai-module-3/calculator-vs-code.svg)
 
-This connects to reflection. If the generated code fails, pass the error message back to the model
-and let it revise the code, once or twice. The error message is external feedback of exactly the
-kind module 2 argued for, and it sometimes gets a correct answer where the first attempt didn't.
+The alternative is one very general tool: **let the AI write code, and run it.** The AI writes a couple of lines of
+Python, your program runs them, and the printed result goes back to the AI. That handles the square root and almost
+anything else you could ask a calculator.
 
-### Sandboxing
+This also connects to module 2. If the code crashes, send the error message back and let the AI fix it. The error is
+exactly the kind of outside fact that makes reflection work.
 
-Running code a model wrote carries some risk. Ng's real example: a teammate was using a highly
-agentic coding tool, and it chose to remove `*.py` in a project directory. It apologized
-afterwards, calling it an incredibly stupid mistake. The project was on GitHub, so nothing was
-lost. Without that backup it would have been.
+Running code that an AI wrote does carry some risk. Ng shared a real story: a coding agent decided to delete all the
+Python files in a project folder, then apologized for "an incredibly stupid mistake." The project was backed up, so
+nothing was lost. The safe habit is to run AI-written code in a **sandbox**, a sealed-off space where a bad command
+can't reach your real files or passwords.
 
-His honest take is that the risk per line of code is low, and many developers run model-written
-code with little checking. The best practice is still a sandbox, such as Docker or the lightweight
-E2B, so that bad code has a lower chance of destroying data or leaking something sensitive.
+## MCP: sharing tools instead of rebuilding them
 
-I'd weigh it the same way as `exec` in the module 2 labs. In a notebook with a CSV, the downside
-is small. If the code can see a filesystem, credentials or a production database, the sandbox is
-the cheapest safety measure there is.
+So far, every app writes its own tools. But many apps need the same ones: Slack, Google Drive, GitHub, a database. If
+three apps each build their own connector to four services, that's twelve connectors, and most of them are copies.
 
-He also notes that LLM trainers put extra work into making code execution reliable, so models are
-likely to keep improving at this.
+![Left: without a shared standard, each of 3 apps builds its own connector to each of 4 tools, which is 12 connectors. Right: with MCP, each app connects once to the standard and each tool connects once, which is 3 plus 4, or 7.](../../assets/images/agentic-ai-module-3/mcp.svg)
 
-## MCP: sharing the tools
+The **Model Context Protocol (MCP)**, proposed by Anthropic and now used by many companies, is a shared standard for
+this. A service like GitHub offers its tools once, as an **MCP server**. Any app that speaks MCP, an **MCP client**, can
+use them. Instead of every app times every tool, you build each side once.
 
-Everything so far has you writing tool functions and registering them one at a time. Many teams
-are writing the same ones.
+In the course demo, a desktop AI app connected to a GitHub MCP server could summarize a project's README and list its
+latest changes, using tools that the person asking never wrote.
 
-### The M×N problem
-
-Say one developer is building an app that needs Slack, Google Drive, GitHub and a Postgres
-database. They write wrappers around each API. A different team building a different app writes
-their own Slack wrapper, their own GitHub wrapper, and so on.
-
-With M applications and N tools, the community does **M × N** pieces of integration work. The
-**Model Context Protocol** (MCP), proposed by Anthropic and now adopted by many companies and
-developers, defines a standard interface so each app implements the client side once and each
-tool implements the server side once. The total becomes **M + N**.
-
-### Clients and servers
-
-- **MCP servers** wrap a data source or service (Slack, GitHub, Google Drive) and expose it.
-- **MCP clients** are the applications that consume what servers expose.
-
-The first version of MCP focused on giving an LLM more context, so many early servers just fetched
-data. The documentation calls those **resources**. MCP now covers both data and general functions
-an application might call (the tools from earlier in this post).
-
-Ng's suggestion is that your application might be an MCP client one day, and if you want to give
-other developers access to something, you might build an MCP server.
-
-### The demo
-
-The demo uses the Claude desktop app, which is an MCP client, connected to a GitHub MCP server.
-
-1. Query: summarize the README from a GitHub repo. The client asks the GitHub server for the file,
-   a long response comes back into the LLM's context, and the LLM summarizes it.
-2. Query: what are the latest pull requests? The LLM chooses a different tool on the same server,
-   list pull requests, with parameters such as sort order and a count of 20. The response goes
-   back to the LLM, which writes a text summary.
-
-Neither tool was written by the person typing the query. They came with the server, and the model
-picked between them based on the request. That's the same optional, model-decided tool choice as
-the calendar example, with the tool definitions supplied by someone else.
-
-Ng points to a short DeepLearning.AI course that goes deeper on the protocol, for anyone who wants
-more than this overview.
-
-## What I took from module 3
-
-Tool use is the mechanism that lets a reflection or planning step reach outside the model. A few
-points I'd keep:
-
-- **The model requests, your code executes.** Everything about safety and correctness lives on
-  your side of that line.
-- **Optional is the point.** A dashed box means the model may skip the tool. That's what separates
-  tool use from a fixed pipeline with a function call in it.
-- **Code execution beats a pile of narrow tools** when the space of operations is open-ended, and
-  an error message makes a good retry signal. It also raises the cost of getting execution wrong,
-  so sandbox anything that touches real data.
-- **Before writing a tool, check whether a server already exists.** MCP exists because the same
-  Slack and GitHub wrappers were being written over and over.
-
-[Module 4](/engineering/agentic-ai-module-4-evals-and-error-analysis) is evaluations and error analysis. Ng says the thing he's seen separate teams that build
-agentic workflows well from teams that struggle is a disciplined evaluation process, and calls it
-possibly the most important module in the course.
+The big idea from module 3: the AI never acts directly. It asks, and your code decides whether to run it. That makes
+the list of tools you hand over the most important design choice, both for what your agent can do and for what it
+can break. [Module 4](/engineering/agentic-ai-module-4-evals-and-error-analysis) is about measuring whether an agent
+is working, which Ng calls possibly the most important module in the course.

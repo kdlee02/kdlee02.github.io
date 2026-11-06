@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" role="img" aria-labelledby="t">
+  <title id="t">Left: without a shared standard, each of 3 apps builds its own connector to each of 4 tools (Slack, Google Drive, GitHub, Postgres), which is 12 connectors. Right: with MCP, each app connects once to the standard and each tool connects once, which is 3 plus 4, or 7.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="778" height="288" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="195" y="32" text-anchor="middle" class="b">Without a standard: M × N</text>
+  <g stroke="#94a3b8" stroke-width="1.2">
+    <line x1="130" y1="85" x2="250" y2="69" /><line x1="130" y1="85" x2="250" y2="119" /><line x1="130" y1="85" x2="250" y2="169" /><line x1="130" y1="85" x2="250" y2="219" />
+    <line x1="130" y1="145" x2="250" y2="69" /><line x1="130" y1="145" x2="250" y2="119" /><line x1="130" y1="145" x2="250" y2="169" /><line x1="130" y1="145" x2="250" y2="219" />
+    <line x1="130" y1="205" x2="250" y2="69" /><line x1="130" y1="205" x2="250" y2="119" /><line x1="130" y1="205" x2="250" y2="169" /><line x1="130" y1="205" x2="250" y2="219" />
+  </g>
+  <g fill="#ede9fe" stroke="#7c3aed">
+    <rect x="40" y="70" width="90" height="30" rx="6" /><rect x="40" y="130" width="90" height="30" rx="6" /><rect x="40" y="190" width="90" height="30" rx="6" />
+  </g>
+  <g fill="#dcfce7" stroke="#16a34a">
+    <rect x="250" y="55" width="105" height="28" rx="6" /><rect x="250" y="105" width="105" height="28" rx="6" />
+    <rect x="250" y="155" width="105" height="28" rx="6" /><rect x="250" y="205" width="105" height="28" rx="6" />
+  </g>
+  <g text-anchor="middle">
+    <text x="85" y="90">App 1</text><text x="85" y="150">App 2</text><text x="85" y="210">App 3</text>
+    <text x="302" y="74">Slack</text><text x="302" y="124">Google Drive</text><text x="302" y="174">GitHub</text><text x="302" y="224">Postgres</text>
+  </g>
+  <text x="195" y="266" text-anchor="middle" class="mut">3 apps × 4 tools = 12 connectors to build</text>
+
+  <line x1="385" y1="24" x2="385" y2="270" stroke="#e2e8f0" stroke-width="2" />
+
+  <text x="585" y="32" text-anchor="middle" class="b">With MCP: M + N</text>
+  <g stroke="#94a3b8" stroke-width="1.5">
+    <line x1="500" y1="85" x2="545" y2="145" /><line x1="500" y1="145" x2="545" y2="145" /><line x1="500" y1="205" x2="545" y2="145" />
+    <line x1="625" y1="145" x2="660" y2="69" /><line x1="625" y1="145" x2="660" y2="119" /><line x1="625" y1="145" x2="660" y2="169" /><line x1="625" y1="145" x2="660" y2="219" />
+  </g>
+  <g fill="#ede9fe" stroke="#7c3aed">
+    <rect x="410" y="70" width="90" height="30" rx="6" /><rect x="410" y="130" width="90" height="30" rx="6" /><rect x="410" y="190" width="90" height="30" rx="6" />
+  </g>
+  <rect x="545" y="110" width="80" height="70" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <g fill="#dcfce7" stroke="#16a34a">
+    <rect x="660" y="55" width="105" height="28" rx="6" /><rect x="660" y="105" width="105" height="28" rx="6" />
+    <rect x="660" y="155" width="105" height="28" rx="6" /><rect x="660" y="205" width="105" height="28" rx="6" />
+  </g>
+  <g text-anchor="middle">
+    <text x="455" y="90">App 1</text><text x="455" y="150">App 2</text><text x="455" y="210">App 3</text>
+    <text x="585" y="142" class="b">MCP</text><text x="585" y="160" class="mut">standard</text>
+    <text x="712" y="74">Slack</text><text x="712" y="124">Google Drive</text><text x="712" y="174">GitHub</text><text x="712" y="224">Postgres</text>
+  </g>
+  <text x="585" y="266" text-anchor="middle" class="mut">3 + 4 = 7: each side is built once</text>
+</svg>

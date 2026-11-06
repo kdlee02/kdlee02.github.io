@@ -1,212 +1,136 @@
 ---
-title: 'Agentic AI, Module 5: Planning and Multi-Agent Systems'
-excerpt: 'Part 5 of 5 on Andrew Ng’s Agentic AI course: letting the model write the plan, why a plan written as code beats one written as JSON, and how teams of agents communicate, from a simple pipeline to all-to-all.'
+title: 'When an AI Plans Its Own Steps and Works in a Team'
+excerpt: 'Planning and multi-agent systems explained in plain words: letting the AI write its own plan, why a plan written as code works best, checking a plan before it runs, and how teams of AI agents divide up work. Part 5 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-12T00:00:00Z
 category: 'LLM Engineering'
 tags:
   - agents
   - agentic-workflows
-  - planning
   - multi-agent
-  - code-execution
 draft: false
 ---
 
-Every workflow so far in this series had steps a developer chose. The last module covers the two
-patterns where the model decides the steps: **planning**, where one model writes its own plan, and
-**multi-agent systems**, where several role-prompted models divide up the work.
+_Based on DeepLearning.AI's [Agentic AI](https://www.deeplearning.ai/courses/agentic-ai/) course, taught by Andrew Ng.
+This is part 5 of 5. [Part 4](/engineering/agentic-ai-module-4-evals-and-error-analysis) covered evals and error
+analysis._
 
-Both sit at the high-autonomy end of the dial from
-[module 1](/engineering/agentic-ai-module-1-what-makes-a-workflow-agentic). You give up control over
-what happens at runtime and get a much wider range of things the system can try. Andrew Ng is frank
-that outside of coding agents, neither pattern is fully mature yet.
+In every workflow so far, a programmer decided the steps. The last module covers the two patterns where the AI decides
+them: **planning**, where one AI writes its own step-by-step plan, and **multi-agent systems**, where several AIs, each
+with its own role, split up the work.
 
-## Planning: the model writes the steps
+Both sit at the far end of the autonomy scale from
+[module 1](/engineering/agentic-ai-module-1-what-makes-a-workflow-agentic). You give up control over exactly what will
+happen, and in return the system can handle requests you never planned for. Ng is honest that, apart from coding
+assistants, neither pattern is fully mature yet.
 
-With planning, you give the model a request and a set of tools, and ask it for a step-by-step plan.
-Your code then executes the plan one step at a time.
+## Planning: the AI writes the steps
 
-### Write the plan in a format code can parse
+Imagine a sunglasses shop's customer service agent with six tools: look up item descriptions, check stock, get prices,
+look up past purchases, process a return, and process a sale. A customer asks: "Do you have any round sunglasses in
+stock that are under $100?"
 
-A plan in plain English is hard to execute reliably. Ng's recommendation is to ask for the plan in
-JSON, describing the format in the system prompt: "You have access to the following tools. Create a
-step-by-step plan in JSON." Each step then comes back with explicit fields:
+No single tool answers that. So instead of the programmer wiring up the steps, the AI is told: "Here are your tools.
+Return a step-by-step plan to carry out the user's request."
 
-- a step number
-- a description of what the step does
-- which tool to call
-- the arguments to pass it
+![A customer asks whether any round sunglasses under 100 dollars are in stock. The AI planner sees six tools and writes a three-step plan: find round sunglasses, check which are in stock, and check which are under 100 dollars. Your code then runs the steps in order, feeding each result into the next.](../../assets/images/agentic-ai-module-5/plan-steps.svg)
 
-Downstream code can read exactly which tool to run with which arguments, with no guessing. All the
-leading models are good at producing JSON now.
+Your program then runs the plan one step at a time, handing each step's result to the next. A different request gets a
+different plan from the same tools. "I'd like to return the gold frame glasses I bought, but not the metal frame ones"
+becomes: look up what they bought, find which pair is the gold one, then process that return.
 
-Ng ranks the formats roughly like this:
+## Plans your program can follow
 
-| Plan format                  | How reliably code can parse it |
-| ---------------------------- | ------------------------------ |
-| JSON                         | Good                           |
-| XML, with tags for each step | Good                           |
-| Markdown                     | Somewhat ambiguous             |
-| Plain text                   | Least reliable                 |
+A plan written in everyday sentences is easy for people to read but hard for a program to follow. Did "check stock"
+mean the round ones or all of them? So the course asks the AI to write the plan in **JSON**, with each step spelling out
+its number, a description, which tool to use, and what to give it.
 
-### Better still: write the plan as code
+That works, but there's a catch. Take a coffee shop's sales spreadsheet and the question "Which month had the highest
+hot chocolate sales?" With tools like "filter rows" and "add up a column," the plan becomes: filter January's hot
+chocolate sales, add them up, do the same for February, and so on for all twelve months, then compare. And every new
+kind of question ("how many different customers last week?") needs yet another tool. It's the calculator problem from
+[module 3](/engineering/agentic-ai-module-3-tool-use) again.
 
-The neater idea is to skip the plan format entirely and have the model write code. A sequence of
-function calls _is_ a plan, and running it carries the plan out.
+The better idea: let the AI write the plan **as code**.
 
-Ng's example is a question-answering system over a spreadsheet of coffee machine sales. The obvious
-design gives the model tools such as `get_column_max`, `get_column_mean`, `filter_rows` and
-`sum_rows`. Then the questions start:
+![The same plan for "which month had the highest hot chocolate sales?" written three ways. Plain text is easy to read but hard to run. JSON can be run but needs a tool for every move and repeats for all twelve months. Code is three lines of Python that carry out the plan directly.](../../assets/images/agentic-ai-module-5/plan-formats.svg)
 
-- **"Which month had the highest sales of hot chocolate?"** The tools can answer it, but only by
-  filtering January's hot chocolate rows and summing them, then repeating that for every month and
-  taking the maximum. It works, but it's a long, fragile chain.
-- **"How many unique transactions were there last week?"** None of the tools can answer it, so you
-  add `get_unique_entries`.
-- **"What were the amounts of the last five transactions?"** Another new tool.
+A few lines of Python are a plan, and running them carries it out. Python's data libraries already have thousands of
+functions, and AI models have seen huge amounts of code using them, so they know how to chain them together.
 
-Ng has watched teams do exactly this, adding one tool after another and still chasing edge cases.
-It's the same trap as the calculator in
-[module 3](/engineering/agentic-ai-module-3-tool-use), where you'd need a separate tool for every
-button.
+The course backs this up with results from a research paper, CodeAct (Wang et al., 2024). It compared eight models,
+letting each take actions as code, as JSON, or as plain text. For every one of the eight models, code gave the highest
+success rate.
 
-Instead, prompt the model to write Python inside `<execute_python>` tags and run it. For "last five
-transactions," the code it writes is itself a plan: load the CSV with pandas, parse the date column,
-sort by date, take the last five rows, select the price column. For "unique transactions last week":
-read the file, parse the dates, define the time window, filter to it, drop duplicates, count. The
-comments in the generated code read like step lists.
+Two caveats. AI-written code should run in a sandbox, as in module 3. And when the actions are your own special tools,
+like processing a refund or sending an email, a JSON plan over those tools is still the right fit.
 
-Why this works so well:
+## Lab: plan, check, then act
 
-- **The function library is enormous.** Python plus pandas offers hundreds or thousands of
-  functions, against the handful of tools you'd write by hand.
-- **The model already knows how to use them.** It has seen a great deal of code showing when to call
-  each function, so it can chain them into a plan without you describing each one.
+The first lab builds the sunglasses shop for real, with three roles: a **planner** that writes the plan, a **reviewer**
+that checks it against the rules (the reflection pattern from module 2), and an **executor** that runs the tools. Every
+step comes with safety checks, such as "stock can never go below zero."
 
-There's evidence for this too. Ng shows results adapted from Wang et al.'s
-[CodeAct paper](https://arxiv.org/abs/2402.01030). Across many models and the tasks it tested,
-expressing actions as code beat expressing them as JSON, and JSON beat plain text.
+![The shop lab. A request to return two Aviator sunglasses goes to a planner, which writes four steps. A reviewer checks the plan and approves it. An executor runs the tools. If every check passes, Aviator stock goes from 23 to 25 and the register from 500 to 294 dollars. If a check fails, it stops and explains the problem in plain words.](../../assets/images/agentic-ai-module-5/lab-shop.svg)
 
-The caveats from module 3 still apply. Running model-written code belongs in a sandbox, even though
-Ng admits plenty of developers skip that. And code isn't right for everything. When the actions are
-your own custom tools, such as sending an email or booking a meeting, a JSON plan over those tools is
-still the way to go.
+I asked it to "return two Aviator sunglasses for a walk-in customer." The planner (`gpt-5-mini`) wrote four steps: look
+up the Aviator, work out the refund, add the two pairs back to stock, and record the refund. The reviewer replied, "The
+draft plan is correct," and everything ran. Aviator stock went from 23 to 25, the refund was $206 (2 × $103), and the
+register went from $500 to $294.
 
-### Where planning works today
+The reviewer earns its place on bad plans. The lab hands it a deliberately broken plan for a purchase, and it found six
+problems, including a wrong setting name, a missing stock update, and a missing check that stock stays at zero or above.
+Then it wrote a fixed plan.
 
-The clearest success is **agentic coding assistants**. Asked to build something complex, they plan
-the components, build them one at a time, often plan to test each as they go, and work through the
-plan like a checklist. That works well even for large pieces of software.
+There's also an explanation step for when a check fails. The lab tests it with a made-up failure, not a real run:
+a report saying an order for 999 Aviators would have pushed stock to −995. The AI worked out that only 4 were left,
+explained in plain words why the order was stopped, and suggested selling those 4 and backordering the rest.
 
-For other applications, Ng says planning is still developing. The cost is control. The developer no
-longer says exactly what to do, so you don't know in advance what the system will do at runtime. In
-return, the model may try approaches you'd never have hard-coded.
+## Teams of agents
 
-## Multi-agent systems: decompose by role
+The usual reaction to multi-agent systems is "isn't it just the same AI called several times?" Yes. Ng's point is that
+splitting work into **roles** is still a helpful way to break down a big task, the same way a company hires a
+researcher, a designer and a writer instead of one person who does everything. Each role gets its own instructions and
+its own tools, and you can build and test each one separately.
 
-The usual first reaction to multi-agent systems is skepticism. It's the same LLM prompted over and
-over on one computer, so why call them separate agents?
+The second lab builds a marketing team for a summer sunglasses campaign, with four agents in a fixed order:
 
-Ng's analogy is processes and threads. A program on a single CPU is still easier to write when you
-split its work into several processes. In the same way, instead of asking "what one person would I
-hire to do this?", ask "what three or four roles would I hire?" Thinking in roles is another way to
-decompose a complex task, and it lets you build and test each piece separately.
+![The campaign lab as a linear pipeline of four agents. The market researcher found that wraparound shield frames are trending and picked the Sport model, 11 in stock at 144 dollars. The graphic designer made a close-up image of a model in wraparound shades by the sea. The copywriter wrote "Shield the Sun. Own the Summer." The packager put it all into one report.](../../assets/images/agentic-ai-module-5/campaign.svg)
 
-Human teams already show how a lot of work splits up:
+The researcher searched the web for 2026 sunglasses trends and compared them with the shop's catalog. It picked the
+**Sport** wraparound as the hero product, because "shield" style wraparounds were the big trend. It also flagged a risk
+on its own: only 11 are in stock, so a successful campaign could sell out. The designer made an image to match, the
+copywriter looked at the image and wrote "Shield the Sun. Own the Summer.", and the packager assembled an executive
+report.
 
-- **Marketing materials:** a researcher, a graphic designer, a writer.
-- **A research report:** a web researcher, a statistician, a lead writer, an editor.
-- **A legal case:** associates, paralegals, an investigator.
+Instead of a fixed order, you can also put a **manager** agent in charge: "You're a marketing manager with this team.
+Return a step-by-step plan." That's just planning again, except the tools are now other agents.
 
-### Building one agent
+## How agents talk to each other
 
-An agent is an LLM prompted to play a role, plus the tools that role needs. For a sunglasses
-marketing brochure:
+With more than one agent, the big design choice is who talks to whom, like an organization chart:
 
-| Agent            | Job                                   | Tools                                                   |
-| ---------------- | ------------------------------------- | ------------------------------------------------------- |
-| Researcher       | Analyze market trends and competitors | Web search                                              |
-| Graphic designer | Create charts and artwork             | Image generation and editing, code execution for charts |
-| Writer           | Turn research and graphics into copy  | None, writing is what the LLM already does              |
+![Four ways agents can talk to each other. Linear: each agent passes its work to the next, very common. Manager: one manager hands out work and collects results, very common. Deeper hierarchy: some agents manage their own small teams, less common and more complex. All-to-all: any agent can message any other, rare and hard to predict.](../../assets/images/agentic-ai-module-5/patterns.svg)
 
-The prompt is a job description: "You are a research agent, expert at analyzing market trends and
-competitors. Research trends for this sunglasses product and summarize what competitors are doing."
-Picking each agent's tools is the same question as for a person in that role: what would a human
-researcher need to do this job?
-
-Splitting by role has practical benefits. You can focus on making one agent excellent while
-collaborators build the others. Good agents also get reused. A graphic designer built for brochures
-could be generalized to work on social media posts and web pages too.
-
-### A manager agent is planning with agents as tools
-
-The simplest way to connect the three is a fixed pipeline: the researcher's report goes to the
-designer, and both outputs go to the writer.
-
-The alternative uses planning. Prompt an LLM with "You're a marketing manager. You have the following
-team of agents to work with," describe each agent, and ask for a step-by-step plan. It's exactly
-planning with tools, except the tools are agents. The manager might delegate research, then the
-graphics, then the writing, and finish with its own review and revision pass.
-
-Looked at this way, the manager is a fourth agent that sets direction and delegates to the other
-three.
-
-## How agents communicate
-
-With more than one agent, the key design decision becomes the communication pattern, the
-equivalent of an org chart. Ng calls this an area of active research, with patterns still emerging.
-The common ones, from most to least used:
-
-| Pattern            | How it works                                                | How often Ng sees it          |
-| ------------------ | ----------------------------------------------------------- | ----------------------------- |
-| **Linear**         | Each agent passes its output to the next, like a pipeline   | One of the two most common    |
-| **Hierarchical**   | A manager assigns work and collects results from each agent | One of the two most common    |
-| **Deep hierarchy** | Some agents manage their own sub-agents                     | Less often, much more complex |
-| **All-to-all**     | Any agent can message any other at any time                 | Rare, mostly experimental     |
-
-**Hierarchical**: Ng suggests that each agent report back to the manager rather than handing results
-directly to its peers. It's simpler to implement.
-
-**Deep hierarchy**: the researcher could call a web researcher and a fact checker, while the writer
-calls a style writer and a citation checker, and the designer works alone.
-
-**All-to-all**: every agent is told about the others and can message any of them. A message is added
-to the recipient's context, and the recipient decides when to reply. The run ends when every agent
-says it's done, or when, say, the writer decides the result is good enough.
-
-Ng finds all-to-all results hard to predict. It suits tasks where some chaos is acceptable: if the
-brochure comes out badly, run it again and see what you get. Where you need control, stick to linear
-or a one-level hierarchy.
-
-Many frameworks now support multi-agent systems and make these patterns fairly easy to set up, so
-trying a different pattern doesn't mean rewriting everything.
-
-## What I took from module 5
-
-Both patterns are module 3's tool use pushed further. Planning lets the model choose and order its
-tool calls instead of making them one at a time. A manager agent is planning where the tools happen
-to be other agents. The difference is how much control you hand over, and the course has been
-consistent since module 1: hand over as little as the task allows.
-
-The code-as-plan idea is the one I'll use most. Whenever a toolset keeps growing because users keep
-asking new questions, that's the sign the model should be writing code against a real library
-instead. The tools you'd keep are the ones with side effects in your own systems, and those should
-stay narrow.
+- **Linear** and **manager** are the two Ng sees most. The campaign lab is linear.
+- **Deeper hierarchy** gives some agents their own helpers, like a researcher with a fact checker. It's used less and is
+  more complex.
+- **All-to-all** lets any agent message any other, and the run ends when they all agree they're done. Ng finds the
+  results hard to predict. It's fine when a bad run can just be retried, but not when you need control.
 
 ## Looking back at the series
 
-Across five modules, the course comes down to a few habits:
+Five modules, five habits:
 
-1. **Decompose the task** into steps an LLM, a function or a tool can do
+1. **Break the job into steps** an AI, a bit of code, or a tool can do
    ([module 1](/engineering/agentic-ai-module-1-what-makes-a-workflow-agentic)).
-2. **Give the model new facts, not just a second look.** Reflection works best with external
-   feedback ([module 2](/engineering/agentic-ai-module-2-reflection)).
-3. **Let the model reach for tools,** and prefer code over a growing pile of narrow tools
+2. **Give the reviewer a new fact,** not just a second look
+   ([module 2](/engineering/agentic-ai-module-2-reflection)).
+3. **Let the AI ask for tools,** and let it write code when a pile of small tools keeps growing
    ([module 3](/engineering/agentic-ai-module-3-tool-use)).
-4. **Measure, then count where errors come from** before deciding what to fix
+4. **Measure, and count which step causes the errors** before fixing anything
    ([module 4](/engineering/agentic-ai-module-4-evals-and-error-analysis)).
-5. **Give up control only where the task needs it.** Planning and multi-agent systems are powerful
-   and hard to predict (this module).
+5. **Hand over only as much control as the job needs.** Planning and teams of agents are powerful but harder to predict
+   (this module).
 
-Module 4 is the one I'd reread first. Every other pattern assumes you can tell whether a change
-helped.
+If I had to reread one, it would be module 4. Every other pattern depends on being able to tell whether a change
+actually helped.

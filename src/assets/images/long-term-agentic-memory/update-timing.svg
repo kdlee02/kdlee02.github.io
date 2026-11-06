@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" role="img" aria-labelledby="t">
+  <title id="t">Two times an agent can save memories. In the hot path, one agent reads the email, writes the reply and saves memories in one go: there is only one agent and memories are saved right away, but that agent juggles two jobs and the reply is slower. In the background, the agent only replies, and later a separate memory manager reads the conversation and saves memories: the agent stays simple and replies faster, but there are two agents to run and memories update only when the second one runs.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .good { fill: #166534; }
+    .bad { fill: #b91c1c; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="24" y="34" class="b">In the hot path: memory is part of the reply</text>
+  <rect x="24" y="50" width="96" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="72" y="81" text-anchor="middle">Email</text>
+  <line x1="121" y1="76" x2="148" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="150" y="50" width="220" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="260" y="72" text-anchor="middle" class="b">Agent</text>
+  <text x="260" y="90" text-anchor="middle" class="mut">replies and saves memories</text>
+  <line x1="371" y1="76" x2="398" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="400" y="50" width="96" height="52" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="448" y="81" text-anchor="middle">Reply</text>
+  <text x="24" y="130" class="good">+ one agent, and memories are saved right away</text>
+  <text x="24" y="150" class="bad">− that agent juggles two jobs, and the reply takes longer</text>
+
+  <line x1="24" y1="172" x2="756" y2="172" stroke="#e2e8f0" stroke-width="2" />
+
+  <text x="24" y="204" class="b">In the background: a separate step updates memory later</text>
+  <rect x="24" y="220" width="96" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="72" y="251" text-anchor="middle">Email</text>
+  <line x1="121" y1="246" x2="148" y2="246" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="150" y="220" width="220" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="260" y="242" text-anchor="middle" class="b">Agent</text>
+  <text x="260" y="260" text-anchor="middle" class="mut">only replies</text>
+  <line x1="371" y1="246" x2="398" y2="246" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="400" y="220" width="96" height="52" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="448" y="251" text-anchor="middle">Reply</text>
+  <line x1="497" y1="246" x2="568" y2="246" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#a)" />
+  <text x="532" y="238" text-anchor="middle" class="mut">later</text>
+  <rect x="570" y="220" width="186" height="52" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="663" y="242" text-anchor="middle" class="b">Memory manager</text>
+  <text x="663" y="260" text-anchor="middle" class="mut">saves memories</text>
+  <text x="24" y="300" class="good">+ the agent stays simple, and the reply is faster</text>
+  <text x="24" y="320" class="bad">− two agents to run, and memories update only when the second one runs</text>
+</svg>

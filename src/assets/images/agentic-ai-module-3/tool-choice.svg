@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" role="img" aria-labelledby="t">
+  <title id="t">Top: asked what time it is, the AI uses its get_current_time tool, gets 06:19:19 back, and answers with it. Bottom: asked how much caffeine is in green tea, the same AI with the same tool answers from what it already knows and never uses the tool.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #166534; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="318" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="20" y="30" class="b">Needs the tool</text>
+  <rect x="160" y="40" width="130" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-dasharray="4 3" />
+  <text x="225" y="62" text-anchor="middle" class="mono">get_current_time</text>
+  <line x1="225" y1="74" x2="225" y2="94" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3 2" />
+
+  <rect x="20" y="94" width="130" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="85" y="116" text-anchor="middle" class="b">Request</text>
+  <text x="85" y="134" text-anchor="middle" class="mut">“What time is it?”</text>
+  <line x1="152" y1="120" x2="171" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="176" y="94" width="98" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="225" y="116" text-anchor="middle" class="b">AI</text>
+  <text x="225" y="134" text-anchor="middle" class="mut">uses the tool</text>
+  <line x1="276" y1="120" x2="295" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="300" y="94" width="150" height="52" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="375" y="116" text-anchor="middle" class="b">Get the time</text>
+  <text x="375" y="134" text-anchor="middle" class="mono">"06:19:19"</text>
+  <line x1="452" y1="120" x2="471" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="476" y="94" width="98" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="525" y="116" text-anchor="middle" class="b">AI</text>
+  <text x="525" y="134" text-anchor="middle" class="mut">writes answer</text>
+  <line x1="576" y1="120" x2="595" y2="120" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="600" y="94" width="160" height="52" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="680" y="116" text-anchor="middle" class="b">Answer</text>
+  <text x="680" y="134" text-anchor="middle" class="mut">“It’s 06:19:19.”</text>
+
+  <text x="20" y="194" class="b">Doesn’t need it</text>
+  <rect x="160" y="204" width="130" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-dasharray="4 3" />
+  <text x="225" y="226" text-anchor="middle" class="mono">get_current_time</text>
+  <line x1="225" y1="238" x2="225" y2="258" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="3 2" />
+
+  <rect x="20" y="258" width="130" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="85" y="280" text-anchor="middle" class="b">Request</text>
+  <text x="85" y="298" text-anchor="middle" class="mut">“Caffeine in tea?”</text>
+  <line x1="152" y1="284" x2="171" y2="284" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="176" y="258" width="98" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="225" y="280" text-anchor="middle" class="b">AI</text>
+  <text x="225" y="298" text-anchor="middle" class="mut">skips the tool</text>
+  <line x1="276" y1="284" x2="595" y2="284" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <text x="435" y="274" text-anchor="middle" class="mut">answers from what it already knows</text>
+  <rect x="600" y="258" width="160" height="52" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="680" y="280" text-anchor="middle" class="b">Answer</text>
+  <text x="680" y="298" text-anchor="middle" class="mut">“About 25–50 mg…”</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 340" role="img" aria-labelledby="t">
+  <title id="t">Four messages in a row. 1, HumanMessage: how much is Moët and Chandon today? 2, the model replies with an AIMessage whose text is empty and whose tool_calls list asks for the Tavily search tool with a search query and an id. 3, your code runs the search and wraps the results in a ToolMessage carrying the same id. 4, the model reads everything and answers: about 51 to 65 dollars for most bottles, with an empty tool_calls list.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .step { font-size: 12px; font-weight: 700; fill: #475569; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #5b21b6; }
+    .monog { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #15803d; }
+    .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #b45309; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="788" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="101" y="34" text-anchor="middle" class="step">1 · You ask</text>
+  <text x="297" y="34" text-anchor="middle" class="step">2 · Model requests</text>
+  <text x="493" y="34" text-anchor="middle" class="step">3 · Your code runs it</text>
+  <text x="689" y="34" text-anchor="middle" class="step">4 · Model answers</text>
+
+  <rect x="16" y="48" width="170" height="200" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="28" y="72" class="b">HumanMessage</text>
+  <text x="28" y="104">“How much is</text>
+  <text x="28" y="122">Moët &amp; Chandon</text>
+  <text x="28" y="140">today?”</text>
+
+  <rect x="212" y="48" width="170" height="200" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="224" y="72" class="b">AIMessage</text>
+  <text x="224" y="98" class="mono">content: ""</text>
+  <text x="224" y="118" class="mono">tool_calls: [</text>
+  <text x="232" y="136" class="mono">name:</text>
+  <text x="240" y="152" class="mono">tavily_search_…</text>
+  <text x="232" y="170" class="mono">args: {query:</text>
+  <text x="240" y="186" class="mono">"…search terms…"}</text>
+  <text x="232" y="204" class="id">id: call_…</text>
+  <text x="224" y="222" class="mono">]</text>
+
+  <rect x="408" y="48" width="170" height="200" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="420" y="72" class="b">ToolMessage</text>
+  <text x="420" y="98" class="monog">content:</text>
+  <text x="428" y="116" class="monog">[search results]</text>
+  <text x="420" y="138" class="monog">name:</text>
+  <text x="428" y="156" class="monog">tavily_search_…</text>
+  <text x="420" y="204" class="id">tool_call_id:</text>
+  <text x="428" y="222" class="id">call_… (same)</text>
+
+  <rect x="604" y="48" width="170" height="200" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="616" y="72" class="b">AIMessage</text>
+  <text x="616" y="104">“About $51–65 for</text>
+  <text x="616" y="122">most bottles; it</text>
+  <text x="616" y="140">depends on the store.”</text>
+  <text x="616" y="204" class="mono">tool_calls: []</text>
+
+  <line x1="187" y1="150" x2="208" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="383" y1="150" x2="404" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="579" y1="150" x2="600" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <path d="M297 252 V272 H493 V252" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="4 3" />
+  <text x="395" y="290" text-anchor="middle" class="mut">The same id ties the result to the request it answers.</text>
+
+  <text x="395" y="322" text-anchor="middle" class="mut">Purple = a model call. Green = plain Python. The model only ever writes messages.</text>
+</svg>

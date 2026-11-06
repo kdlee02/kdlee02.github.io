@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 320" role="img" aria-labelledby="t">
+  <title id="t">The same plan for "which month had the highest hot chocolate sales?" written three ways. Plain text: four numbered sentences, easy to read but hard for a program to follow. JSON: a list of tool calls that a program can follow, but it needs a tool for every move and repeats for all twelve months. Code: three lines of Python using pandas, which is a plan that runs directly with thousands of functions available.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #334155; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="318" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="390" y="28" text-anchor="middle" class="b">“Which month had the highest hot chocolate sales?”</text>
+  <line x1="40" y1="46" x2="740" y2="46" stroke="#94a3b8" stroke-width="2" marker-end="url(#a)" />
+  <text x="40" y="64" class="mut">harder for a program to carry out</text>
+  <text x="740" y="64" text-anchor="end" class="mut">easier</text>
+
+  <rect x="16" y="76" width="220" height="180" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="126" y="98" text-anchor="middle" class="b">Plain text</text>
+  <text x="30" y="124">1. Filter January’s</text>
+  <text x="30" y="142">    hot chocolate sales</text>
+  <text x="30" y="164">2. Add them up</text>
+  <text x="30" y="186">3. Repeat for Feb–Dec</text>
+  <text x="30" y="208">4. Pick the biggest month</text>
+
+  <rect x="248" y="76" width="220" height="180" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="358" y="98" text-anchor="middle" class="b">JSON</text>
+  <g class="mono" xml:space="preserve">
+    <text x="260" y="122">[{"tool": "filter_rows",</text>
+    <text x="260" y="138">  "args": {"month": 1,</text>
+    <text x="260" y="154">    "drink": "Hot Chocolate"}},</text>
+    <text x="260" y="170"> {"tool": "sum_rows", ...},</text>
+    <text x="260" y="186"> {"tool": "filter_rows",</text>
+    <text x="260" y="202">  "args": {"month": 2, ...}},</text>
+    <text x="260" y="218"> ... 24 steps in total ...]</text>
+  </g>
+
+  <rect x="480" y="76" width="284" height="180" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="622" y="98" text-anchor="middle" class="b">Code</text>
+  <g class="mono" style="fill:#166534;font-size:9.5px">
+    <text x="494" y="130">hc = df[df.coffee_name=="Hot Chocolate"]</text>
+    <text x="494" y="150">by_month = hc.groupby(hc.date.dt.month)</text>
+    <text x="494" y="170">by_month.price.sum().idxmax()</text>
+  </g>
+  <text x="494" y="208" class="mut">Three lines, and running them</text>
+  <text x="494" y="225" class="mut">carries out the plan.</text>
+
+  <text x="126" y="280" text-anchor="middle" class="mut">easy to read, hard to run</text>
+  <text x="358" y="280" text-anchor="middle" class="mut">runnable, but a tool per move</text>
+  <text x="622" y="280" text-anchor="middle" class="mut">runs directly, thousands of functions</text>
+  <text x="390" y="306" text-anchor="middle" class="mut">My own example of each format; the course compared them on its own tasks.</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 340" role="img" aria-labelledby="t">
+  <title id="t">The email assistant. A new email goes to a triage step that picks one label. Ignore and notify both end the run. Respond hands the email to a response agent, which loops: it thinks, calls a tool, reads the result, and repeats until done. Its tools are write_email, schedule_meeting and check_calendar_availability. For semantic memory, two more tools are added: manage_memory and search_memory.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="24" y="150" width="104" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="76" y="180" text-anchor="middle">New email</text>
+  <line x1="129" y1="175" x2="166" y2="175" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="168" y="135" width="150" height="80" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="243" y="166" text-anchor="middle" class="b">Triage</text>
+  <text x="243" y="186" text-anchor="middle" class="mut">picks one label</text>
+
+  <path d="M319 150 C 340 150, 345 48, 366 48" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <path d="M319 165 C 340 165, 345 100, 366 100" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <path d="M319 195 C 340 195, 345 225, 366 225" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="368" y="28" width="170" height="40" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="453" y="53" text-anchor="middle"><tspan class="b">ignore</tspan> → end</text>
+  <rect x="368" y="80" width="170" height="40" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="453" y="105" text-anchor="middle"><tspan class="b">notify</tspan> → end</text>
+  <text x="550" y="105" class="mut">(a real app would alert John)</text>
+  <text x="330" y="256" class="mut" text-anchor="middle">respond</text>
+
+  <rect x="368" y="134" width="388" height="186" rx="10" fill="#f8fafc" stroke="#7c3aed" />
+  <text x="388" y="160" class="b">Response agent</text>
+  <text x="388" y="180" class="mut">thinks → calls a tool → reads the result → repeats until done</text>
+
+  <g fill="#dcfce7" stroke="#16a34a">
+    <rect x="388" y="194" width="150" height="28" rx="14" />
+    <rect x="548" y="194" width="190" height="28" rx="14" />
+    <rect x="388" y="230" width="230" height="28" rx="14" />
+  </g>
+  <g fill="#dbeafe" stroke="#2563eb" stroke-dasharray="4 3">
+    <rect x="388" y="266" width="150" height="28" rx="14" />
+    <rect x="548" y="266" width="150" height="28" rx="14" />
+  </g>
+  <g text-anchor="middle" class="mono">
+    <text x="463" y="212" class="mono">write_email</text>
+    <text x="643" y="212" class="mono">schedule_meeting</text>
+    <text x="503" y="248" class="mono">check_calendar_availability</text>
+    <text x="463" y="284" class="mono">manage_memory</text>
+    <text x="623" y="284" class="mono">search_memory</text>
+  </g>
+  <text x="388" y="310" class="mut">dashed blue: the two memory tools added in this post</text>
+</svg>

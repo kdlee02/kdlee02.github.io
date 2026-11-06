@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 310" role="img" aria-labelledby="t">
+  <title id="t">The prompt optimizer. It takes the conversation where the agent replied to Alice Jones and the feedback “Ignore any emails from Alice Jones”. It checks each of the four prompts' “when to update” notes. main_agent, triage-notify and triage-respond come back unchanged. triage-ignore gets a new sentence: “Ignore any emails from Alice Jones.” The new text is saved to the store, and on the next run Alice Jones's email is labeled ignore.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="308" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="24" y="50" width="200" height="56" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="124" y="73" text-anchor="middle" class="b">Conversation</text>
+  <text x="124" y="92" text-anchor="middle" class="mut">the agent’s reply to Alice Jones</text>
+  <rect x="24" y="124" width="200" height="70" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="124" y="147" text-anchor="middle" class="b">Feedback</text>
+  <text x="124" y="166" text-anchor="middle">“Ignore any emails</text>
+  <text x="124" y="183" text-anchor="middle">from Alice Jones”</text>
+
+  <line x1="225" y1="78" x2="262" y2="118" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="225" y1="159" x2="262" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="264" y="84" width="160" height="100" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="344" y="110" text-anchor="middle" class="b">Prompt optimizer</text>
+  <text x="344" y="132" text-anchor="middle" class="mut">checks each prompt’s</text>
+  <text x="344" y="150" text-anchor="middle" class="mut">“when to update” note,</text>
+  <text x="344" y="168" text-anchor="middle" class="mut">rewrites only a match</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M425 120 C 445 120, 445 52, 462 52" />
+    <path d="M425 128 C 445 128, 445 112, 462 112" />
+    <path d="M425 140 C 445 140, 445 172, 462 172" />
+    <path d="M425 150 C 445 150, 445 226, 462 226" />
+  </g>
+
+  <rect x="464" y="32" width="292" height="40" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="480" y="57" class="mono">main_agent</text><text x="740" y="57" text-anchor="end" class="mut">unchanged</text>
+  <rect x="464" y="84" width="292" height="56" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="480" y="106" class="mono" style="fill:#166534">triage-ignore</text><text x="740" y="106" text-anchor="end" class="b" style="fill:#166534">rewritten</text>
+  <text x="480" y="127">+ “Ignore any emails from Alice Jones.”</text>
+  <rect x="464" y="152" width="292" height="40" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="480" y="177" class="mono">triage-notify</text><text x="740" y="177" text-anchor="end" class="mut">unchanged</text>
+  <rect x="464" y="206" width="292" height="40" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="480" y="231" class="mono">triage-respond</text><text x="740" y="231" text-anchor="end" class="mut">unchanged</text>
+
+  <text x="24" y="284">New text saved to the store → next run, Alice Jones’s email is labeled <tspan class="b">ignore</tspan></text>
+</svg>

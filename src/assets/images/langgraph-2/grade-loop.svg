@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 300" role="img" aria-labelledby="t">
+  <title id="t">A feedback loop. START leads to retrieve_and_respond, which searches, writes an answer and adds one to num_generation, then grade_answer, which scores it. should_retry sends the graph back for another try only if the grade is below 0.7 and fewer than 3 attempts have been made; otherwise it goes to END.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .node { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #1e293b; }
+    .cond { fill: #b45309; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#b45309" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="298" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="20" y="120" width="62" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="51" y="144" text-anchor="middle" class="b">START</text>
+
+  <rect x="110" y="118" width="190" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="205" y="144" text-anchor="middle" class="node">retrieve_and_respond</text>
+  <text x="205" y="184" text-anchor="middle" class="mut">search, answer,</text>
+  <text x="205" y="200" text-anchor="middle" class="mut">num_generation + 1</text>
+
+  <rect x="350" y="118" width="150" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="425" y="144" text-anchor="middle" class="node">grade_answer</text>
+  <text x="425" y="184" text-anchor="middle" class="mut">score the answer</text>
+
+  <rect x="550" y="118" width="140" height="44" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="620" y="144" text-anchor="middle" class="node">should_retry</text>
+
+  <rect x="589" y="230" width="62" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="620" y="254" text-anchor="middle" class="b">END</text>
+
+  <line x1="82" y1="140" x2="106" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="300" y1="140" x2="346" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="500" y1="140" x2="546" y2="140" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <path d="M620 118 V62 H205 V114" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#o)" />
+  <text x="412" y="52" text-anchor="middle" class="cond">grade below 0.7 and fewer than 3 attempts: try again</text>
+
+  <line x1="620" y1="162" x2="620" y2="226" stroke="#b45309" stroke-width="2" marker-end="url(#o)" />
+  <text x="632" y="190" class="cond">grade 0.7 or more,</text>
+  <text x="632" y="206" class="cond">or 3 attempts made</text>
+
+  <text x="300" y="250" text-anchor="middle" class="mut">The counter guarantees the loop ends, even if the grade never reaches 0.7.</text>
+</svg>

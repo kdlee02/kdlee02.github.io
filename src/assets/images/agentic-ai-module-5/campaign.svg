@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 310" role="img" aria-labelledby="t">
+  <title id="t">The campaign lab as a linear pipeline of four agents. The market researcher (gpt-5-mini with web search and the product catalog) found that wraparound shield frames are trending and picked the Sport model, 11 in stock at 144 dollars. The graphic designer (gpt-image-1-mini) made a close-up image of a model in wraparound shades by the sea. The copywriter (gpt-5-mini) wrote "Shield the Sun. Own the Summer." The packager (gpt-5-mini) polished the trend summary and put it all into one report.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; fill: #5b21b6; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="308" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="390" y="30" text-anchor="middle" class="b">“Create a summer marketing campaign for sunglasses”</text>
+
+  <g fill="#ede9fe" stroke="#7c3aed">
+    <rect x="16" y="48" width="170" height="72" rx="8" /><rect x="206" y="48" width="170" height="72" rx="8" />
+    <rect x="396" y="48" width="170" height="72" rx="8" /><rect x="586" y="48" width="170" height="72" rx="8" />
+  </g>
+  <g text-anchor="middle">
+    <text x="101" y="70" class="b">Market researcher</text><text x="101" y="89" class="mono">gpt-5-mini</text><text x="101" y="108" class="mut">web search + catalog</text>
+    <text x="291" y="70" class="b">Graphic designer</text><text x="291" y="89" class="mono">gpt-image-1-mini</text><text x="291" y="108" class="mut">makes the image</text>
+    <text x="481" y="70" class="b">Copywriter</text><text x="481" y="89" class="mono">gpt-5-mini</text><text x="481" y="108" class="mut">sees image + trends</text>
+    <text x="671" y="70" class="b">Packager</text><text x="671" y="89" class="mono">gpt-5-mini</text><text x="671" y="108" class="mut">polishes, assembles</text>
+  </g>
+  <g stroke="#64748b" stroke-width="2">
+    <line x1="188" y1="84" x2="201" y2="84" marker-end="url(#a)" /><line x1="378" y1="84" x2="391" y2="84" marker-end="url(#a)" />
+    <line x1="568" y1="84" x2="581" y2="84" marker-end="url(#a)" />
+  </g>
+
+  <g fill="#f8fafc" stroke="#cbd5e1">
+    <rect x="16" y="140" width="170" height="110" rx="8" /><rect x="206" y="140" width="170" height="110" rx="8" />
+    <rect x="396" y="140" width="170" height="110" rx="8" /><rect x="586" y="140" width="170" height="110" rx="8" />
+  </g>
+  <g class="mut">
+    <text x="28" y="162">Trend: wraparound</text>
+    <text x="28" y="180">“shield” frames</text>
+    <text x="28" y="204" class="b" style="fill:#1e293b">Hero pick: Sport</text>
+    <text x="28" y="222">11 in stock, $144</text>
+    <text x="218" y="162">Image: a close-up</text>
+    <text x="218" y="180">of a model in</text>
+    <text x="218" y="198">wraparound shades</text>
+    <text x="218" y="216">by the sea</text>
+    <text x="408" y="170" class="b" style="fill:#1e293b;font-size:13px">“Shield the Sun.</text>
+    <text x="408" y="190" class="b" style="fill:#1e293b;font-size:13px">Own the Summer.”</text>
+    <text x="408" y="218">plus why it fits</text>
+    <text x="598" y="162">One report:</text>
+    <text x="598" y="180">trends, products,</text>
+    <text x="598" y="198">image, quote,</text>
+    <text x="598" y="216">and next steps</text>
+  </g>
+
+  <text x="390" y="278" text-anchor="middle" class="mut">Each agent hands its output to the next one: a linear pipeline.</text>
+  <text x="390" y="296" text-anchor="middle" class="mut">Outputs from my run of the lab.</text>
+</svg>

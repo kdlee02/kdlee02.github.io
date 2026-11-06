@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-labelledby="t">
+  <title id="t">The research agent's steps: request, AI picks search terms, web search, AI picks 5 sources, fetch pages, AI writes the essay. Under each step is a suspect: bad search terms, weak search results, poor picks, or bad writing. Counting the failed essays, search terms were to blame in 5 percent, search results in 45 percent, and picking sources in 10 percent.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .q { fill: #b45309; font-size: 12px; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="798" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="400" y="30" text-anchor="middle" class="b">Research agent: which step causes the bad essays?</text>
+
+  <rect x="16" y="50" width="112" height="52" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="72" y="73" text-anchor="middle" class="b">Request</text>
+  <text x="72" y="91" text-anchor="middle" class="mut">black holes essay</text>
+  <line x1="130" y1="76" x2="141" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="146" y="50" width="112" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="202" y="73" text-anchor="middle" class="b">AI</text>
+  <text x="202" y="91" text-anchor="middle" class="mut">search terms</text>
+  <line x1="260" y1="76" x2="271" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="276" y="50" width="112" height="52" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="332" y="73" text-anchor="middle" class="b">Web search</text>
+  <text x="332" y="91" text-anchor="middle" class="mut">tool</text>
+  <line x1="390" y1="76" x2="401" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="406" y="50" width="112" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="462" y="73" text-anchor="middle" class="b">AI</text>
+  <text x="462" y="91" text-anchor="middle" class="mut">picks 5 sources</text>
+  <line x1="520" y1="76" x2="531" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="536" y="50" width="112" height="52" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="592" y="73" text-anchor="middle" class="b">Fetch pages</text>
+  <text x="592" y="91" text-anchor="middle" class="mut">tool</text>
+  <line x1="650" y1="76" x2="661" y2="76" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="666" y="50" width="112" height="52" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="722" y="73" text-anchor="middle" class="b">AI</text>
+  <text x="722" y="91" text-anchor="middle" class="mut">writes essay</text>
+
+  <text x="202" y="128" text-anchor="middle" class="q">bad terms?</text>
+  <text x="332" y="128" text-anchor="middle" class="q">weak results?</text>
+  <text x="462" y="128" text-anchor="middle" class="q">poor picks?</text>
+  <text x="722" y="128" text-anchor="middle" class="q">bad writing?</text>
+
+  <line x1="140" y1="270" x2="780" y2="270" stroke="#94a3b8" stroke-width="1.5" />
+  <rect x="172" y="260" width="60" height="10" fill="#fca5a5" stroke="#dc2626" />
+  <text x="202" y="252" text-anchor="middle" class="b">5%</text>
+  <rect x="302" y="180" width="60" height="90" fill="#f87171" stroke="#dc2626" />
+  <text x="332" y="172" text-anchor="middle" class="b" style="fill:#b91c1c">45%</text>
+  <rect x="432" y="250" width="60" height="20" fill="#fca5a5" stroke="#dc2626" />
+  <text x="462" y="242" text-anchor="middle" class="b">10%</text>
+  <text x="722" y="262" text-anchor="middle" class="mut">…</text>
+  <text x="20" y="225" class="b">Share of</text>
+  <text x="20" y="242" class="b">bad essays</text>
+
+  <text x="400" y="300" text-anchor="middle" class="mut">Each step is judged against its own input: would an expert have done better with the same thing?</text>
+  <text x="400" y="320" text-anchor="middle" class="mut">One bad essay can have more than one cause, so the shares don’t add up to 100%.</text>
+</svg>

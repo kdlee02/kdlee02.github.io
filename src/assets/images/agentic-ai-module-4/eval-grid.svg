@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" role="img" aria-labelledby="t">
+  <title id="t">A two-by-two grid of evals. Columns: check with code, or check with an AI judge. Rows: each example has its own right answer, or every example shares the same target. Code with own answer: does the invoice due date match the one we wrote down. AI judge with own answer: which expert talking points does the essay mention. Code with shared target: is the caption 10 words or fewer. AI judge with shared target: grade the chart on a yes/no checklist.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #475569; font-size: 12px; }
+    .b { font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #166534; }
+  </style>
+  <rect x="1" y="1" width="718" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="332" y="40" text-anchor="middle" class="b">Check with code</text>
+  <text x="587" y="40" text-anchor="middle" class="b">Check with an AI judge</text>
+
+  <text x="195" y="104" text-anchor="end" class="b">Each example has</text>
+  <text x="195" y="121" text-anchor="end" class="b">its own right</text>
+  <text x="195" y="138" text-anchor="end" class="b">answer</text>
+  <text x="195" y="234" text-anchor="end" class="b">Same target</text>
+  <text x="195" y="251" text-anchor="end" class="b">for every</text>
+  <text x="195" y="268" text-anchor="end" class="b">example</text>
+
+  <rect x="210" y="56" width="245" height="125" rx="10" fill="#f0fdf4" stroke="#16a34a" />
+  <text x="226" y="82" class="b">Invoice due date</text>
+  <text x="226" y="104" class="mut">Does the date the AI pulled out</text>
+  <text x="226" y="121" class="mut">match the one we wrote down?</text>
+  <text x="226" y="156" class="mono">extracted == correct</text>
+
+  <rect x="465" y="56" width="245" height="125" rx="10" fill="#faf5ff" stroke="#7c3aed" />
+  <text x="481" y="82" class="b">Key talking points</text>
+  <text x="481" y="104" class="mut">Which of the 3–5 points an expert</text>
+  <text x="481" y="121" class="mut">listed does the essay mention?</text>
+  <text x="481" y="156" class="mut" style="font-style:italic">e.g. event horizon, radio telescope</text>
+
+  <rect x="210" y="190" width="245" height="125" rx="10" fill="#f0fdf4" stroke="#16a34a" />
+  <text x="226" y="216" class="b">Caption length</text>
+  <text x="226" y="238" class="mut">Is every caption 10 words</text>
+  <text x="226" y="255" class="mut">or fewer?</text>
+  <text x="226" y="290" class="mono">len(words) &lt;= 10</text>
+
+  <rect x="465" y="190" width="245" height="125" rx="10" fill="#faf5ff" stroke="#7c3aed" />
+  <text x="481" y="216" class="b">Chart quality</text>
+  <text x="481" y="238" class="mut">Yes/no checklist: clear title?</text>
+  <text x="481" y="255" class="mut">Labeled axes? Right kind of chart?</text>
+  <text x="481" y="290" class="mut" style="font-style:italic">the rubric from module 2</text>
+</svg>

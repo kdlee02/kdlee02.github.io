@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 230" role="img" aria-labelledby="t">
+  <title id="t">Top: invoice processing. An invoice PDF is turned into text, the AI pulls out four fields, and a tool saves them to a database. Bottom: answering a customer email. The AI finds the order number, a tool looks up the order, the AI drafts a reply, and a person checks it before it is sent.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="228" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="20" y="32" class="b">Easier: processing an invoice (the steps never change)</text>
+
+  <rect x="20" y="48" width="150" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="95" y="70" text-anchor="middle" class="b">Invoice</text>
+  <text x="95" y="88" text-anchor="middle" class="mut">a PDF file</text>
+  <line x1="172" y1="73" x2="205" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="210" y="48" width="150" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="285" y="70" text-anchor="middle" class="b">PDF to text</text>
+  <text x="285" y="88" text-anchor="middle" class="mut">tool</text>
+  <line x1="362" y1="73" x2="395" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="400" y="48" width="150" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="475" y="70" text-anchor="middle" class="b">AI</text>
+  <text x="475" y="88" text-anchor="middle" class="mut">pulls out 4 fields</text>
+  <line x1="552" y1="73" x2="585" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="590" y="48" width="150" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="665" y="70" text-anchor="middle" class="b">Save to database</text>
+  <text x="665" y="88" text-anchor="middle" class="mut">tool</text>
+
+  <text x="20" y="140" class="b">Harder: answering a customer email (a person signs off)</text>
+
+  <rect x="20" y="156" width="125" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="82" y="178" text-anchor="middle" class="b">Email</text>
+  <text x="82" y="196" text-anchor="middle" class="mut">“wrong lamp sent”</text>
+  <line x1="147" y1="181" x2="166" y2="181" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="171" y="156" width="125" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="233" y="178" text-anchor="middle" class="b">AI</text>
+  <text x="233" y="196" text-anchor="middle" class="mut">finds order number</text>
+  <line x1="298" y1="181" x2="317" y2="181" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="322" y="156" width="125" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="384" y="178" text-anchor="middle" class="b">Orders database</text>
+  <text x="384" y="196" text-anchor="middle" class="mut">looks up order</text>
+  <line x1="449" y1="181" x2="468" y2="181" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="473" y="156" width="125" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="535" y="178" text-anchor="middle" class="b">AI</text>
+  <text x="535" y="196" text-anchor="middle" class="mut">drafts a reply</text>
+  <line x1="600" y1="181" x2="619" y2="181" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="624" y="156" width="125" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="686" y="178" text-anchor="middle" class="b">Person</text>
+  <text x="686" y="196" text-anchor="middle" class="mut">checks, then sends</text>
+</svg>

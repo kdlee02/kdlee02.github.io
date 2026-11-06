@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 410" role="img" aria-labelledby="t">
+  <title id="t">Top: a less autonomous essay writer where the programmer fixes the order: the AI picks search words, then a web search and a page fetch run, then the AI writes. Middle: a more autonomous version where the AI chooses which search tool to use, which pages to read, writes a draft, reviews it, and may go back for more. Bottom: a scale from less autonomous to semi-autonomous to highly autonomous.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+    <marker id="p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#7c3aed" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="408" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="20" y="32" class="b">Less autonomous: the programmer fixes every step</text>
+
+  <rect x="20" y="48" width="120" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="80" y="70" text-anchor="middle" class="b">Request</text>
+  <text x="80" y="88" text-anchor="middle" class="mut">black holes essay</text>
+  <line x1="142" y1="73" x2="165" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="170" y="48" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="230" y="70" text-anchor="middle" class="b">AI</text>
+  <text x="230" y="88" text-anchor="middle" class="mut">picks search words</text>
+  <line x1="292" y1="73" x2="315" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="320" y="48" width="120" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="380" y="70" text-anchor="middle" class="b">Web search</text>
+  <text x="380" y="88" text-anchor="middle" class="mut">tool</text>
+  <line x1="442" y1="73" x2="465" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="470" y="48" width="120" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="530" y="70" text-anchor="middle" class="b">Fetch pages</text>
+  <text x="530" y="88" text-anchor="middle" class="mut">tool</text>
+  <line x1="592" y1="73" x2="615" y2="73" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="620" y="48" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="680" y="70" text-anchor="middle" class="b">AI</text>
+  <text x="680" y="88" text-anchor="middle" class="mut">writes the essay</text>
+
+  <text x="20" y="136" class="b">More autonomous: the AI decides what to do next</text>
+
+  <rect x="160" y="150" width="140" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-dasharray="4 3" />
+  <text x="230" y="172" text-anchor="middle" class="mut">web · news · papers</text>
+  <line x1="230" y1="184" x2="230" y2="196" stroke="#16a34a" stroke-width="2" stroke-dasharray="3 2" />
+  <rect x="310" y="150" width="140" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-dasharray="4 3" />
+  <text x="380" y="172" text-anchor="middle" class="mut">fetch · PDF to text</text>
+  <line x1="380" y1="184" x2="380" y2="196" stroke="#16a34a" stroke-width="2" stroke-dasharray="3 2" />
+
+  <rect x="20" y="196" width="120" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="80" y="218" text-anchor="middle" class="b">Request</text>
+  <text x="80" y="236" text-anchor="middle" class="mut">black holes essay</text>
+  <line x1="142" y1="221" x2="165" y2="221" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="170" y="196" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="230" y="218" text-anchor="middle" class="b">AI</text>
+  <text x="230" y="236" text-anchor="middle" class="mut">chooses a search</text>
+  <line x1="292" y1="221" x2="315" y2="221" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="320" y="196" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="380" y="218" text-anchor="middle" class="b">AI</text>
+  <text x="380" y="236" text-anchor="middle" class="mut">chooses pages</text>
+  <line x1="442" y1="221" x2="465" y2="221" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="470" y="196" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="530" y="218" text-anchor="middle" class="b">AI</text>
+  <text x="530" y="236" text-anchor="middle" class="mut">writes a draft</text>
+  <line x1="592" y1="221" x2="615" y2="221" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="620" y="196" width="120" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="680" y="218" text-anchor="middle" class="b">AI</text>
+  <text x="680" y="236" text-anchor="middle" class="mut">reviews, improves</text>
+
+  <path d="M680 248 V268 H230 V252" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#p)" />
+  <text x="455" y="286" text-anchor="middle" class="mut">may go back for more sources</text>
+
+  <line x1="44" y1="330" x2="736" y2="330" stroke="#1e293b" stroke-width="2.5" marker-start="url(#a)" marker-end="url(#a)" />
+  <text x="40" y="358" class="b">Less autonomous</text>
+  <text x="40" y="377" class="mut">steps fixed, tools hard-coded</text>
+  <text x="390" y="358" text-anchor="middle" class="b">Semi-autonomous</text>
+  <text x="390" y="377" text-anchor="middle" class="mut">AI picks from tools you gave it</text>
+  <text x="740" y="358" text-anchor="end" class="b">Highly autonomous</text>
+  <text x="740" y="377" text-anchor="end" class="mut">AI plans the steps, may build new tools</text>
+</svg>

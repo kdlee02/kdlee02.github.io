@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 250" role="img" aria-labelledby="t">
+  <title id="t">A request goes to the AI, which writes draft v1. A second AI call reviews the draft and writes an improved v2. The review step is fixed in place by the programmer, and the reviewer can be a different model.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .red { fill: #dc2626; font-size: 12px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="758" height="248" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="20" y="70" width="130" height="56" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="85" y="94" text-anchor="middle" class="b">Request</text>
+  <text x="85" y="113" text-anchor="middle" class="mut">“Write an email…”</text>
+  <line x1="152" y1="98" x2="175" y2="98" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="180" y="70" width="120" height="56" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="240" y="94" text-anchor="middle" class="b">AI</text>
+  <text x="240" y="113" text-anchor="middle" class="mut">writes a draft</text>
+  <line x1="302" y1="98" x2="325" y2="98" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="330" y="70" width="110" height="56" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="385" y="94" text-anchor="middle" class="b">Draft v1</text>
+  <text x="385" y="113" text-anchor="middle" class="mut">“see you soon”</text>
+  <line x1="442" y1="98" x2="485" y2="98" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="470" y="40" width="150" height="120" rx="14" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="7 5" />
+  <rect x="490" y="70" width="120" height="56" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="550" y="94" text-anchor="middle" class="b">AI reviewer</text>
+  <text x="550" y="113" text-anchor="middle" class="mut">critiques, rewrites</text>
+  <text x="545" y="148" text-anchor="middle" class="red">reflection step</text>
+  <line x1="612" y1="98" x2="635" y2="98" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="640" y="70" width="100" height="56" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="690" y="94" text-anchor="middle" class="b">Draft v2</text>
+  <text x="690" y="113" text-anchor="middle" class="mut">“on May 14”</text>
+
+  <text x="380" y="200" text-anchor="middle" class="mut">The reviewer can be the same model or a different one, such as a reasoning model.</text>
+  <text x="380" y="222" text-anchor="middle" class="mut">The programmer always runs this step: it is low on the autonomy scale from module 1.</text>
+</svg>

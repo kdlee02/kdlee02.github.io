@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" role="img" aria-labelledby="t">
+  <title id="t">The breakpoint run, step by step. stream with the question runs agent, which asks for search_menu, then pauses before retrieve; get_state shows next is retrieve, and update_state sets num_generations to 2. stream(None) runs retrieve and the relevance check, which says relevant, then pauses before generate. A second stream(None) runs generate, which answers that the signature dish is the Signature Steak, and the graph reaches END.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 11.5px; }
+    .b { font-weight: 700; }
+    .node { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #1e293b; }
+    .call { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #7c2d12; }
+    .pause { fill: #dc2626; font-size: 11.5px; font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="358" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- node row -->
+  <rect x="16" y="70" width="64" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="48" y="94" text-anchor="middle" class="b">START</text>
+  <rect x="106" y="68" width="110" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="161" y="94" text-anchor="middle" class="node">agent</text>
+  <rect x="276" y="68" width="110" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="331" y="94" text-anchor="middle" class="node">retrieve</text>
+  <rect x="412" y="68" width="130" height="44" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="477" y="88" text-anchor="middle" class="node">grade_documents</text>
+  <text x="477" y="104" text-anchor="middle" class="mut">relevant? yes</text>
+  <rect x="598" y="68" width="100" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="648" y="94" text-anchor="middle" class="node">generate</text>
+  <rect x="716" y="70" width="52" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="742" y="94" text-anchor="middle" class="b">END</text>
+
+  <line x1="80" y1="90" x2="102" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="216" y1="90" x2="272" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="386" y1="90" x2="408" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="542" y1="90" x2="594" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="698" y1="90" x2="712" y2="90" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <!-- breakpoints -->
+  <line x1="246" y1="40" x2="246" y2="330" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4" />
+  <text x="246" y="32" text-anchor="middle" class="pause">⏸ breakpoint</text>
+  <line x1="570" y1="40" x2="570" y2="330" stroke="#dc2626" stroke-width="2" stroke-dasharray="5 4" />
+  <text x="570" y="32" text-anchor="middle" class="pause">⏸ breakpoint</text>
+
+  <!-- step 1 -->
+  <rect x="16" y="140" width="222" height="70" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
+  <text x="26" y="160" class="call">1. stream({messages}, thread)</text>
+  <text x="26" y="180" class="mut">agent asks for</text>
+  <text x="26" y="196" class="mut">search_menu("signature dish")</text>
+
+  <rect x="16" y="226" width="222" height="104" rx="8" fill="#fff7ed" stroke="#fdba74" />
+  <text x="26" y="246" class="b">While paused</text>
+  <text x="26" y="266" class="call">get_state(thread).next</text>
+  <text x="26" y="282" class="mut">→ ('retrieve',)</text>
+  <text x="26" y="302" class="call">update_state(thread,</text>
+  <text x="26" y="318" class="call">  {"num_generations": 2})</text>
+
+  <!-- step 2 -->
+  <rect x="256" y="140" width="306" height="70" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
+  <text x="266" y="160" class="call">2. stream(None, thread)</text>
+  <text x="266" y="180" class="mut">search finds Signature Steak ₩35,000</text>
+  <text x="266" y="196" class="mut">and Tenderloin Steak Salad ₩26,000</text>
+  <text x="266" y="246" class="mut">Paused again: next = ('generate',)</text>
+
+  <!-- step 3 -->
+  <rect x="580" y="140" width="188" height="90" rx="8" fill="#f8fafc" stroke="#e2e8f0" />
+  <text x="590" y="160" class="call">3. stream(None, thread)</text>
+  <text x="590" y="180" class="mut">"The signature dish is</text>
+  <text x="590" y="196" class="mut">Signature Steak..."</text>
+  <text x="590" y="216" class="mut">next = () , 4 messages</text>
+</svg>

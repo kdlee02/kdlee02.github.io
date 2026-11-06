@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" role="img" aria-labelledby="t">
+  <title id="t">One essay request fans out into three searches that run at the same time. Each search fetches its top three pages, so nine pages download at once, and then the AI writes the essay from all of them. The middle search has been swapped for a news search without changing anything else.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="758" height="378" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="255" y="30" text-anchor="middle" class="b">3 searches at once</text>
+  <text x="445" y="30" text-anchor="middle" class="b">9 pages at once</text>
+
+  <rect x="20" y="165" width="120" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="80" y="187" text-anchor="middle" class="b">Request</text>
+  <text x="80" y="205" text-anchor="middle" class="mut">black holes essay</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none">
+    <line x1="142" y1="190" x2="186" y2="90" marker-end="url(#a)" />
+    <line x1="142" y1="190" x2="186" y2="190" marker-end="url(#a)" />
+    <line x1="142" y1="190" x2="186" y2="290" marker-end="url(#a)" />
+  </g>
+
+  <rect x="190" y="68" width="130" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="255" y="87" text-anchor="middle" class="b">Web search</text>
+  <text x="255" y="103" text-anchor="middle" class="mut">AI picks words</text>
+  <rect x="190" y="168" width="130" height="44" rx="8" fill="#fff7ed" stroke="#d97706" stroke-width="2" stroke-dasharray="5 3" />
+  <text x="255" y="187" text-anchor="middle" class="b">News search</text>
+  <text x="255" y="203" text-anchor="middle" class="mut">swapped in</text>
+  <rect x="190" y="268" width="130" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="255" y="287" text-anchor="middle" class="b">Web search</text>
+  <text x="255" y="303" text-anchor="middle" class="mut">AI picks words</text>
+
+  <g stroke="#94a3b8" stroke-width="1.5" fill="none">
+    <line x1="322" y1="90" x2="388" y2="56" /><line x1="322" y1="90" x2="388" y2="90" /><line x1="322" y1="90" x2="388" y2="124" />
+    <line x1="322" y1="190" x2="388" y2="156" /><line x1="322" y1="190" x2="388" y2="190" /><line x1="322" y1="190" x2="388" y2="224" />
+    <line x1="322" y1="290" x2="388" y2="256" /><line x1="322" y1="290" x2="388" y2="290" /><line x1="322" y1="290" x2="388" y2="324" />
+  </g>
+
+  <g fill="#f0fdf4" stroke="#16a34a">
+    <rect x="390" y="44" width="110" height="24" rx="6" /><rect x="390" y="78" width="110" height="24" rx="6" /><rect x="390" y="112" width="110" height="24" rx="6" />
+    <rect x="390" y="144" width="110" height="24" rx="6" /><rect x="390" y="178" width="110" height="24" rx="6" /><rect x="390" y="212" width="110" height="24" rx="6" />
+    <rect x="390" y="244" width="110" height="24" rx="6" /><rect x="390" y="278" width="110" height="24" rx="6" /><rect x="390" y="312" width="110" height="24" rx="6" />
+  </g>
+  <g class="mut" text-anchor="middle">
+    <text x="445" y="60">fetch page</text><text x="445" y="94">fetch page</text><text x="445" y="128">fetch page</text>
+    <text x="445" y="160">fetch page</text><text x="445" y="194">fetch page</text><text x="445" y="228">fetch page</text>
+    <text x="445" y="260">fetch page</text><text x="445" y="294">fetch page</text><text x="445" y="328">fetch page</text>
+  </g>
+
+  <g stroke="#94a3b8" stroke-width="1.5" fill="none">
+    <line x1="502" y1="56" x2="578" y2="190" /><line x1="502" y1="90" x2="578" y2="190" /><line x1="502" y1="124" x2="578" y2="190" />
+    <line x1="502" y1="156" x2="578" y2="190" /><line x1="502" y1="190" x2="578" y2="190" /><line x1="502" y1="224" x2="578" y2="190" />
+    <line x1="502" y1="256" x2="578" y2="190" /><line x1="502" y1="290" x2="578" y2="190" /><line x1="502" y1="324" x2="578" y2="190" />
+  </g>
+
+  <rect x="580" y="165" width="150" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="655" y="187" text-anchor="middle" class="b">AI</text>
+  <text x="655" y="205" text-anchor="middle" class="mut">writes the essay</text>
+
+  <text x="380" y="364" text-anchor="middle" class="mut">Dashed box: one part replaced without touching the rest</text>
+</svg>

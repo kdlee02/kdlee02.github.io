@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" role="img" aria-labelledby="t">
+  <title id="t">The search subgraph, run on "Where does tiramisu come from, and how much is it here?". analyze_question picks search_menu and search_wiki; search_web is skipped. The two searches run at the same time and add their results to search_results: the Tiramisu and Sassicaia menu entries, and two unrelated Wikipedia pages, Maltese language and Sleepless in Seattle. filter_documents keeps only Tiramisu and writes it to documents, the one field the parent Self-RAG graph reads.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 11.5px; }
+    .b { font-weight: 700; }
+    .node { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #1e293b; }
+    .doc { font-size: 11px; fill: #1e293b; }
+    .x { font-size: 11px; fill: #94a3b8; text-decoration: line-through; }
+    .cond { fill: #b45309; font-size: 11.5px; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="358" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <rect x="12" y="34" width="756" height="276" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="5 4" />
+  <text x="24" y="26" class="mut">search subgraph (one node, "retrieve", in the Self-RAG graph)</text>
+
+  <rect x="24" y="148" width="64" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="56" y="172" text-anchor="middle" class="b">START</text>
+  <rect x="106" y="140" width="150" height="56" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="181" y="164" text-anchor="middle" class="node">analyze_question</text>
+  <text x="181" y="182" text-anchor="middle" class="mut">picks menu + wiki</text>
+
+  <rect x="306" y="54" width="130" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="371" y="79" text-anchor="middle" class="node">search_menu</text>
+  <rect x="306" y="148" width="130" height="40" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3" />
+  <text x="371" y="173" text-anchor="middle" class="node" fill="#94a3b8">search_web</text>
+  <text x="371" y="204" text-anchor="middle" class="mut">not picked</text>
+  <rect x="306" y="236" width="130" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="371" y="261" text-anchor="middle" class="node">search_wiki</text>
+
+  <line x1="88" y1="168" x2="102" y2="168" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <path d="M256 158 C 280 158, 280 74, 302 74" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#a)" />
+  <path d="M256 178 C 280 178, 280 256, 302 256" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#a)" />
+  <text x="181" y="222" text-anchor="middle" class="cond">both run at the same time</text>
+
+  <!-- results box -->
+  <rect x="466" y="54" width="150" height="222" rx="8" fill="#ffffff" stroke="#94a3b8" />
+  <text x="476" y="74" class="node">search_results</text>
+  <text x="476" y="90" class="mut">(add reducer)</text>
+  <text x="476" y="114" class="doc">Tiramisu</text>
+  <text x="476" y="132" class="x">Sassicaia 2018</text>
+  <text x="476" y="232" class="x">Maltese language</text>
+  <text x="476" y="250" class="x">Sleepless in Seattle</text>
+  <line x1="436" y1="74" x2="462" y2="100" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <line x1="436" y1="256" x2="462" y2="240" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="640" y="140" width="116" height="56" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="698" y="164" text-anchor="middle" class="node">filter_</text>
+  <text x="698" y="180" text-anchor="middle" class="node">documents</text>
+  <line x1="616" y1="168" x2="636" y2="168" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <text x="24" y="336" class="b">Out to the parent graph:</text>
+  <text x="200" y="336" class="node">documents = [Tiramisu]</text>
+  <text x="400" y="336" class="mut">1 of 4 kept; crossed-out results were graded not relevant</text>
+  <path d="M698 196 V320" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+</svg>

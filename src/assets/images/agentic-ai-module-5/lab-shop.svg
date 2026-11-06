@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 330" role="img" aria-labelledby="t">
+  <title id="t">The shop lab. A request to return two Aviator sunglasses goes to a planner, which writes four steps: look up the Aviator at 103 dollars, compute a 206 dollar refund, add two back to stock, and record the refund. A reviewer checks the plan and approves it. An executor runs the tools. If every check passes, Aviator stock goes from 23 to 25 and the register from 500 to 294 dollars. If a check fails, it stops and explains the problem in plain words.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="16" y="30" width="170" height="60" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="101" y="54" text-anchor="middle" class="b">Request</text>
+  <text x="101" y="73" text-anchor="middle" class="mut">“return two Aviators”</text>
+  <line x1="188" y1="60" x2="205" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="210" y="30" width="160" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="290" y="54" text-anchor="middle" class="b">Planner</text>
+  <text x="290" y="73" text-anchor="middle" class="mut">writes the steps</text>
+  <line x1="372" y1="60" x2="389" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="394" y="30" width="160" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="474" y="54" text-anchor="middle" class="b">Reviewer</text>
+  <text x="474" y="73" text-anchor="middle" class="mut">checks the plan</text>
+  <line x1="556" y1="60" x2="573" y2="60" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="578" y="30" width="180" height="60" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="668" y="54" text-anchor="middle" class="b">Executor</text>
+  <text x="668" y="73" text-anchor="middle" class="mut">runs the tools</text>
+
+  <rect x="210" y="110" width="344" height="140" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="226" y="134" class="b">The plan (reviewer: “correct”)</text>
+  <text x="226" y="160">1. Look up the Aviator ($103 each)</text>
+  <text x="226" y="184">2. Compute the refund: 2 × $103 = $206</text>
+  <text x="226" y="208">3. Add 2 back to stock</text>
+  <text x="226" y="232">4. Record the refund</text>
+
+  <line x1="668" y1="92" x2="668" y2="116" stroke="#16a34a" stroke-width="2" marker-end="url(#a)" />
+  <rect x="578" y="120" width="180" height="82" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="668" y="142" text-anchor="middle" class="b">All checks pass</text>
+  <text x="668" y="164" text-anchor="middle" class="mut">Aviator stock 23 → 25</text>
+  <text x="668" y="184" text-anchor="middle" class="mut">Register $500 → $294</text>
+
+  <path d="M758 60 H770 V236 H762" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a)" />
+  <rect x="578" y="214" width="180" height="56" rx="8" fill="#fef2f2" stroke="#dc2626" />
+  <text x="668" y="237" text-anchor="middle" class="b">A check fails</text>
+  <text x="668" y="256" text-anchor="middle" class="mut">stop, explain in plain words</text>
+
+  <text x="390" y="296" text-anchor="middle" class="mut">Checks after each step: does the product exist? Is stock still 0 or more? Was the transaction recorded?</text>
+  <text x="390" y="316" text-anchor="middle" class="mut">Numbers from my run of the lab, with gpt-5-mini as planner and reviewer.</text>
+</svg>

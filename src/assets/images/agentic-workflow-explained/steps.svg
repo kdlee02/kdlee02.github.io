@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="t">
+  <title id="t">Top: one prompt goes to the AI and the essay comes out in one go. Bottom: the same job split into five steps: outline, research, first draft, review and revise. Research uses a web search tool and review can include a person.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="758" height="278" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="30" y="34" class="b">One prompt: write the whole thing in one go</text>
+
+  <rect x="30" y="50" width="160" height="50" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="110" y="72" text-anchor="middle" class="b">Request</text>
+  <text x="110" y="90" text-anchor="middle" class="mut">“Write an essay on X”</text>
+  <line x1="195" y1="75" x2="240" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="245" y="50" width="140" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="315" y="72" text-anchor="middle" class="b">AI</text>
+  <text x="315" y="90" text-anchor="middle" class="mut">start to finish</text>
+  <line x1="390" y1="75" x2="435" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <rect x="440" y="50" width="120" height="50" rx="8" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="500" y="80" text-anchor="middle" class="b">Essay</text>
+  <text x="580" y="72" class="mut">like typing an essay</text>
+  <text x="580" y="90" class="mut">with no backspace</text>
+
+  <text x="30" y="150" class="b">Agentic workflow: the same job in steps</text>
+
+  <rect x="30" y="166" width="128" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="94" y="188" text-anchor="middle" class="b">1. Outline</text>
+  <text x="94" y="206" text-anchor="middle" class="mut">AI</text>
+  <line x1="160" y1="191" x2="171" y2="191" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="176" y="166" width="128" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="240" y="188" text-anchor="middle" class="b">2. Research?</text>
+  <text x="240" y="206" text-anchor="middle" class="mut">AI decides</text>
+  <line x1="306" y1="191" x2="317" y2="191" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="322" y="166" width="128" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="386" y="188" text-anchor="middle" class="b">3. First draft</text>
+  <text x="386" y="206" text-anchor="middle" class="mut">AI</text>
+  <line x1="452" y1="191" x2="463" y2="191" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="468" y="166" width="128" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="532" y="188" text-anchor="middle" class="b">4. Review</text>
+  <text x="532" y="206" text-anchor="middle" class="mut">what needs fixing?</text>
+  <line x1="598" y1="191" x2="609" y2="191" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <rect x="614" y="166" width="128" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="678" y="188" text-anchor="middle" class="b">5. Revise</text>
+  <text x="678" y="206" text-anchor="middle" class="mut">AI</text>
+
+  <line x1="240" y1="218" x2="240" y2="230" stroke="#16a34a" stroke-width="2" />
+  <rect x="185" y="230" width="110" height="28" rx="14" fill="#dcfce7" stroke="#16a34a" />
+  <text x="240" y="249" text-anchor="middle" class="mut">+ web search</text>
+
+  <line x1="532" y1="218" x2="532" y2="230" stroke="#2563eb" stroke-width="2" />
+  <rect x="467" y="230" width="130" height="28" rx="14" fill="#dbeafe" stroke="#2563eb" />
+  <text x="532" y="249" text-anchor="middle" class="mut">+ a person checks</text>
+</svg>

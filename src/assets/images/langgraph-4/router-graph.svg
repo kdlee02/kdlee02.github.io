@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 330" role="img" aria-labelledby="t">
+  <title id="t">The question router. A question goes to the router, a model call that must fill in ToolSelector with one of two values. Menu questions, such as the Signature Steak's price or "Which of your wines goes well with the Signature Steak?", go to search_menu. General questions, such as tiramisu's origin, tomorrow's weather in Seoul and "What wine goes well with steak?", go to search_web.</title>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .b { font-weight: 700; }
+    .node { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #1e293b; }
+    .q { font-size: 11.5px; fill: #1e293b; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#64748b" />
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="778" height="328" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="20" y="140" width="100" height="44" rx="22" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="70" y="166" text-anchor="middle" class="b">question</text>
+
+  <rect x="160" y="128" width="170" height="68" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="245" y="152" text-anchor="middle" class="b">router</text>
+  <text x="245" y="170" text-anchor="middle" class="node">ToolSelector.tool</text>
+  <text x="245" y="186" text-anchor="middle" class="mut">one of two values</text>
+
+  <line x1="120" y1="162" x2="156" y2="162" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <path d="M330 150 C 360 150, 360 82, 392 82" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+  <path d="M330 174 C 360 174, 360 238, 392 238" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#a)" />
+
+  <!-- search_menu -->
+  <rect x="396" y="24" width="364" height="116" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="412" y="48" class="node b">search_menu</text>
+  <text x="412" y="72" class="q">How much is the Signature Steak?</text>
+  <text x="412" y="92" class="q">What wines do you have?</text>
+  <text x="412" y="112" class="q">Which of your wines goes well with</text>
+  <text x="412" y="128" class="q">the Signature Steak?</text>
+
+  <!-- search_web -->
+  <rect x="396" y="180" width="364" height="116" rx="10" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="412" y="204" class="node b">search_web</text>
+  <text x="412" y="228" class="q">What is the origin of tiramisu?</text>
+  <text x="412" y="248" class="q">What's the weather in Seoul tomorrow?</text>
+  <text x="412" y="268" class="q">What wine goes well with steak?</text>
+  <text x="412" y="284" class="mut">(the menu has wines, but the wording sounds general)</text>
+
+  <text x="175" y="300" class="mut">Each question asked 3 times;</text>
+  <text x="175" y="316" class="mut">same route every time.</text>
+</svg>
