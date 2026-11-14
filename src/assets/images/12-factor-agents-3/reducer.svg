@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" role="img" aria-labelledby="t">
+  <title id="t">The stateless reducer with one State object. A State card on the left has an id, then execution state (steps, status, pending_tool_calls, error) and business state (context, final_answer). An arrow carries it into the agent's run method, which deep-copies it and calls _next_step until the status is no longer running, recording crashes as failed. A new State card comes out on the right with steps counted, status complete, a longer context and final_answer filled in. The original State is left unchanged.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .lab { fill: #334155; font-size: 11.5px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .chg { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #7c3aed; font-weight: 700; }
+  </style>
+  <rect x="1" y="1" width="818" height="358" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- state in -->
+  <rect x="20" y="20" width="240" height="268" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="36" y="46" class="h">State (in)</text>
+  <text x="36" y="70" class="mono">id = "3f2a…"</text>
+  <rect x="30" y="80" width="220" height="112" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="40" y="97" class="lab">EXECUTION</text>
+  <text x="40" y="116" class="mono">steps = 0</text>
+  <text x="40" y="134" class="mono">status = "running"</text>
+  <text x="40" y="152" class="mono">pending_tool_calls = []</text>
+  <text x="40" y="170" class="mono">error = None</text>
+  <rect x="30" y="200" width="220" height="78" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="40" y="217" class="lab">BUSINESS</text>
+  <text x="40" y="236" class="mono">context = [user message]</text>
+  <text x="40" y="254" class="mono">final_answer = None</text>
+
+  <!-- agent -->
+  <line x1="260" y1="154" x2="298" y2="154" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="300" y="74" width="220" height="160" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="410" y="102" text-anchor="middle" class="mono" font-weight="700">agent.run(state)</text>
+  <text x="318" y="132">1. deep-copy the state</text>
+  <text x="318" y="156">2. call _next_step while</text>
+  <text x="332" y="174">running and steps &lt; max</text>
+  <text x="318" y="198">3. a crash sets "failed"</text>
+  <text x="332" y="216">and fills in error</text>
+  <line x1="520" y1="154" x2="558" y2="154" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+
+  <!-- state out -->
+  <rect x="560" y="20" width="240" height="268" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="576" y="46" class="h">State (out, a new copy)</text>
+  <text x="576" y="70" class="mono">id = "3f2a…"</text>
+  <rect x="570" y="80" width="220" height="112" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="580" y="97" class="lab">EXECUTION</text>
+  <text x="580" y="116" class="chg">steps = n</text>
+  <text x="580" y="134" class="chg">status = "complete"</text>
+  <text x="580" y="152" class="mono">pending_tool_calls = []</text>
+  <text x="580" y="170" class="mono">error = None</text>
+  <rect x="570" y="200" width="220" height="78" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="580" y="217" class="lab">BUSINESS</text>
+  <text x="580" y="236" class="chg">context = [user, calls…]</text>
+  <text x="580" y="254" class="chg">final_answer =</text>
+  <text x="580" y="270" class="chg">  "…x = 2 and x = 3."</text>
+
+  <text x="140" y="310" text-anchor="middle" class="mut">left exactly as it was</text>
+  <text x="410" y="256" text-anchor="middle" class="mut">keeps settings, not progress</text>
+  <text x="680" y="310" text-anchor="middle" class="mut">changed fields in purple</text>
+  <text x="410" y="342" text-anchor="middle" class="mut">Every ending (complete, max_steps_reached, failed) comes back as a status on the same object.</text>
+</svg>

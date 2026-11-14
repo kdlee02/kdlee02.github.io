@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" role="img" aria-labelledby="t">
+  <title id="t">How the order of a step changed. Top, a step in part 2 and lesson 1: call the model, then run the tools it asked for and record the results, so every step ends with nothing left to do. Bottom, a step in lesson 3: run the tool calls already queued in pending_tool_calls and record the results, then call the model, then queue its new tool calls. Every step ends with the model's next request saved in the state but not yet run, which is the moment where you could save the state, pause, or ask a person.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #1e293b; }
+  </style>
+  <rect x="1" y="1" width="818" height="338" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- row 1 -->
+  <text x="20" y="38" class="h">Part 2 and lesson 1: one step</text>
+  <rect x="20" y="54" width="170" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="105" y="89" text-anchor="middle">Call the model</text>
+  <line x1="190" y1="84" x2="221" y2="84" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="223" y="54" width="170" height="60" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="308" y="80" text-anchor="middle">Run its tool calls,</text>
+  <text x="308" y="98" text-anchor="middle">record the results</text>
+  <line x1="393" y1="84" x2="424" y2="84" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="426" y="54" width="170" height="60" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="511" y="80" text-anchor="middle">Step ends with</text>
+  <text x="511" y="98" text-anchor="middle">nothing waiting</text>
+
+  <line x1="20" y1="144" x2="800" y2="144" stroke="#e2e8f0" />
+
+  <!-- row 2 -->
+  <text x="20" y="178" class="h">Lesson 3: one step</text>
+  <rect x="20" y="194" width="170" height="60" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="105" y="220" text-anchor="middle">Run queued calls from</text>
+  <text x="105" y="238" text-anchor="middle" class="mono">pending_tool_calls</text>
+  <line x1="190" y1="224" x2="221" y2="224" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="223" y="194" width="170" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="308" y="220" text-anchor="middle">Call the model with</text>
+  <text x="308" y="238" text-anchor="middle">the updated context</text>
+  <line x1="393" y1="224" x2="424" y2="224" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="426" y="194" width="170" height="60" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="511" y="220" text-anchor="middle">Queue its new calls in</text>
+  <text x="511" y="238" text-anchor="middle" class="mono">pending_tool_calls</text>
+  <line x1="596" y1="224" x2="627" y2="224" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <rect x="629" y="194" width="170" height="60" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="714" y="220" text-anchor="middle">Step ends with a</text>
+  <text x="714" y="238" text-anchor="middle">request waiting</text>
+
+  <text x="714" y="280" text-anchor="middle" class="mut">save · pause · ask a person</text>
+  <text x="410" y="318" text-anchor="middle" class="mut">The next request is saved in the state as plain data before anything runs it.</text>
+</svg>

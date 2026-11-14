@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 450" role="img" aria-labelledby="t">
+  <title id="t">Two views of the same agent run. Left, the raw context list kept inside the program: a user message followed by pairs of function_call and function_call_output dictionaries, each with type, name, arguments and a long call_id. An arrow labelled serialize_context_to_text points right to the page the model reads: a User Request heading with the equation, an Actions Already Completed heading with five checkmarked lines such as power(base=-5, exponent=2) giving 25, and a Next Step heading.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .lab { fill: #334155; font-size: 12.5px; font-weight: 700; }
+    .raw { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; fill: #1e293b; }
+    .md { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #1e293b; }
+    .mdh { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; font-weight: 700; }
+    .ok { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; fill: #15803d; }
+  </style>
+  <rect x="1" y="1" width="818" height="448" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- left: raw context -->
+  <rect x="14" y="14" width="340" height="422" rx="10" fill="#f8fafc" />
+  <text x="184" y="40" text-anchor="middle" class="h">Raw context list</text>
+  <text x="184" y="58" text-anchor="middle" class="mut">12 items, call IDs shortened</text>
+
+  <rect x="26" y="72" width="316" height="26" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="36" y="89" class="raw">{'role': 'user', 'content': 'Solve the root…'}</text>
+
+  <rect x="26" y="106" width="316" height="56" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="36" y="123" class="raw">{'type': 'function_call', 'name': 'power',</text>
+  <text x="36" y="138" class="raw">  'arguments': '{"base":-5,"exponent":2}',</text>
+  <text x="36" y="153" class="raw">  'call_id': 'call_nFhq…'}</text>
+
+  <rect x="26" y="170" width="316" height="56" rx="6" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="36" y="187" class="raw">{'type': 'function_call_output',</text>
+  <text x="36" y="202" class="raw">  'call_id': 'call_nFhq…',</text>
+  <text x="36" y="217" class="raw">  'output': '{"result": 25}'}</text>
+
+  <rect x="26" y="234" width="316" height="56" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="36" y="251" class="raw">{'type': 'function_call',</text>
+  <text x="36" y="266" class="raw">  'name': 'multiply_numbers',</text>
+  <text x="36" y="281" class="raw">  'arguments': '{"a":4,"b":6}', 'call_id': …}</text>
+
+  <rect x="26" y="298" width="316" height="56" rx="6" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="36" y="315" class="raw">{'type': 'function_call_output',</text>
+  <text x="36" y="330" class="raw">  'call_id': 'call_RHPG…',</text>
+  <text x="36" y="345" class="raw">  'output': '{"result": 24}'}</text>
+
+  <text x="184" y="378" text-anchor="middle" class="mut">… 7 more items, ending with final_answer</text>
+  <text x="184" y="418" text-anchor="middle" class="lab">For you: the complete record</text>
+
+  <!-- arrow -->
+  <line x1="356" y1="226" x2="464" y2="226" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <text x="410" y="200" text-anchor="middle" class="raw">serialize_</text>
+  <text x="410" y="214" text-anchor="middle" class="raw">context_to_text()</text>
+
+  <!-- right: serialized page -->
+  <rect x="466" y="14" width="340" height="422" rx="10" fill="#f8fafc" />
+  <text x="636" y="40" text-anchor="middle" class="h">What the model reads</text>
+  <text x="636" y="58" text-anchor="middle" class="mut">one page of text, rebuilt every step</text>
+
+  <rect x="480" y="72" width="312" height="290" rx="8" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="494" y="96" class="mdh"># User Request</text>
+  <text x="494" y="114" class="md">Solve the root of this equation:</text>
+  <text x="494" y="130" class="md">x^2 - 5x + 6 = 0</text>
+  <text x="494" y="160" class="mdh"># Actions Already Completed</text>
+  <text x="494" y="176" class="mdh">  (DO NOT REPEAT)</text>
+  <text x="494" y="202" class="ok">✓ power(base=-5, exponent=2) → 25</text>
+  <text x="494" y="220" class="ok">✓ multiply_numbers(a=4, b=6) → 24</text>
+  <text x="494" y="238" class="ok">✓ subtract_numbers(a=25, b=24) → 1</text>
+  <text x="494" y="256" class="ok">✓ divide_numbers(a=6, b=2) → 3.0</text>
+  <text x="494" y="274" class="ok">✓ divide_numbers(a=4, b=2) → 2.0</text>
+  <text x="494" y="306" class="mdh"># Next Step</text>
+  <text x="494" y="324" class="md">Decide what tool to call next to</text>
+  <text x="494" y="340" class="md">make progress on the request.</text>
+
+  <text x="636" y="384" text-anchor="middle" class="mut">Done lines shortened; real ones read</text>
+  <text x="636" y="400" text-anchor="middle" class="mut">"✓ COMPLETED: … → Result: {"result": 25}"</text>
+  <text x="636" y="418" text-anchor="middle" class="lab">For the model: the request and finished work</text>
+</svg>

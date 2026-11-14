@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" role="img" aria-labelledby="t">
+  <title id="t">The ask_human flow for the circle example. The client launches the prompt "Can you figure out the area of a circle for me? Use pi = 3.14." The agent runs two steps and the model calls ask_human with a question asking for the radius or diameter. The agent records the call with its call_id and sets the status to waiting_human_input. The client sees the status, reads the question from the context and shows it to a person, who answers "The radius is 10 inches." The client sends that to provide_input, which adds a function_call_output with the same call_id and restarts the run. The agent continues and finishes with an area of 314.0 square inches after 6 steps.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="518" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="40" y="18" width="180" height="40" rx="8" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="130" y="43" text-anchor="middle" class="h">Client and person</text>
+  <rect x="320" y="18" width="180" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="410" y="43" text-anchor="middle" class="h">Server + database</text>
+  <rect x="600" y="18" width="180" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="690" y="43" text-anchor="middle" class="h">Agent</text>
+  <line x1="130" y1="58" x2="130" y2="505" stroke="#cbd5e1" stroke-dasharray="4 4" />
+  <line x1="410" y1="58" x2="410" y2="505" stroke="#cbd5e1" stroke-dasharray="4 4" />
+  <line x1="690" y1="58" x2="690" y2="505" stroke="#cbd5e1" stroke-dasharray="4 4" />
+
+  <line x1="130" y1="94" x2="408" y2="94" class="ln" marker-end="url(#a)" />
+  <text x="270" y="86" text-anchor="middle" class="mono">POST launch: "area of a circle…"</text>
+  <line x1="410" y1="124" x2="688" y2="124" class="ln" marker-end="url(#a)" />
+  <text x="550" y="116" text-anchor="middle" class="mut">run in the background</text>
+
+  <rect x="580" y="138" width="220" height="44" rx="6" fill="#ffffff" stroke="#7c3aed" />
+  <text x="690" y="156" text-anchor="middle" class="mut">steps 1 and 2: model calls</text>
+  <text x="690" y="173" text-anchor="middle" class="mono">ask_human(question=…)</text>
+
+  <line x1="690" y1="208" x2="412" y2="208" class="ln" marker-end="url(#a)" />
+  <text x="550" y="200" text-anchor="middle" class="mono">status = waiting_human_input</text>
+  <text x="550" y="224" text-anchor="middle" class="mut">call saved in context with its call_id</text>
+
+  <line x1="130" y1="254" x2="408" y2="254" class="ln" marker-end="url(#a)" />
+  <text x="270" y="246" text-anchor="middle" class="mono">GET state (polling)</text>
+  <line x1="410" y1="280" x2="132" y2="280" class="ln" marker-end="url(#a)" />
+  <text x="270" y="296" text-anchor="middle" class="mut">status + the question from the context</text>
+
+  <rect x="20" y="310" width="220" height="44" rx="6" fill="#ffffff" stroke="#0284c7" />
+  <text x="130" y="328" text-anchor="middle" class="mut">person answers</text>
+  <text x="130" y="345" text-anchor="middle" class="mono">"The radius is 10 inches."</text>
+
+  <line x1="130" y1="380" x2="408" y2="380" class="ln" marker-end="url(#a)" />
+  <text x="270" y="372" text-anchor="middle" class="mono">POST provide_input</text>
+  <rect x="290" y="394" width="240" height="44" rx="6" fill="#ffffff" stroke="#16a34a" />
+  <text x="410" y="412" text-anchor="middle" class="mut">add function_call_output with</text>
+  <text x="410" y="429" text-anchor="middle" class="mut">the same call_id; status = running</text>
+  <line x1="530" y1="416" x2="688" y2="416" class="ln" marker-end="url(#a)" />
+  <text x="610" y="408" text-anchor="middle" class="mut">run again</text>
+
+  <line x1="690" y1="476" x2="412" y2="476" class="ln" marker-end="url(#a)" />
+  <text x="550" y="468" text-anchor="middle" class="mono">complete, 6 steps</text>
+  <text x="550" y="494" text-anchor="middle" class="mut">area = 314.0 square inches</text>
+</svg>

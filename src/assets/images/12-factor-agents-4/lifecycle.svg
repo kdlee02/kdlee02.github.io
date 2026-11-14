@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 400" role="img" aria-labelledby="t">
+  <title id="t">The lifecycle of a run as a set of statuses. Launch creates a run in the running status. From running, a run can end as complete when the model calls final_answer, as max_steps_reached when it runs out of steps, or as failed when something crashes. The pause endpoint moves running to paused at the end of the current step, and the resume endpoint moves paused back to running. When the model calls ask_human, running moves to waiting_human_input, and the provide_input endpoint moves it back to running with the person's answer added to the context.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="398" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <circle cx="60" cy="200" r="7" fill="#64748b" />
+  <line x1="67" y1="200" x2="223" y2="200" class="ln" marker-end="url(#a)" />
+  <text x="145" y="190" text-anchor="middle" class="mono">POST launch</text>
+
+  <rect x="225" y="175" width="150" height="50" rx="10" fill="#fef3c7" stroke="#d97706" />
+  <text x="300" y="205" text-anchor="middle" class="mono" font-weight="700">running</text>
+
+  <!-- paused -->
+  <rect x="225" y="36" width="150" height="46" rx="10" fill="#e2e8f0" stroke="#64748b" />
+  <text x="300" y="64" text-anchor="middle" class="mono" font-weight="700">paused</text>
+  <line x1="280" y1="173" x2="280" y2="84" class="ln" marker-end="url(#a)" />
+  <text x="270" y="122" text-anchor="end" class="mono">POST pause</text>
+  <text x="270" y="138" text-anchor="end" class="mut">takes effect after the step</text>
+  <line x1="320" y1="84" x2="320" y2="173" class="ln" marker-end="url(#a)" />
+  <text x="330" y="130" class="mono">POST resume</text>
+
+  <!-- waiting -->
+  <rect x="190" y="318" width="220" height="46" rx="10" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="300" y="346" text-anchor="middle" class="mono" font-weight="700">waiting_human_input</text>
+  <line x1="280" y1="227" x2="280" y2="316" class="ln" marker-end="url(#a)" />
+  <text x="270" y="268" text-anchor="end" class="mut">model calls</text>
+  <text x="270" y="284" text-anchor="end" class="mono">ask_human</text>
+  <line x1="320" y1="316" x2="320" y2="227" class="ln" marker-end="url(#a)" />
+  <text x="330" y="268" class="mono">POST provide_input</text>
+  <text x="330" y="284" class="mut">answer added to context</text>
+
+  <!-- terminal -->
+  <rect x="580" y="76" width="210" height="46" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="685" y="104" text-anchor="middle" class="mono" font-weight="700">complete</text>
+  <rect x="580" y="177" width="210" height="46" rx="10" fill="#f1f5f9" stroke="#64748b" />
+  <text x="685" y="205" text-anchor="middle" class="mono" font-weight="700">max_steps_reached</text>
+  <rect x="580" y="278" width="210" height="46" rx="10" fill="#fee2e2" stroke="#dc2626" />
+  <text x="685" y="306" text-anchor="middle" class="mono" font-weight="700">failed</text>
+  <polyline points="375,190 470,99 578,99" class="ln" marker-end="url(#a)" />
+  <text x="520" y="90" text-anchor="middle" class="mono">final_answer</text>
+  <line x1="375" y1="200" x2="578" y2="200" class="ln" marker-end="url(#a)" />
+  <text x="520" y="191" text-anchor="middle" class="mut">out of steps</text>
+  <polyline points="375,212 540,301 578,301" class="ln" marker-end="url(#a)" />
+  <text x="490" y="334" class="mut">crash or API error</text>
+  <text x="685" y="358" text-anchor="middle" class="mut">ends of a run</text>
+</svg>

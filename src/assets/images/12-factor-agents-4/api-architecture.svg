@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" role="img" aria-labelledby="t">
+  <title id="t">The API around the agent. On the left, clients: the test script, a web UI, or any other program that can send web requests. In the middle, the FastAPI server with five endpoints: launch, state, pause, resume and provide_input. Launch, resume and provide_input start a background runner, which calls the unchanged Agent core from part 3. Below, a SQLite database holds one row per run; the runner saves the state there after every step, and the endpoints read or change that row.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="438" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- clients -->
+  <text x="95" y="38" text-anchor="middle" class="h">Clients</text>
+  <rect x="20" y="60" width="150" height="46" rx="8" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="95" y="88" text-anchor="middle" class="mono">test.py</text>
+  <rect x="20" y="130" width="150" height="46" rx="8" fill="#e0f2fe" stroke="#0284c7" />
+  <text x="95" y="158" text-anchor="middle">Web UI</text>
+  <rect x="20" y="200" width="150" height="56" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="5 4" />
+  <text x="95" y="224" text-anchor="middle">Slack bot, cron job…</text>
+  <text x="95" y="243" text-anchor="middle" class="mut">any HTTP client</text>
+  <line x1="170" y1="83" x2="218" y2="120" class="ln" marker-end="url(#a)" />
+  <line x1="170" y1="153" x2="218" y2="153" class="ln" marker-end="url(#a)" />
+  <line x1="170" y1="228" x2="218" y2="190" class="ln" marker-end="url(#a)" />
+
+  <!-- server -->
+  <rect x="220" y="24" width="250" height="262" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="345" y="50" text-anchor="middle" class="h">FastAPI server</text>
+  <rect x="236" y="66" width="218" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="248" y="86" class="mono">POST /agent/launch</text>
+  <rect x="236" y="104" width="218" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="248" y="124" class="mono">GET  /agent/state/{id}</text>
+  <rect x="236" y="142" width="218" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="248" y="162" class="mono">POST /agent/pause</text>
+  <rect x="236" y="180" width="218" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="248" y="200" class="mono">POST /agent/resume</text>
+  <rect x="236" y="218" width="218" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1" />
+  <text x="248" y="238" class="mono">POST /agent/provide_input</text>
+  <text x="345" y="272" text-anchor="middle" class="mut">thin adapter, no agent logic</text>
+
+  <!-- runner + agent -->
+  <line x1="470" y1="110" x2="498" y2="110" class="ln" marker-end="url(#a)" />
+  <rect x="500" y="72" width="150" height="76" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="575" y="96" text-anchor="middle" class="h">Background run</text>
+  <text x="575" y="116" text-anchor="middle" class="mono">agent.run(state,</text>
+  <text x="575" y="133" text-anchor="middle" class="mono">progress_callback)</text>
+  <text x="575" y="172" text-anchor="middle" class="mut">started by launch,</text>
+  <text x="575" y="188" text-anchor="middle" class="mut">resume, provide_input</text>
+  <line x1="650" y1="110" x2="678" y2="110" class="ln" marker-end="url(#a)" />
+  <rect x="680" y="72" width="120" height="76" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="740" y="104" text-anchor="middle" class="h">Agent core</text>
+  <text x="740" y="124" text-anchor="middle" class="mut">from part 3,</text>
+  <text x="740" y="140" text-anchor="middle" class="mut">unchanged</text>
+
+  <!-- database -->
+  <line x1="345" y1="288" x2="345" y2="334" class="ln" marker-start="url(#a)" marker-end="url(#a)" />
+  <text x="355" y="316" class="mut">read / change a row</text>
+  <line x1="575" y1="200" x2="575" y2="334" class="ln" marker-end="url(#a)" />
+  <text x="585" y="300" class="mut">save after every step</text>
+  <rect x="220" y="336" width="580" height="84" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="510" y="362" text-anchor="middle" class="h">SQLite: table "states", one row per run</text>
+  <text x="510" y="386" text-anchor="middle" class="mono">id | steps | status | context | pending_tool_calls | error | final_answer</text>
+  <text x="510" y="406" text-anchor="middle" class="mut">the same fields as the State object from part 3</text>
+</svg>

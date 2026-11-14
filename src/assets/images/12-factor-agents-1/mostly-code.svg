@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 430" role="img" aria-labelledby="t">
+  <title id="t">Two ways to build an agent. Left, framework-style: a single loop where the LLM picks a tool, the framework runs it and feeds the result back, repeating until the LLM says it is done, with little visibility inside. Right, the 12-factor style: a pipeline of ordinary code steps with LLM steps used only at two points, reading the customer's message and writing the reply, plus a pause to ask a human.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .b { font-weight: 700; }
+    .h { font-weight: 700; font-size: 15px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #475569; }
+    .s { font-size: 12px; }
+  </style>
+  <rect x="1" y="1" width="818" height="428" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- left panel -->
+  <rect x="14" y="14" width="300" height="402" rx="10" fill="#f8fafc" />
+  <text x="164" y="42" text-anchor="middle" class="h">Framework-style</text>
+  <text x="164" y="62" text-anchor="middle" class="mut">one loop the framework runs for you</text>
+
+  <rect x="34" y="84" width="260" height="230" rx="10" fill="none" stroke="#94a3b8" stroke-dasharray="6 5" />
+  <text x="48" y="106" class="mono">run_agent(...)</text>
+
+  <rect x="74" y="124" width="180" height="48" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="164" y="153" text-anchor="middle" class="b">LLM picks a tool</text>
+
+  <rect x="74" y="236" width="180" height="48" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="164" y="265" text-anchor="middle" class="b">Framework runs it</text>
+
+  <line x1="114" y1="172" x2="114" y2="234" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <line x1="214" y1="236" x2="214" y2="174" stroke="#64748b" stroke-width="1.6" marker-end="url(#a)" />
+  <text x="222" y="208" class="mut">result</text>
+  <text x="58" y="208" class="mut">call</text>
+
+  <text x="164" y="342" text-anchor="middle" class="s">Repeats until the LLM says it is done.</text>
+  <text x="164" y="364" text-anchor="middle" class="s">Hard to pause, inspect or replay,</text>
+  <text x="164" y="384" text-anchor="middle" class="s">and your business rules live in a prompt.</text>
+
+  <!-- right panel -->
+  <rect x="328" y="14" width="478" height="402" rx="10" fill="#f8fafc" />
+  <text x="567" y="42" text-anchor="middle" class="h">12-factor style</text>
+  <text x="567" y="62" text-anchor="middle" class="mut">mostly ordinary code, the LLM at a few chosen points</text>
+
+  <!-- pipeline boxes: x 360..620, height 34, step 44 -->
+  <rect x="360" y="80" width="260" height="34" rx="7" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="372" y="102" class="s">Read the message, fill in a form</text>
+  <rect x="360" y="124" width="260" height="34" rx="7" fill="#e2e8f0" stroke="#64748b" />
+  <text x="372" y="146" class="s">Load the order from the database</text>
+  <rect x="360" y="168" width="260" height="34" rx="7" fill="#e2e8f0" stroke="#64748b" />
+  <text x="372" y="190" class="s">Check the 30-day rule</text>
+  <rect x="360" y="212" width="260" height="34" rx="7" fill="#fef3c7" stroke="#d97706" />
+  <text x="372" y="234" class="s">Pause and ask a manager</text>
+  <rect x="360" y="256" width="260" height="34" rx="7" fill="#e2e8f0" stroke="#64748b" />
+  <text x="372" y="278" class="s">Issue the refund</text>
+  <rect x="360" y="300" width="260" height="34" rx="7" fill="#e2e8f0" stroke="#64748b" />
+  <text x="372" y="322" class="s">Save the state</text>
+  <rect x="360" y="344" width="260" height="34" rx="7" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="372" y="366" class="s">Write the reply</text>
+
+  <line x1="490" y1="114" x2="490" y2="123" stroke="#64748b" stroke-width="1.4" />
+  <line x1="490" y1="158" x2="490" y2="167" stroke="#64748b" stroke-width="1.4" />
+  <line x1="490" y1="202" x2="490" y2="211" stroke="#64748b" stroke-width="1.4" />
+  <line x1="490" y1="246" x2="490" y2="255" stroke="#64748b" stroke-width="1.4" />
+  <line x1="490" y1="290" x2="490" y2="299" stroke="#64748b" stroke-width="1.4" />
+  <line x1="490" y1="334" x2="490" y2="343" stroke="#64748b" stroke-width="1.4" />
+
+  <!-- legend -->
+  <rect x="644" y="150" width="18" height="18" rx="4" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="670" y="164" class="s">LLM step</text>
+  <rect x="644" y="184" width="18" height="18" rx="4" fill="#e2e8f0" stroke="#64748b" />
+  <text x="670" y="198" class="s">Ordinary code</text>
+  <rect x="644" y="218" width="18" height="18" rx="4" fill="#fef3c7" stroke="#d97706" />
+  <text x="670" y="232" class="s">A person</text>
+
+  <text x="567" y="400" text-anchor="middle" class="mut">Each box can be tested, logged and replayed on its own.</text>
+</svg>
