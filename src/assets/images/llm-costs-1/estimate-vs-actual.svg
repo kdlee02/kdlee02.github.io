@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" role="img" aria-labelledby="t">
+  <title id="t">Estimated versus actual usage for one request, as three pairs of bars, each pair on its own scale. Input: 14 tokens estimated against 20 reported. Output: 80 tokens estimated against 148 reported, of which 39 were reasoning tokens. Cost: $0.000494 estimated against $0.000908 calculated from reported usage, so the estimate was a little over half the real figure, mostly because of the output guess.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; fill: #1e293b; }
+    .bug { fill: #b91c1c; font-size: 12.5px; }
+    .bugh { fill: #b91c1c; font-size: 12.5px; font-weight: 700; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="438" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- legend -->
+  <rect x="236" y="26" width="14" height="14" rx="2" fill="#cbd5e1" />
+  <text x="256" y="38">Estimate (before the call)</text>
+  <rect x="446" y="26" width="14" height="14" rx="2" fill="#2563eb" />
+  <text x="466" y="38">Actual (provider usage)</text>
+  <text x="410" y="62" text-anchor="middle" class="mut">each pair is drawn on its own scale</text>
+
+  <line x1="40" y1="330" x2="780" y2="330" stroke="#94a3b8" />
+
+  <!-- input -->
+  <rect x="70" y="176" width="70" height="154" fill="#cbd5e1" />
+  <text x="105" y="168" text-anchor="middle" class="mono">14</text>
+  <rect x="160" y="110" width="70" height="220" fill="#2563eb" />
+  <text x="195" y="102" text-anchor="middle" class="mono">20</text>
+  <text x="150" y="356" text-anchor="middle" class="h">Input tokens</text>
+  <text x="150" y="376" text-anchor="middle" class="mut">+6: formatting the provider adds</text>
+  <text x="150" y="394" text-anchor="middle" class="mut">small and steady</text>
+
+  <!-- output -->
+  <rect x="330" y="211" width="70" height="119" fill="#cbd5e1" />
+  <text x="365" y="203" text-anchor="middle" class="mono">80</text>
+  <rect x="420" y="168" width="70" height="162" fill="#2563eb" />
+  <rect x="420" y="110" width="70" height="58" fill="#93c5fd" />
+  <text x="455" y="144" text-anchor="middle" class="mono">39</text>
+  <text x="455" y="102" text-anchor="middle" class="mono">148</text>
+  <text x="498" y="144" class="mut">reasoning</text>
+  <text x="410" y="356" text-anchor="middle" class="h">Output tokens</text>
+  <text x="410" y="376" text-anchor="middle" class="mut">+68: the guess was far too low</text>
+  <text x="410" y="394" text-anchor="middle" class="mut">and output costs 6× input</text>
+
+  <!-- cost -->
+  <rect x="590" y="210" width="70" height="120" fill="#cbd5e1" />
+  <text x="625" y="202" text-anchor="middle" class="mono">$0.000494</text>
+  <rect x="680" y="110" width="70" height="220" fill="#2563eb" />
+  <text x="715" y="102" text-anchor="middle" class="mono">$0.000908</text>
+  <text x="670" y="356" text-anchor="middle" class="h">Cost</text>
+  <text x="670" y="376" text-anchor="middle" class="mut">estimate ≈ 54% of actual</text>
+  <text x="670" y="394" text-anchor="middle" class="mut">mostly from the output gap</text>
+
+  <text x="410" y="424" text-anchor="middle" class="mut">One lesson run: "Give three practical ways to reduce the cost of an LLM request."</text>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" role="img" aria-labelledby="t">
+  <title id="t">The original chatbot's request, drawn as stacked blocks. At the top, a header with the current time, customer name, conversation id and a new request id, which changes on every request. Then the support policy, about 1,200 tokens. Then rules asking for the longest possible answer. Then the full conversation history, which grows every turn. Then the newest message. Four cost drivers are marked: every request goes to the premium model; the history grows input from 1,384 to 2,059 tokens over five turns; the verbose rules produce long output, 934 of 1,588 tokens of it reasoning; and the changing header means 8,731 tokens were written to the prompt cache and none were ever read back.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .sm { font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .num { fill: #b91c1c; font-size: 13px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .tiny { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; fill: #1e293b; }
+    .wht { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #ffffff; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+    .rl { stroke: #dc2626; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  </style>
+  <rect x="1" y="1" width="818" height="458" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="230" y="36" text-anchor="middle" class="h">What every original request sends</text>
+
+  <rect x="40" y="52" width="380" height="44" rx="6" fill="#fee2e2" stroke="#dc2626" />
+  <text x="54" y="71" class="sm">Header: current time, name, conversation id,</text>
+  <text x="54" y="88" class="sm">and a brand-new request id</text>
+  <rect x="40" y="100" width="380" height="104" rx="6" fill="#dbeafe" stroke="#2563eb" />
+  <text x="230" y="148" text-anchor="middle">Support policy</text>
+  <text x="230" y="166" text-anchor="middle" class="mut">about 1,200 tokens, same every time</text>
+  <rect x="40" y="208" width="380" height="44" rx="6" fill="#fef3c7" stroke="#d97706" />
+  <text x="54" y="227" class="sm">Rules: restate, explain every section,</text>
+  <text x="54" y="244" class="sm">list every option, then summarize</text>
+  <rect x="40" y="256" width="380" height="72" rx="6" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="230" y="288" text-anchor="middle">Whole conversation so far</text>
+  <text x="230" y="306" text-anchor="middle" class="mut">grows every turn</text>
+  <rect x="40" y="332" width="380" height="32" rx="6" fill="#dcfce7" stroke="#16a34a" />
+  <text x="230" y="353" text-anchor="middle" class="sm">Newest customer message</text>
+  <line x1="230" y1="364" x2="230" y2="390" class="ln" marker-end="url(#a)" />
+  <rect x="150" y="392" width="160" height="36" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="230" y="415" text-anchor="middle" class="mono">gpt-5.6-sol</text>
+
+  <!-- findings -->
+  <polyline points="420,74 470,74" class="rl" />
+  <text x="478" y="70" class="num">4. Prompt cache never hits</text>
+  <text x="478" y="88" class="sm">8,731 tokens written, 0 read: the</text>
+  <text x="478" y="104" class="sm">header makes every request unique</text>
+
+  <polyline points="420,230 470,230" class="rl" />
+  <text x="478" y="214" class="num">3. Long output, mostly thinking</text>
+  <text x="478" y="232" class="sm">934 of 1,588 output tokens were</text>
+  <text x="478" y="248" class="sm">reasoning, at the premium rate</text>
+
+  <polyline points="420,292 470,292" class="rl" />
+  <text x="478" y="290" class="num">2. Input grows every turn</text>
+  <text x="478" y="308" class="sm">1,384 → 2,059 tokens over 5 turns</text>
+
+  <polyline points="310,410 470,410" class="rl" />
+  <text x="478" y="396" class="num">1. Premium model for everything</text>
+  <text x="478" y="414" class="sm">even "where is the log file?"</text>
+
+  <text x="478" y="446" class="mut">Elena, 5 turns: $0.102284, 5/5 facts stated</text>
+</svg>

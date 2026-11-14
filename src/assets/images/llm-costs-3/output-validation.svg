@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 440" role="img" aria-labelledby="t">
+  <title id="t">Two output lengths and the path to a real saving. At the top, two bars on one scale: the open-ended answer at 1,310 output tokens and $0.007860, and the structured answer at 66 tokens and $0.000396. Below, the checks the structured answer goes through. If the status is incomplete because it hit max_output_tokens, the cap was too low, and retrying the same request would be cut off again. If it completed but a field is empty, the instructions or schema need fixing, and the retry is another paid call. Only when it is complete and every field is filled does the saving count.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .sm { font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .wht { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #ffffff; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="438" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <text x="30" y="36" class="h">Output tokens for the same ticket</text>
+  <text x="200" y="70" text-anchor="end">Open-ended answer</text>
+  <rect x="210" y="54" width="560" height="26" fill="#d97706" />
+  <text x="222" y="72" class="wht">1,310 tokens  $0.007860</text>
+  <text x="200" y="106" text-anchor="end">TicketSummary, cap 120</text>
+  <rect x="210" y="90" width="28" height="26" fill="#16a34a" />
+  <text x="248" y="108" class="mono">66 tokens  $0.000396   (about 95% less)</text>
+
+  <line x1="30" y1="140" x2="790" y2="140" stroke="#e2e8f0" />
+
+  <rect x="30" y="170" width="170" height="54" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="115" y="194" text-anchor="middle">structured reply</text>
+  <text x="115" y="212" text-anchor="middle" class="mut">comes back</text>
+  <line x1="200" y1="197" x2="248" y2="197" class="ln" marker-end="url(#a)" />
+
+  <rect x="250" y="170" width="220" height="54" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="360" y="194" text-anchor="middle">status == "incomplete"?</text>
+  <text x="360" y="212" text-anchor="middle" class="mut">hit max_output_tokens</text>
+  <line x1="470" y1="197" x2="538" y2="197" class="ln" marker-end="url(#a)" />
+  <text x="504" y="188" text-anchor="middle" class="lab">yes</text>
+  <rect x="540" y="164" width="250" height="66" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="552" y="186" class="sm">Cap too low: raise it or ask for less.</text>
+  <text x="552" y="204" class="sm">Resending as-is gets cut off again,</text>
+  <text x="552" y="221" class="sm">and the first call is still billed.</text>
+
+  <line x1="360" y1="224" x2="360" y2="270" class="ln" marker-end="url(#a)" />
+  <text x="370" y="252" class="lab">no</text>
+  <rect x="250" y="272" width="220" height="54" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="360" y="296" text-anchor="middle">every field filled?</text>
+  <text x="360" y="314" text-anchor="middle" class="mut">issue, urgency, next_action</text>
+  <line x1="470" y1="299" x2="538" y2="299" class="ln" marker-end="url(#a)" />
+  <text x="504" y="290" text-anchor="middle" class="lab">no</text>
+  <rect x="540" y="272" width="250" height="54" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="552" y="294" class="sm">Fix the instructions or schema.</text>
+  <text x="552" y="312" class="sm">The retry is another paid call.</text>
+
+  <line x1="360" y1="326" x2="360" y2="368" class="ln" marker-end="url(#a)" />
+  <text x="370" y="352" class="lab">yes</text>
+  <rect x="250" y="370" width="220" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="360" y="392" text-anchor="middle" class="h">the saving counts</text>
+  <text x="360" y="410" text-anchor="middle" class="mono">$0.007464</text>
+</svg>

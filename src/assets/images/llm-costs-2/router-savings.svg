@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" role="img" aria-labelledby="t">
+  <title id="t">Why routing saved only 2.5 percent. On the left, the routing rule: a prompt with a hard-task keyword or more than 500 characters goes to gpt-5.6-sol, everything else to gpt-5.6-luna. On the right, the four routed costs as horizontal bars on one scale: classify $0.000049 and summarize $0.000075 on the cheap model are almost invisible, debug $0.008600 on the premium model is a short bar, and design $0.049675 on the premium model fills most of the width. The design answer alone is 85 percent of the routed total.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="378" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- rule -->
+  <rect x="16" y="16" width="270" height="300" rx="10" fill="#f8fafc" />
+  <text x="151" y="42" text-anchor="middle" class="h">choose_model(prompt)</text>
+  <rect x="36" y="60" width="230" height="62" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="151" y="86" text-anchor="middle">hard-task keyword</text>
+  <text x="151" y="106" text-anchor="middle">or longer than 500 chars?</text>
+  <line x1="100" y1="122" x2="100" y2="180" class="ln" marker-end="url(#a)" />
+  <text x="90" y="156" text-anchor="end" class="lab">yes</text>
+  <line x1="202" y1="122" x2="202" y2="180" class="ln" marker-end="url(#a)" />
+  <text x="212" y="156" class="lab">no</text>
+  <rect x="36" y="182" width="112" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="92" y="209" text-anchor="middle" class="mono">gpt-5.6-sol</text>
+  <rect x="156" y="182" width="112" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="212" y="209" text-anchor="middle" class="mono">gpt-5.6-luna</text>
+  <text x="151" y="256" text-anchor="middle" class="mut">analyze, debug, design,</text>
+  <text x="151" y="273" text-anchor="middle" class="mut">prove, refactor, strategize</text>
+  <text x="151" y="300" text-anchor="middle" class="mut">free: no model call to decide</text>
+
+  <!-- bars -->
+  <text x="550" y="42" text-anchor="middle" class="h">Routed cost per request (one scale)</text>
+  <text x="430" y="82" text-anchor="end">Classify a review</text>
+  <rect x="440" y="68" width="2" height="22" fill="#16a34a" />
+  <text x="450" y="84" class="mono">$0.000049  luna</text>
+  <text x="430" y="122" text-anchor="end">Summarize a sentence</text>
+  <rect x="440" y="108" width="2" height="22" fill="#16a34a" />
+  <text x="450" y="124" class="mono">$0.000075  luna</text>
+  <text x="430" y="162" text-anchor="end">Debug recursion</text>
+  <rect x="440" y="148" width="58" height="22" fill="#7c3aed" />
+  <text x="506" y="164" class="mono">$0.008600  sol</text>
+  <text x="430" y="202" text-anchor="end">Design a migration</text>
+  <rect x="440" y="188" width="340" height="22" fill="#7c3aed" />
+  <text x="452" y="204" class="mono" style="fill:#ffffff">$0.049675  sol, 85% of the total</text>
+
+  <line x1="440" y1="60" x2="440" y2="222" stroke="#94a3b8" />
+  <rect x="310" y="240" width="490" height="76" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="330" y="264" class="mono">All-premium baseline  $0.059885</text>
+  <text x="330" y="284" class="mono">Routed workload       $0.058399</text>
+  <text x="330" y="304" class="mono" font-weight="700">Saved                 $0.001486  (2.5%)</text>
+
+  <text x="410" y="350" text-anchor="middle" class="mut">The router was right on every prompt. The only requests it moved to the cheap model were already tiny.</text>
+</svg>

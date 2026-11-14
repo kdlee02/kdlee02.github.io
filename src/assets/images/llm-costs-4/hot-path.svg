@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 500" role="img" aria-labelledby="t">
+  <title id="t">The optimized request path through the gateway. A new message arrives. On the first turn of a conversation only, the response cache is checked; a hit returns a stored, already-checked answer with the customer's name filled in and costs nothing. Otherwise the history is trimmed to a 500-token budget, always keeping the newest message. The request is built with the stable policy and concise rules first, behind an explicit prompt-cache breakpoint, with no changing header. The router picks a model, the call is made with max_output_tokens set to 400, and the answer is checked for cut-off and required policy facts. A cheap answer that fails is retried once on the premium model. Only completed answers that pass the check are stored in the response cache.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .sm { font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .num { fill: #b91c1c; font-size: 13px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .tiny { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; fill: #1e293b; }
+    .wht { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #ffffff; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+    .rl { stroke: #dc2626; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  </style>
+  <rect x="1" y="1" width="818" height="498" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="40" y="18" width="360" height="40" rx="8" fill="#e2e8f0" stroke="#64748b" />
+  <text x="220" y="43" text-anchor="middle">New customer message</text>
+  <line x1="220" y1="58" x2="220" y2="74" class="ln" marker-end="url(#a)" />
+
+  <rect x="40" y="76" width="360" height="44" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="220" y="95" text-anchor="middle">First message of the conversation?</text>
+  <text x="220" y="112" text-anchor="middle" class="mut">look it up in the response cache</text>
+  <line x1="400" y1="98" x2="458" y2="98" class="ln" marker-end="url(#a)" />
+  <text x="429" y="90" text-anchor="middle" class="lab">hit</text>
+  <rect x="460" y="76" width="330" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="474" y="95" class="sm">Stored, already-checked answer with this</text>
+  <text x="474" y="112" class="sm">customer's name filled in. Cost: $0.</text>
+  <line x1="220" y1="120" x2="220" y2="136" class="ln" marker-end="url(#a)" />
+  <text x="230" y="132" class="lab">miss, or a later turn</text>
+
+  <rect x="40" y="138" width="360" height="44" rx="8" fill="#f1f5f9" stroke="#94a3b8" />
+  <text x="220" y="157" text-anchor="middle">Trim history to 500 tokens</text>
+  <text x="220" y="174" text-anchor="middle" class="mut">newest message always kept, no gaps</text>
+  <line x1="220" y1="182" x2="220" y2="198" class="ln" marker-end="url(#a)" />
+
+  <rect x="40" y="200" width="360" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" />
+  <text x="220" y="219" text-anchor="middle">Policy + concise rules, then breakpoint,</text>
+  <text x="220" y="236" text-anchor="middle">then history. No changing header.</text>
+  <line x1="400" y1="222" x2="458" y2="222" class="ln" marker-end="url(#a)" />
+  <rect x="460" y="200" width="330" height="44" rx="8" fill="#f8fafc" stroke="#2563eb" />
+  <text x="474" y="219" class="sm">The 1,297-token prefix is read from the</text>
+  <text x="474" y="236" class="sm">provider's cache at a tenth of the price</text>
+  <line x1="220" y1="244" x2="220" y2="260" class="ln" marker-end="url(#a)" />
+
+  <rect x="40" y="262" width="360" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="220" y="281" text-anchor="middle">Router picks luna or sol, then calls it</text>
+  <text x="220" y="298" text-anchor="middle" class="mono">max_output_tokens=400</text>
+  <line x1="220" y1="306" x2="220" y2="322" class="ln" marker-end="url(#a)" />
+
+  <rect x="40" y="324" width="360" height="44" rx="8" fill="#fef3c7" stroke="#d97706" />
+  <text x="220" y="343" text-anchor="middle">Completed, and states the policy facts</text>
+  <text x="220" y="360" text-anchor="middle">the message calls for?</text>
+  <line x1="400" y1="346" x2="458" y2="346" class="ln" marker-end="url(#a)" />
+  <text x="429" y="338" text-anchor="middle" class="lab">no</text>
+  <rect x="460" y="324" width="330" height="44" rx="8" fill="#fee2e2" stroke="#dc2626" />
+  <text x="474" y="343" class="sm">If it came from luna: retry once on sol.</text>
+  <text x="474" y="360" class="sm">Both calls show up in the turn's meter.</text>
+  <polyline points="625,368 625,412 402,412" class="ln" marker-end="url(#a)" />
+  <line x1="220" y1="368" x2="220" y2="390" class="ln" marker-end="url(#a)" />
+  <text x="230" y="384" class="lab">yes</text>
+
+  <rect x="40" y="392" width="360" height="44" rx="8" fill="#dcfce7" stroke="#16a34a" />
+  <text x="220" y="411" text-anchor="middle">Reply to the customer</text>
+  <text x="220" y="428" text-anchor="middle" class="mut">opening answers that passed are cached</text>
+
+  <text x="410" y="472" text-anchor="middle" class="mut">Each step is its own switch in Settings, all inside the one gateway function.</text>
+</svg>

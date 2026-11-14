@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 430" role="img" aria-labelledby="t">
+  <title id="t">Elena's five turns, cost per turn before and after routing. Before, all five turns use gpt-5.6-sol: about $0.022, $0.021, $0.028, $0.021 and $0.018. After, turns 1 and 2, which describe stuck files, stay on gpt-5.6-sol at $0.030 and $0.016. Turns 3 to 5, about version history, a paused tray icon and where to find the log, move to gpt-5.6-luna at about $0.004, $0.004 and $0.003. Total $0.110540 before and $0.057714 after, a 47.8 percent saving, with all five policy facts stated in both.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .sm { font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .num { fill: #b91c1c; font-size: 13px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .tiny { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; fill: #1e293b; }
+    .wht { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #ffffff; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+    .rl { stroke: #dc2626; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  </style>
+  <rect x="1" y="1" width="818" height="428" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <rect x="150" y="22" width="14" height="14" rx="2" fill="#cbd5e1" /><text x="170" y="34" class="sm">baseline (all gpt-5.6-sol)</text>
+  <rect x="360" y="22" width="14" height="14" rx="2" fill="#7c3aed" /><text x="380" y="34" class="sm">routed: gpt-5.6-sol</text>
+  <rect x="520" y="22" width="14" height="14" rx="2" fill="#16a34a" /><text x="540" y="34" class="sm">routed: gpt-5.6-luna</text>
+
+  <line x1="50" y1="320" x2="710" y2="320" stroke="#94a3b8" />
+
+  <rect x="76" y="144" width="40" height="176" fill="#cbd5e1" /><text x="96" y="138" text-anchor="middle" class="tiny">.022</text>
+  <rect x="124" y="80" width="40" height="240" fill="#7c3aed" /><text x="144" y="74" text-anchor="middle" class="tiny">.030</text>
+  <text x="120" y="340" text-anchor="middle" class="lab">turn 1</text><text x="120" y="356" text-anchor="middle" class="mut">stuck files</text>
+
+  <rect x="206" y="155" width="40" height="165" fill="#cbd5e1" /><text x="226" y="149" text-anchor="middle" class="tiny">.021</text>
+  <rect x="254" y="190" width="40" height="130" fill="#7c3aed" /><text x="274" y="184" text-anchor="middle" class="tiny">.016</text>
+  <text x="250" y="340" text-anchor="middle" class="lab">turn 2</text><text x="250" y="356" text-anchor="middle" class="mut">names the files</text>
+
+  <rect x="336" y="93" width="40" height="227" fill="#cbd5e1" /><text x="356" y="87" text-anchor="middle" class="tiny">.028</text>
+  <rect x="384" y="288" width="40" height="32" fill="#16a34a" /><text x="404" y="282" text-anchor="middle" class="tiny">.004</text>
+  <text x="380" y="340" text-anchor="middle" class="lab">turn 3</text><text x="380" y="356" text-anchor="middle" class="mut">version history</text>
+
+  <rect x="466" y="150" width="40" height="170" fill="#cbd5e1" /><text x="486" y="144" text-anchor="middle" class="tiny">.021</text>
+  <rect x="514" y="287" width="40" height="33" fill="#16a34a" /><text x="534" y="281" text-anchor="middle" class="tiny">.004</text>
+  <text x="510" y="340" text-anchor="middle" class="lab">turn 4</text><text x="510" y="356" text-anchor="middle" class="mut">paused tray icon</text>
+
+  <rect x="596" y="175" width="40" height="145" fill="#cbd5e1" /><text x="616" y="169" text-anchor="middle" class="tiny">.018</text>
+  <rect x="644" y="294" width="40" height="26" fill="#16a34a" /><text x="664" y="288" text-anchor="middle" class="tiny">.003</text>
+  <text x="640" y="340" text-anchor="middle" class="lab">turn 5</text><text x="640" y="356" text-anchor="middle" class="mut">where's the log?</text>
+
+  <rect x="722" y="80" width="84" height="240" rx="8" fill="#f8fafc" stroke="#cbd5e1" />
+  <text x="764" y="108" text-anchor="middle" class="lab">baseline</text>
+  <text x="764" y="126" text-anchor="middle" class="tiny">$0.110540</text>
+  <text x="764" y="164" text-anchor="middle" class="lab">routed</text>
+  <text x="764" y="182" text-anchor="middle" class="tiny">$0.057714</text>
+  <text x="764" y="222" text-anchor="middle" class="lab">saved</text>
+  <text x="764" y="240" text-anchor="middle" class="tiny">47.8%</text>
+  <text x="764" y="278" text-anchor="middle" class="lab">facts</text>
+  <text x="764" y="296" text-anchor="middle" class="tiny">5/5 → 5/5</text>
+
+  <text x="410" y="392" text-anchor="middle" class="mut">Turns 1 and 2 contain troubleshooting terms and stay on premium. No cheap answer needed the premium retry.</text>
+  <text x="410" y="410" text-anchor="middle" class="mut">Values in dollars; one representative run per mode.</text>
+</svg>

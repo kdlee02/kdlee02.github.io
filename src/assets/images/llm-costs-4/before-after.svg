@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 420" role="img" aria-labelledby="t">
+  <title id="t">Before and after on the full workload. Cost falls from $0.298967 to $0.035259, an 88.2 percent saving. Output tokens fall from 5,214 to 1,304. Input tokens fall from 22,816 to 17,717, and the part read from the prompt cache goes from none to 15,564. Live calls fall from 14 to 12. Policy facts stay at 14 of 14. On the right, where the remaining $0.035259 goes: 5 premium calls account for $0.029657, or 84 percent, and 7 cheap calls for the rest.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .sm { font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .num { fill: #b91c1c; font-size: 13px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .tiny { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; fill: #1e293b; }
+    .wht { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #ffffff; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+    .rl { stroke: #dc2626; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+  </style>
+  <rect x="1" y="1" width="818" height="418" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+  <text x="300" y="34" text-anchor="middle" class="h">Full workload: 4 conversations, 14 turns</text>
+
+  <text x="30" y="72" class="lab">Cost</text>
+  <rect x="150" y="58" width="300" height="18" fill="#cbd5e1" /><text x="458" y="72" class="mono">$0.298967</text>
+  <rect x="150" y="80" width="35" height="18" fill="#16a34a" /><text x="193" y="94" class="mono">$0.035259  (88.2% less)</text>
+
+  <text x="30" y="142" class="lab">Output tokens</text>
+  <rect x="150" y="128" width="300" height="18" fill="#cbd5e1" /><text x="458" y="142" class="mono">5,214</text>
+  <rect x="150" y="150" width="75" height="18" fill="#16a34a" /><text x="233" y="164" class="mono">1,304</text>
+
+  <text x="30" y="212" class="lab">Input tokens</text>
+  <rect x="150" y="198" width="300" height="18" fill="#cbd5e1" /><text x="458" y="212" class="mono">22,816  (0 cached)</text>
+  <rect x="150" y="220" width="233" height="18" fill="#86efac" />
+  <rect x="150" y="220" width="205" height="18" fill="#2563eb" />
+  <text x="158" y="234" class="wht">15,564 cached</text>
+  <text x="391" y="234" class="mono">17,717</text>
+
+  <text x="30" y="282" class="lab">Live calls</text>
+  <text x="150" y="282" class="mono">14 → 12   (matches 2 cached opening answers)</text>
+  <text x="30" y="314" class="lab">Policy facts</text>
+  <text x="150" y="314" class="mono" font-weight="700">14/14 → 14/14</text>
+
+  <rect x="150" y="340" width="12" height="12" fill="#cbd5e1" /><text x="168" y="351" class="sm">baseline</text>
+  <rect x="240" y="340" width="12" height="12" fill="#16a34a" /><text x="258" y="351" class="sm">optimized</text>
+  <rect x="345" y="340" width="12" height="12" fill="#2563eb" /><text x="363" y="351" class="sm">read from prompt cache</text>
+
+  <!-- remaining -->
+  <rect x="620" y="20" width="184" height="380" rx="10" fill="#f8fafc" />
+  <text x="712" y="46" text-anchor="middle" class="h">What's left</text>
+  <text x="712" y="64" text-anchor="middle" class="mono">$0.035259</text>
+  <rect x="682" y="84" width="60" height="202" fill="#7c3aed" />
+  <rect x="682" y="286" width="60" height="38" fill="#16a34a" />
+  <text x="712" y="184" text-anchor="middle" class="wht">84%</text>
+  <text x="712" y="342" text-anchor="middle" class="sm">5 sol calls: $0.029657</text>
+  <text x="712" y="360" text-anchor="middle" class="sm">7 luna calls: the rest</text>
+  <text x="712" y="384" text-anchor="middle" class="mut">next round starts here</text>
+
+  <text x="300" y="396" text-anchor="middle" class="mut">One representative run per mode. Bars on separate scales per row.</text>
+</svg>

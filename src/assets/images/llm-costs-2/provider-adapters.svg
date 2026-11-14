@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 490" role="img" aria-labelledby="t">
+  <title id="t">Three provider adapters feeding one shape. OpenAI: request with input=, text at response.output_text, usage as input_tokens and output_tokens. Anthropic: request with a messages list and a required max_tokens, text at response.content[0].text, usage as input_tokens and output_tokens. Google: request with contents=, text at response.text, usage as prompt_token_count, with thoughts_token_count added to candidates_token_count for output. Each adapter returns the same Completion record, priced by one shared call_cost function, and code above the adapters only reads Completion fields.</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b" />
+    </marker>
+  </defs>
+  <style>
+    text { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; fill: #1e293b; font-size: 13px; }
+    .h { font-weight: 700; font-size: 14px; }
+    .mut { fill: #64748b; font-size: 12px; }
+    .lab { fill: #334155; font-size: 12px; font-weight: 700; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; fill: #1e293b; }
+    .ln { stroke: #64748b; stroke-width: 1.6; fill: none; }
+  </style>
+  <rect x="1" y="1" width="818" height="488" rx="12" fill="#ffffff" stroke="#e2e8f0" />
+
+  <!-- openai -->
+  <rect x="20" y="20" width="250" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="145" y="44" text-anchor="middle" class="h">generate_openai()</text>
+  <text x="34" y="72" class="lab">send</text>
+  <text x="34" y="90" class="mono">input=prompt</text>
+  <text x="34" y="116" class="lab">answer text</text>
+  <text x="34" y="134" class="mono">response.output_text</text>
+  <text x="34" y="160" class="lab">usage</text>
+  <text x="34" y="178" class="mono">input_tokens, output_tokens</text>
+
+  <!-- anthropic -->
+  <rect x="285" y="20" width="250" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="410" y="44" text-anchor="middle" class="h">generate_anthropic()</text>
+  <text x="299" y="72" class="lab">send</text>
+  <text x="299" y="90" class="mono">messages=[...], max_tokens</text>
+  <text x="299" y="116" class="lab">answer text</text>
+  <text x="299" y="134" class="mono">response.content[0].text</text>
+  <text x="299" y="160" class="lab">usage</text>
+  <text x="299" y="178" class="mono">input_tokens, output_tokens</text>
+
+  <!-- google -->
+  <rect x="550" y="20" width="250" height="176" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+  <text x="675" y="44" text-anchor="middle" class="h">generate_google()</text>
+  <text x="564" y="72" class="lab">send</text>
+  <text x="564" y="90" class="mono">contents=prompt</text>
+  <text x="564" y="116" class="lab">answer text</text>
+  <text x="564" y="134" class="mono">response.text</text>
+  <text x="564" y="160" class="lab">usage (output = sum)</text>
+  <text x="564" y="178" class="mono">candidates + thoughts</text>
+
+  <text x="410" y="470" text-anchor="middle" class="mut">Anthropic's max_tokens is required and caps billed output. Google reports thinking tokens separately, so the adapter adds them.</text>
+
+  <line x1="145" y1="196" x2="300" y2="262" class="ln" marker-end="url(#a)" />
+  <line x1="410" y1="196" x2="410" y2="262" class="ln" marker-end="url(#a)" />
+  <line x1="675" y1="196" x2="520" y2="262" class="ln" marker-end="url(#a)" />
+
+  <rect x="230" y="264" width="360" height="86" rx="10" fill="#ede9fe" stroke="#7c3aed" />
+  <text x="410" y="288" text-anchor="middle" class="mono" font-weight="700">Completion</text>
+  <text x="410" y="310" text-anchor="middle" class="mono">text, provider, model,</text>
+  <text x="410" y="328" text-anchor="middle" class="mono">input_tokens, output_tokens, cost</text>
+  <text x="600" y="300" class="mut">cost from one shared</text>
+  <text x="600" y="317" class="mono">call_cost(model, in, out)</text>
+
+  <line x1="410" y1="350" x2="410" y2="380" class="ln" marker-end="url(#a)" />
+  <rect x="150" y="382" width="520" height="56" rx="10" fill="#dcfce7" stroke="#16a34a" />
+  <text x="410" y="405" text-anchor="middle">Routing, logging and reports read only Completion fields</text>
+  <text x="410" y="425" text-anchor="middle" class="mono">result = PROVIDERS[provider](prompt, model)</text>
+</svg>
