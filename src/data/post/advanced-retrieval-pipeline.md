@@ -7,6 +7,7 @@ image: ~/assets/images/covers/advanced-retrieval-pipeline.svg
 tags:
   - retrieval
   - reranking
+  - embeddings
 takeaways:
   - 'Search by meaning (embeddings) handles "sales" vs. "revenue" well but can confuse exact labels like Q3 and Q2.'
   - 'Hybrid search runs keyword search and meaning search together and combines their rankings.'

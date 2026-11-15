@@ -9,6 +9,7 @@ seriesPart: 4
 tags:
   - agents
   - evals
+  - production
 takeaways:
   - "Build a rough version fast, then read its outputs: it's hard to predict where an agent will struggle."
   - 'An eval is a repeatable test with a score. Start with 10 to 20 examples, checked by code or by an AI judge.'

@@ -8,6 +8,8 @@ series: 'Agentic AI'
 seriesPart: 5
 tags:
   - agents
+  - tool-use
+  - structured-output
 takeaways:
   - 'In planning, the AI writes its own step-by-step plan from the tools it has, and your program runs it.'
   - 'Plans written as code beat JSON and plain text (CodeAct), but run AI-written code in a sandbox.'

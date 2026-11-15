@@ -8,6 +8,7 @@ series: 'Structured Output'
 seriesPart: 1
 tags:
   - structured-output
+  - production
 takeaways:
   - 'A program can act on a filled-in form, not on a chatty sentence, so ask the AI for structured output.'
   - 'Describe the form once as a Pydantic class; it becomes the JSON Schema every method uses.'

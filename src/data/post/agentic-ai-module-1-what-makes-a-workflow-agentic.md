@@ -8,6 +8,7 @@ series: 'Agentic AI'
 seriesPart: 1
 tags:
   - agents
+  - tool-use
 takeaways:
   - 'An agentic workflow is a job split into steps, where an AI does some of them and tools or people do the rest.'
   - 'Autonomy is a scale. Most useful work today sits at the less autonomous end, where the programmer fixes the steps.'
