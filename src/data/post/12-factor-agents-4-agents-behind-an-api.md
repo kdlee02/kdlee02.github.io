@@ -10,6 +10,12 @@ tags:
   - agents
   - tool-use
   - production
+takeaways:
+  - 'Launch returns a run ID right away; the client checks the state until the run finishes (polling).'
+  - 'Saving the State after every step makes each run one database row that outlives the agent process.'
+  - 'Pause is polite: the agent finishes its current step, then stops. Resume runs any waiting work first.'
+  - '`ask_human` is just a slow tool: the run waits in the database until a person answers with the same `call_id`.'
+  - 'The agent core barely changed. Pausing, resuming and asking a person were all built around it.'
 draft: false
 ---
 
@@ -43,6 +49,8 @@ The client checks once a second until the status is finished. Checking over and 
 The run came back complete after 8 steps with "x = 2 and x = 3". The response is just part 3's State object as JSON;
 nothing new needed designing.
 
+![Start now, check back later. The client sends POST /agent/launch. The server starts the agent in the background and immediately returns the run ID. The agent works through its steps. Meanwhile the client sends GET /agent/state/{id} once a second: the first answers say running, and the last says complete after 8 steps.](../../assets/images/12-factor-agents-4/polling.svg)
+
 ## 2. Save after every step
 
 Keeping states in memory means a server restart wipes them. So lesson 2 saves each run as one row in a small database
@@ -50,6 +58,8 @@ Keeping states in memory means a server restart wipes them. So lesson 2 saves ea
 
 The agent also gets a **progress callback**: a function it calls after every step, which the server uses to save the
 state. The agent itself still knows nothing about databases.
+
+![Save after every step. The agent does one step and calls a progress callback. The server saves the state as one row in SQLite, then the agent does the next step. The agent itself knows nothing about databases. If the server restarts, the run stops, but its saved state survives.](../../assets/images/12-factor-agents-4/save-every-step.svg)
 
 Now the client can watch the run happen (simplified):
 
@@ -121,6 +131,8 @@ The question and answer stay in the history as a matched pair, so anyone can see
 The last lesson is a demo: a web page uses the same five addresses to run a garden-planning problem, answer the
 agent's question, and pause and resume halfway. No server code changed. A Slack bot would just be another client.
 
+![Any client works. The test script and a web page for a garden-planning demo both use the same five endpoints: launch, state, pause, resume and provide_input. A Slack bot would just be another client; the course does not build one. Behind the endpoints the agent core is unchanged. No server code changed for the web page.](../../assets/images/12-factor-agents-4/any-client.svg)
+
 ## Where this breaks
 
 From reading the code (the lessons' runs don't hit these):
@@ -134,6 +146,8 @@ From reading the code (the lessons' runs don't hit these):
 - **Clients have to keep asking.** For a run waiting days, the server should notify the client instead (a
   **webhook**). The course doesn't build this.
 
+![Four gaps found by reading the code, each with a fix. A restart mid-run leaves the row saying running, and resume refuses it: on startup, mark leftover running rows as interrupted and allow resuming them. "Paused" really means pause requested, so resuming in that gap can start two copies: separate pause requested from paused. Resume only blocks running runs, so it would restart finished or waiting runs: list the statuses resume accepts. Clients have to keep polling even when a run waits for days: notify them with a webhook, which the course does not build.](../../assets/images/12-factor-agents-4/gaps.svg)
+
 ## The whole series in four lines
 
 1. **[Part 1](/engineering/12-factor-agents-1-the-twelve-principles):** agents are mostly ordinary code, and twelve
@@ -143,6 +157,8 @@ From reading the code (the lessons' runs don't hit these):
 3. **[Part 3](/engineering/12-factor-agents-3-a-stateless-agent):** prompts in files, a clean page for the model, and
    one saved State with no memory inside the agent.
 4. **Part 4:** that agent behind an API, with saving, pause, resume, and a way to ask a person.
+
+![The whole series as nested layers. Part 2 built the loop: the model asks for a tool, your code runs it, and the context grows. Part 3 wrapped that loop in a stateless agent: one State in, a new State out, with prompts in files. Part 4 wrapped the agent in an API with launch, state, pause, resume and provide_input, saved in SQLite. Part 1's rules shaped all of them.](../../assets/images/12-factor-agents-4/series-map.svg)
 
 The course says the path covers all twelve factors. That's fair for eleven; Factor 10 (small agents) only shows up in
 the agent's shape, and the bonus Factor 13 isn't covered.

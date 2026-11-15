@@ -10,6 +10,12 @@ tags:
   - agents
   - structured-output
   - production
+takeaways:
+  - 'Build the agent like a function (Factor 12): state in, new state out, no memory inside.'
+  - 'Keep prompts and tool descriptions in files (Factor 2), so changes can be reviewed and undone.'
+  - 'Give the model a clean summary page and keep the full record yourself (Factor 3).'
+  - 'A prompt asks; code enforces. The model skipped tools even though the prompt said "ALWAYS".'
+  - "Keep everything in one State object (Factor 5), including the model's next request, decided but not yet run."
 draft: false
 ---
 
@@ -44,6 +50,8 @@ The code splits into three small jobs: one method talks to the model, one does a
 loop until the task is done or the step limit is hit. Tool descriptions move into their own `.json` files, so you can
 reword them without touching Python.
 
+![The agent split into three small methods. run() loops until the task is done or the step limit is hit. Each time, it calls _next_step(), which does one step on the state and hands back a new state. _next_step() calls _call_model(), the only method that talks to the model. Tool descriptions live in their own tools/*.json files, so they can be reworded without touching Python.](../../assets/images/12-factor-agents-3/three-jobs.svg)
+
 The result:
 
 ```text
@@ -67,6 +75,8 @@ You are an autonomous agent that can take multiple tool-calling steps.
 ```
 
 Small change, big effect: prompt edits now show up in code review, can be compared, and can be undone.
+
+![Before, the system prompt was a string inside agent.py. After, the prompt lives in prompts/base_system.md and the tool descriptions in tools/*.json, and agent.py reads them. Prompt edits now show up in code review, can be compared and can be undone.](../../assets/images/12-factor-agents-3/prompt-in-files.svg)
 
 ## 3. Write a clean page for the model (Factor 3)
 
@@ -155,14 +165,6 @@ must approve it. That's exactly what part 4 builds on.
 
 One side effect: the final answer is handled one step after the model gives it, so a run with five tool calls uses
 seven steps. Worth knowing when you set the step limit.
-
-## What to remember
-
-- **Build the agent like a function (Factor 12).** State in, state out, no memory inside.
-- **Keep prompts in files (Factor 2)**, so changes can be reviewed and undone.
-- **Give the model a clean summary, keep the full record yourself (Factor 3).**
-- **A prompt asks; code enforces.** The model skipped tools despite "ALWAYS".
-- **Keep everything in one State object (Factor 5)**, including work that's waiting to run.
 
 The agent can now stop between any two steps without losing anything. But only a Python script can run it.
 [Part 4](/engineering/12-factor-agents-4-agents-behind-an-api) puts it behind a web API, adds pause and resume, and

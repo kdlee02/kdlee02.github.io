@@ -10,6 +10,12 @@ tags:
   - agents
   - tool-use
   - production
+takeaways:
+  - 'Agents that hold up in real use are mostly ordinary code, with the LLM used at a few chosen points.'
+  - 'The 70–80% wall is an engineering problem: untracked prompts, a black-box loop and a context that keeps growing.'
+  - 'Factors 1–4: the model fills in forms, and you own the prompt and everything it reads.'
+  - 'Factors 5–8: one saved record, pause and resume, people as a tool, and a loop your code runs.'
+  - 'Factors 9–12: short error notes, small specialist agents, any channel, and no memory inside the agent.'
 draft: false
 ---
 
@@ -90,6 +96,8 @@ short summary plus only the order details that matter. Fewer tokens, same inform
 **4. Tools are just structured outputs.** The model never runs code. It fills in a form (a **schema**) describing a
 tool, and your code checks it and runs the real thing. So the model can only _ask_ for actions you've listed.
 
+![Factors 1 to 4. Two inputs you own go to the model: the prompt file (factor 2) and the context you chose, a summary plus this order only (factor 3). The model writes a form instead of a sentence: action create_payment_link, amount 10, recipient Max (factor 1). Your code checks the form and runs the real tool, so the model can only ask for actions you listed (factor 4).](../../assets/images/12-factor-agents-1/in-and-out.svg)
+
 ## Factors 5–8: keep track and stay in charge
 
 **5. Unify execution state and business state.** An agent tracks where it is in the task (running, waiting, steps
@@ -108,6 +116,8 @@ everything the person needs to decide. The agent pauses until the answer comes b
 rules belong in code: "no refunds over $1,000 without a manager" should be an `if` statement, because a model can
 forget an instruction and an `if` can't. Step limits stop a runaway agent.
 
+![Factors 5 to 8. The model proposes a refund of 1,200 dollars. Your loop, not the prompt, checks the rule with an if statement: is the amount over 1,000 dollars (factor 8)? If not, the refund is issued. If so, the agent calls ask_human to get a manager's approval (factor 7), then saves and pauses with status waiting (factor 6). When the manager approves, the run resumes and issues the refund. Underneath it all is one saved record holding both where the run is and the real data (factor 5).](../../assets/images/12-factor-agents-1/stay-in-charge.svg)
+
 ## Factors 9–12: grow without breaking
 
 **9. Compact errors into the context.** When a tool fails, send the model a short note, like
@@ -124,6 +134,8 @@ model for sorting requests and a stronger one only where the reasoning is hard.
 **11. Trigger from anywhere.** The core agent takes structured input and gives structured output, and doesn't care
 where a request came from. Thin **adapters** handle web chat, Slack or email, like a power adapter for different
 countries' outlets.
+
+![Factors 10 and 11. Thin adapters turn Slack, web chat and email messages into the same structured input (factor 11). A small router, which can run on a cheap model, knows who handles what but not how. It sends each request to a specialist: a refund agent with the refund policy and 3 tools, a shipping agent, or an exchange agent (factor 10). The alternative is one agent with a 3,000-token prompt and 15 or more tools, which gets less predictable with every feature.](../../assets/images/12-factor-agents-1/router.svg)
 
 **12. Make your agent a stateless reducer.** The agent keeps no memory of its own. Each call, you hand it the current
 state plus the new event, and it hands back the next action and an updated state. Like a game save file: any console
@@ -153,15 +165,9 @@ A customer wants to return a laptop with a bad battery, bought 35 days ago:
 5. The manager approves, and any copy of the agent picks up from the saved state (**12**). If the refund service
    fails, a one-line error goes back to the model (**9**).
 
+![One request, start to finish: returning a laptop bought 35 days ago. Step 1, a Slack adapter and a router send it to the returns agent (factors 11 and 10). Step 2, the prompt file and only this order's details go to the model, which fills in a form to look up the order (factors 2, 3, 1 and 4). Step 3, code checks the 30-day rule, finds it is too late and asks a manager (factors 8 and 7). Step 4, the run pauses with everything in one record (factors 6 and 5). Step 5, the manager approves, any copy of the agent resumes, and a failed refund call would go back as a one-line error (factors 12 and 9).](../../assets/images/12-factor-agents-1/laptop-return.svg)
+
 The model made two or three small decisions. Everything else was ordinary code you can read, test and replay.
-
-## What to remember
-
-- The **70–80% wall** is an engineering problem. Better structure helps more than better prompts.
-- **Agents are mostly ordinary code**, with the LLM used at a few chosen points.
-- **Factors 1–4:** the model fills in forms, and you own the prompt and everything it reads.
-- **Factors 5–8:** one saved record, pause and resume, people as a tool, and a loop your code runs.
-- **Factors 9–12:** short error notes, small specialist agents, any channel, and no memory inside the agent.
 
 You don't need all twelve at once. Start with the one that fixes your worst problem. The original write-up is free on
 [GitHub](https://github.com/humanlayer/12-factor-agents), with a bonus Factor 13: fetch the context the agent will

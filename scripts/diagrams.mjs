@@ -1077,6 +1077,593 @@ const DIAGRAMS = {
         })
         .join('') + note(380, 338, 'each part builds on the one below it'),
   },
+
+  '12-factor-agents-1/in-and-out.svg': {
+    w: 820,
+    h: 300,
+    title:
+      'Factors 1 to 4. Two inputs you own go to the model: the prompt file (factor 2) and the context you chose, a summary plus this order only (factor 3). The model writes a form instead of a sentence: action create_payment_link, amount 10, recipient Max (factor 1). Your code checks the form and runs the real tool, so the model can only ask for actions you listed (factor 4).',
+    body: () =>
+      text(20, 30, '*You choose what goes in, the model fills in a form, your code acts', { anchor: 'start' }) +
+      box(20, 60, 170, 64, 'data', ['Prompt file', '`prompts/support.md']) +
+      note(105, 144, '2 · own your prompts') +
+      box(20, 170, 170, 64, 'data', ['Chosen context', 'summary + this order']) +
+      note(105, 254, '3 · own your context') +
+      arrow([
+        [190, 92],
+        [210, 92],
+        [210, 135],
+        [228, 135],
+      ]) +
+      arrow([
+        [190, 202],
+        [210, 202],
+        [210, 160],
+        [228, 160],
+      ]) +
+      box(230, 115, 110, 64, 'model', ['Model']) +
+      arrow([
+        [340, 147],
+        [373, 147],
+      ]) +
+      box(375, 95, 240, 104, 'data', [
+        'Form (a tool call)',
+        '`action: create_payment_link',
+        '`amount: 10',
+        '`recipient: "Max"',
+      ]) +
+      note(495, 222, '1 · a form, not a sentence') +
+      arrow([
+        [615, 147],
+        [645, 147],
+      ]) +
+      box(647, 107, 153, 80, 'code', ['Your code', 'checks the form,', 'runs the tool']) +
+      note(723, 210, '4 · the model only asks') +
+      note(410, 282, 'The model decides what should happen; your code knows how', { italic: true }),
+  },
+
+  '12-factor-agents-1/stay-in-charge.svg': {
+    w: 820,
+    h: 380,
+    title:
+      "Factors 5 to 8. The model proposes a refund of 1,200 dollars. Your loop, not the prompt, checks the rule with an if statement: is the amount over 1,000 dollars (factor 8)? If not, the refund is issued. If so, the agent calls ask_human to get a manager's approval (factor 7), then saves and pauses with status waiting (factor 6). When the manager approves, the run resumes and issues the refund. Underneath it all is one saved record holding both where the run is and the real data (factor 5).",
+    body: () =>
+      text(20, 30, '*Your loop runs the rules; the model only proposes', { anchor: 'start' }) +
+      box(20, 70, 150, 64, 'model', ['Model proposes', '`refund(1200)']) +
+      note(95, 158, '8 · a rule is an `if`,') +
+      note(95, 176, 'not a line in the prompt') +
+      arrow([
+        [170, 102],
+        [214, 102],
+      ]) +
+      diamond(290, 102, 74, 46, ['amount', '> $1,000?']) +
+      arrow(
+        [
+          [364, 102],
+          [638, 102],
+        ],
+        { label: 'no' }
+      ) +
+      box(640, 70, 160, 64, 'code', ['Issue refund']) +
+      arrow(
+        [
+          [290, 148],
+          [290, 200],
+        ],
+        { label: 'yes', at: [304, 180], anchor: 'start' }
+      ) +
+      box(205, 202, 170, 64, 'code', ['`ask_human', '"Approve $1,200?"']) +
+      note(290, 290, '7 · a person is a tool') +
+      arrow([
+        [375, 234],
+        [405, 234],
+      ]) +
+      box(407, 202, 180, 64, 'bad', ['Save and pause', '`status: waiting']) +
+      note(497, 290, '6 · pause, resume later') +
+      arrow(
+        [
+          [587, 234],
+          [720, 234],
+          [720, 136],
+        ],
+        { label: 'approved', at: [652, 226] }
+      ) +
+      box(
+        20,
+        316,
+        780,
+        46,
+        'data',
+        ['5 · one saved record holds both: where the run is (status, steps) and the real data (order, refund)'],
+        { plain: true }
+      ),
+  },
+
+  '12-factor-agents-1/router.svg': {
+    w: 820,
+    h: 300,
+    title:
+      'Factors 10 and 11. Thin adapters turn Slack, web chat and email messages into the same structured input (factor 11). A small router, which can run on a cheap model, knows who handles what but not how. It sends each request to a specialist: a refund agent with the refund policy and 3 tools, a shipping agent, or an exchange agent (factor 10). The alternative is one agent with a 3,000-token prompt and 15 or more tools, which gets less predictable with every feature.',
+    body: () =>
+      text(20, 30, '*Thin adapters in, a small router, focused agents', { anchor: 'start' }) +
+      ['Slack', 'Web chat', 'Email'].map((s, i) => box(20, 60 + i * 66, 130, 48, 'data', [s])).join('') +
+      note(85, 276, '11 · trigger from anywhere') +
+      arrow([
+        [150, 84],
+        [218, 134],
+      ]) +
+      arrow([
+        [150, 150],
+        [218, 150],
+      ]) +
+      arrow([
+        [150, 216],
+        [218, 166],
+      ]) +
+      box(220, 106, 170, 88, 'model', ['Router', 'cheap, fast model', 'knows who, not how']) +
+      [
+        ['Refund agent', 'refund policy, 3 tools'],
+        ['Shipping agent', 'tracking, lost parcels'],
+        ['Exchange agent', 'swaps and sizes'],
+      ]
+        .map((l, i) => box(450, 56 + i * 66, 200, 56, 'model', l))
+        .join('') +
+      arrow([
+        [390, 150],
+        [448, 84],
+      ]) +
+      arrow([
+        [390, 150],
+        [448, 150],
+      ]) +
+      arrow([
+        [390, 150],
+        [448, 216],
+      ]) +
+      note(550, 276, '10 · small, focused agents') +
+      box(680, 86, 120, 128, 'bad', ['Instead of', 'one agent:', '3,000-token', 'prompt,', '15+ tools'], {
+        dashed: true,
+      }),
+  },
+
+  '12-factor-agents-1/laptop-return.svg': {
+    w: 760,
+    h: 345,
+    title:
+      "One request, start to finish: returning a laptop bought 35 days ago. Step 1, a Slack adapter and a router send it to the returns agent (factors 11 and 10). Step 2, the prompt file and only this order's details go to the model, which fills in a form to look up the order (factors 2, 3, 1 and 4). Step 3, code checks the 30-day rule, finds it is too late and asks a manager (factors 8 and 7). Step 4, the run pauses with everything in one record (factors 6 and 5). Step 5, the manager approves, any copy of the agent resumes, and a failed refund call would go back as a one-line error (factors 12 and 9).",
+    body: () =>
+      text(20, 30, '*Returning a laptop bought 35 days ago: which factor does what', { anchor: 'start' }) +
+      [
+        ['code', '1  Slack adapter → router → returns agent', [11, 10]],
+        ['model', '2  Prompt file + this order → model fills in "look up order"', [2, 3, 1, 4]],
+        ['choice', '3  Code checks the 30-day rule: 35 days → ask a manager', [8, 7]],
+        ['bad', '4  Run pauses; everything is saved in one record', [6, 5]],
+        ['code', '5  Manager approves; any copy resumes; errors return as one line', [12, 9]],
+      ]
+        .map(([kind, s, fs], i) => {
+          const y = 50 + i * 52;
+          return (
+            box(20, y, 560, 42, kind, [s], { align: 'left', plain: true, size: 13.5 }) +
+            fs
+              .map(
+                (f, j) =>
+                  `<circle cx="${610 + j * 36}" cy="${y + 21}" r="14" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/>` +
+                  text(610 + j * 36, y + 26, String(f), { size: 13, bold: true })
+              )
+              .join('')
+          );
+        })
+        .join('') +
+      note(380, 330, 'The model made a couple of small decisions; the rest is code you can read and replay'),
+  },
+
+  '12-factor-agents-2/ask-for-json.svg': {
+    w: 760,
+    h: 260,
+    title:
+      'Asking for JSON in the prompt. The same prompt can get two kinds of reply. Usually the model returns plain JSON, {"answer": "42"}, and json.loads works. Sometimes it adds "Sure! Here\'s your answer:" before the JSON, and json.loads raises JSONDecodeError, so the code needs a fallback.',
+    body: () =>
+      text(20, 30, '*Asking for JSON works most of the time', { anchor: 'start' }) +
+      box(20, 100, 170, 60, 'data', ['Prompt', '"only answer in JSON"']) +
+      arrow([
+        [190, 130],
+        [218, 130],
+      ]) +
+      box(220, 100, 100, 60, 'model', ['Model']) +
+      arrow([
+        [320, 130],
+        [345, 130],
+        [345, 78],
+        [368, 78],
+      ]) +
+      arrow([
+        [320, 130],
+        [345, 130],
+        [345, 182],
+        [368, 182],
+      ]) +
+      box(370, 50, 200, 56, 'data', ['`{"answer": "42"}'], { plain: true }) +
+      box(370, 154, 200, 56, 'data', ["`Sure! Here's your answer:", '`{"answer": "42"}'], { plain: true }) +
+      arrow([
+        [570, 78],
+        [598, 78],
+      ]) +
+      arrow([
+        [570, 182],
+        [598, 182],
+      ]) +
+      box(600, 50, 140, 56, 'code', ['`json.loads', 'works']) +
+      box(600, 154, 140, 56, 'bad', ['JSONDecodeError', '→ fallback']) +
+      note(380, 244, 'A prompt is a request, so the code needs a `try`/`except`'),
+  },
+
+  '12-factor-agents-2/model-asks-code-acts.svg': {
+    w: 760,
+    h: 280,
+    title:
+      'The model asks, your code acts. The model writes a request: name add, arguments a 15 and b 27. Your code matches on the name. add runs add(a=15, b=27) and gets 42. multiply runs multiply. Any other name falls through to the last case and becomes an error string, so a made-up tool cannot crash the program.',
+    body: () =>
+      text(20, 30, '*The model writes a request; your code decides what runs', { anchor: 'start' }) +
+      box(20, 100, 110, 64, 'model', ['Model']) +
+      arrow([
+        [130, 132],
+        [158, 132],
+      ]) +
+      box(160, 92, 230, 80, 'data', ['Request', '`name: add', '`arguments: {a: 15, b: 27}']) +
+      arrow([
+        [390, 132],
+        [418, 132],
+      ]) +
+      box(420, 102, 120, 60, 'choice', ['`match name']) +
+      arrow([
+        [540, 132],
+        [578, 64],
+      ]) +
+      arrow([
+        [540, 132],
+        [578, 132],
+      ]) +
+      arrow([
+        [540, 132],
+        [578, 200],
+      ]) +
+      box(580, 36, 160, 56, 'code', ['`add', '`add(15, 27) → 42'], { plain: true }) +
+      box(580, 104, 160, 56, 'code', ['`multiply', '`multiply(…)'], { plain: true }) +
+      box(580, 172, 160, 56, 'bad', ['any other name', '→ error string']) +
+      note(380, 262, "A made-up tool name can't crash the program: it falls through to the last case"),
+  },
+
+  '12-factor-agents-2/error-to-message.svg': {
+    w: 760,
+    h: 300,
+    title:
+      'Without error handling, the model asks for a divide tool that does not exist, the lookup raises an exception, and the program crashes mid-task. With try/except, the exception is caught and added to the context as {"error": "Tool divide not found"}. On the next step the model reads it and tries something else.',
+    body: () =>
+      text(20, 30, '*A failed tool becomes something the model can read', { anchor: 'start' }) +
+      text(20, 89, '*Without', { anchor: 'start' }) +
+      box(100, 56, 150, 56, 'model', ['Model asks', 'for `divide`']) +
+      arrow([
+        [250, 84],
+        [283, 84],
+      ]) +
+      box(285, 56, 170, 56, 'bad', ['No such tool:', 'exception raised']) +
+      arrow([
+        [455, 84],
+        [488, 84],
+      ]) +
+      box(490, 56, 250, 56, 'bad', ['Program crashes,', 'the task stops'], { dashed: true }) +
+      text(20, 193, '*With', { anchor: 'start' }) +
+      box(100, 160, 150, 56, 'model', ['Model asks', 'for `divide`']) +
+      arrow([
+        [250, 188],
+        [283, 188],
+      ]) +
+      box(285, 160, 170, 56, 'code', ['`except` catches it']) +
+      arrow([
+        [455, 188],
+        [488, 188],
+      ]) +
+      box(490, 160, 250, 56, 'data', ['Added to the context', '`{"error": "Tool divide not found"}'], { size: 11.5 }) +
+      curve(615, 216, 395, 278, 175, 218, { label: 'next step: the model reads it and tries again', at: [395, 270] }),
+  },
+
+  '12-factor-agents-2/step-limit-bug.svg': {
+    w: 760,
+    h: 254,
+    title:
+      'The step-limit bug. Three runs with max_steps 5. A run that finishes at step 3 gets no warning from either check. A run that finishes at exactly step 5 gets a false "limit hit" warning from step >= max_steps, but no warning from not done. A run stopped by the limit gets a warning from both. Only the run that finishes on exactly the last step is misreported.',
+    body: () =>
+      text(120, 48, '*Run (max_steps = 5)') +
+      text(400, 48, '*`if step >= max_steps`') +
+      text(640, 48, '*`if not done`') +
+      [
+        ['Finished at step 3', ['code', '✓ no warning'], ['code', '✓ no warning']],
+        ['Finished at step 5', ['bad', '✗ "limit hit" (wrong)'], ['code', '✓ no warning']],
+        ['Still going at step 5', ['code', '✓ "limit hit"'], ['code', '✓ "limit hit"']],
+      ]
+        .map(([c, [k1, a], [k2, b]], i) => {
+          const y = 66 + i * 50;
+          return (
+            box(20, y, 200, 42, 'data', [c], { plain: true }) +
+            box(290, y, 220, 42, k1, [a], { plain: true }) +
+            box(540, y, 200, 42, k2, [b], { plain: true })
+          );
+        })
+        .join('') +
+      note(380, 236, 'Only the run that finishes on exactly the last step is misreported'),
+  },
+
+  '12-factor-agents-3/three-jobs.svg': {
+    w: 760,
+    h: 290,
+    title:
+      'The agent split into three small methods. run() loops until the task is done or the step limit is hit. Each time, it calls _next_step(), which does one step on the state and hands back a new state. _next_step() calls _call_model(), the only method that talks to the model. Tool descriptions live in their own tools/*.json files, so they can be reworded without touching Python.',
+    body: () =>
+      text(20, 30, '*Three small methods, each with one job', { anchor: 'start' }) +
+      box(20, 100, 190, 80, 'code', ['`run()', 'loops until done', 'or the step limit']) +
+      arrow([
+        [210, 140],
+        [248, 140],
+      ]) +
+      curve(330, 100, 230, 46, 130, 98, { label: 'new state', at: [230, 62] }) +
+      box(250, 100, 190, 80, 'code', ['`_next_step()', 'does one step', 'on the state']) +
+      arrow([
+        [440, 140],
+        [478, 140],
+      ]) +
+      box(480, 100, 140, 80, 'code', ['`_call_model()', 'talks to', 'the model']) +
+      arrow([
+        [620, 140],
+        [648, 140],
+      ]) +
+      box(650, 110, 90, 60, 'model', ['Model']) +
+      box(480, 220, 140, 46, 'data', ['`tools/*.json'], { plain: true }) +
+      arrow([
+        [550, 220],
+        [550, 182],
+      ]) +
+      note(468, 248, 'tool descriptions, editable without touching Python', { anchor: 'end' }),
+  },
+
+  '12-factor-agents-3/prompt-in-files.svg': {
+    w: 760,
+    h: 270,
+    title:
+      'Before, the system prompt was a string inside agent.py. After, the prompt lives in prompts/base_system.md and the tool descriptions in tools/*.json, and agent.py reads them. Prompt edits now show up in code review, can be compared and can be undone.',
+    body: () =>
+      text(185, 40, '*Before') +
+      text(575, 40, '*After') +
+      box(20, 56, 330, 164, 'ghost', []) +
+      text(40, 84, '*`agent.py`', { anchor: 'start' }) +
+      text(40, 118, '`system_prompt = """', { anchor: 'start' }) +
+      text(40, 140, '`  You are an autonomous agent…', { anchor: 'start' }) +
+      text(40, 162, '`  ALWAYS prefer calling tools…', { anchor: 'start' }) +
+      text(40, 184, '`"""', { anchor: 'start' }) +
+      note(185, 248, 'the prompt is a string buried in the code') +
+      box(410, 56, 330, 44, 'data', ['`prompts/base_system.md'], { plain: true }) +
+      box(410, 108, 330, 44, 'data', ['`tools/*.json'], { plain: true }) +
+      arrow([
+        [575, 152],
+        [575, 174],
+      ]) +
+      box(410, 176, 330, 44, 'code', ['`agent.py` reads them']) +
+      note(575, 248, 'edits show up in review, diffs and undo', { fill: KIND.code.ink }),
+  },
+
+  '12-factor-agents-4/polling.svg': {
+    w: 760,
+    h: 316,
+    title:
+      'Start now, check back later. The client sends POST /agent/launch. The server starts the agent in the background and immediately returns the run ID. The agent works through its steps. Meanwhile the client sends GET /agent/state/{id} once a second: the first answers say running, and the last says complete after 8 steps.',
+    body: () => {
+      const lane = (x) => `<path d="M${x} 80V304" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 5"/>`;
+      return (
+        box(80, 40, 140, 40, 'data', ['Client']) +
+        box(310, 40, 160, 40, 'code', ['Server']) +
+        box(550, 40, 180, 40, 'code', ['Agent, in background']) +
+        lane(150) +
+        lane(390) +
+        lane(640) +
+        `<rect x="632" y="128" width="16" height="152" rx="4" fill="${KIND.model.fill}" stroke="${KIND.model.stroke}" stroke-width="1.5"/>` +
+        text(656, 208, 'steps 1 … 8', { anchor: 'start', size: 12.5, fill: KIND.model.ink }) +
+        arrow(
+          [
+            [150, 108],
+            [388, 108],
+          ],
+          { label: '`POST /agent/launch`' }
+        ) +
+        arrow(
+          [
+            [390, 128],
+            [630, 128],
+          ],
+          { label: 'start', dashed: true }
+        ) +
+        arrow(
+          [
+            [390, 152],
+            [152, 152],
+          ],
+          { label: 'run id, right away' }
+        ) +
+        arrow(
+          [
+            [150, 186],
+            [388, 186],
+          ],
+          { label: '`GET /agent/state/{id}`' }
+        ) +
+        arrow(
+          [
+            [390, 216],
+            [152, 216],
+          ],
+          { label: '"running"' }
+        ) +
+        note(20, 240, 'once a', { anchor: 'start' }) +
+        note(20, 256, 'second…', { anchor: 'start' }) +
+        arrow(
+          [
+            [150, 256],
+            [388, 256],
+          ],
+          { label: '`GET /agent/state/{id}`' }
+        ) +
+        arrow(
+          [
+            [390, 290],
+            [152, 290],
+          ],
+          { label: '"complete", 8 steps' }
+        )
+      );
+    },
+  },
+
+  '12-factor-agents-4/save-every-step.svg': {
+    w: 760,
+    h: 260,
+    title:
+      'Save after every step. The agent does one step and calls a progress callback. The server saves the state as one row in SQLite, then the agent does the next step. The agent itself knows nothing about databases. If the server restarts, the run stops, but its saved state survives.',
+    body: () =>
+      box(20, 80, 150, 64, 'code', ['Agent', 'does one step']) +
+      arrow(
+        [
+          [170, 112],
+          [240, 112],
+        ],
+        { label: 'callback', at: [205, 134] }
+      ) +
+      box(242, 80, 160, 64, 'code', ['Server', 'saves the state']) +
+      curve(322, 80, 208, 26, 95, 78, { label: 'next step', at: [208, 44] }) +
+      arrow([
+        [402, 112],
+        [440, 112],
+      ]) +
+      box(442, 70, 298, 84, 'data', ['SQLite: one row per run', '`id | status | steps | context …']) +
+      arrow(
+        [
+          [591, 154],
+          [591, 182],
+        ],
+        { dashed: true }
+      ) +
+      box(442, 184, 298, 56, 'bad', ['If the server restarts', 'the run stops; the saved row survives'], { size: 13 }) +
+      note(220, 212, 'The agent never touches the database:') +
+      note(220, 230, 'it only calls the function it was given'),
+  },
+
+  '12-factor-agents-4/any-client.svg': {
+    w: 760,
+    h: 256,
+    title:
+      'Any client works. The test script and a web page for a garden-planning demo both use the same five endpoints: launch, state, pause, resume and provide_input. A Slack bot would just be another client; the course does not build one. Behind the endpoints the agent core is unchanged. No server code changed for the web page.',
+    body: () =>
+      box(20, 56, 210, 44, 'data', ['Test script']) +
+      box(20, 113, 210, 44, 'data', ['Web page (garden demo)']) +
+      box(20, 170, 210, 44, 'ghost', ['Slack bot (not built)'], { dashed: true }) +
+      arrow([
+        [230, 78],
+        [298, 112],
+      ]) +
+      arrow([
+        [230, 135],
+        [298, 135],
+      ]) +
+      arrow(
+        [
+          [230, 192],
+          [298, 158],
+        ],
+        { dashed: true }
+      ) +
+      box(300, 50, 200, 170, 'code', [
+        'Same five endpoints',
+        '`launch',
+        '`state',
+        '`pause · resume',
+        '`provide_input',
+      ]) +
+      arrow([
+        [500, 135],
+        [558, 135],
+      ]) +
+      box(560, 95, 180, 80, 'code', ['Agent core', 'unchanged']) +
+      note(380, 244, 'No server code changed for the web page'),
+  },
+
+  '12-factor-agents-4/gaps.svg': {
+    w: 800,
+    h: 316,
+    title:
+      'Four gaps found by reading the code, each with a fix. A restart mid-run leaves the row saying running, and resume refuses it: on startup, mark leftover running rows as interrupted and allow resuming them. "Paused" really means pause requested, so resuming in that gap can start two copies: separate pause requested from paused. Resume only blocks running runs, so it would restart finished or waiting runs: list the statuses resume accepts. Clients have to keep polling even when a run waits for days: notify them with a webhook, which the course does not build.',
+    body: () =>
+      text(205, 36, '*Gap (from reading the code)') +
+      text(600, 36, '*Fix') +
+      [
+        [
+          ['Restart mid-run', 'row still says running; resume refuses it'],
+          ['Mark leftover running rows as', 'interrupted on startup; let those resume'],
+        ],
+        [
+          ['"Paused" means pause requested', 'resume in the gap → two copies run'],
+          ['Separate "pause requested"', 'from "paused"'],
+        ],
+        [
+          ['Resume checks the wrong way', 'would restart finished or waiting runs'],
+          ['List the statuses resume accepts'],
+        ],
+        [
+          ['Clients have to keep polling', 'even when a run waits for days'],
+          ['Notify the client with a webhook', '(not built in the course)'],
+        ],
+      ]
+        .map(([gap, fix], i) => {
+          const y = 52 + i * 64;
+          return (
+            box(20, y, 370, 52, 'bad', gap, { align: 'left', size: 13.5, lh: 18 }) +
+            arrow([
+              [390, y + 26],
+              [418, y + 26],
+            ]) +
+            box(420, y, 360, 52, 'code', fix, { align: 'left', plain: true, size: 13.5, lh: 18 })
+          );
+        })
+        .join(''),
+  },
+
+  '12-factor-agents-4/series-map.svg': {
+    w: 760,
+    h: 330,
+    title:
+      "The whole series as nested layers. Part 2 built the loop: the model asks for a tool, your code runs it, and the context grows. Part 3 wrapped that loop in a stateless agent: one State in, a new State out, with prompts in files. Part 4 wrapped the agent in an API with launch, state, pause, resume and provide_input, saved in SQLite. Part 1's rules shaped all of them.",
+    body: () =>
+      text(20, 30, "*Each part wrapped the last; part 1's rules shaped all of them", { anchor: 'start' }) +
+      `<rect x="20" y="46" width="720" height="268" rx="14" fill="${KIND.code.fill}" stroke="${KIND.code.stroke}" stroke-width="1.5" stroke-dasharray="6 5"/>` +
+      text(40, 72, '*Part 4 · an API: launch, state, pause, resume, provide_input, saved in SQLite', {
+        anchor: 'start',
+        fill: KIND.code.ink,
+      }) +
+      `<rect x="50" y="88" width="660" height="200" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>` +
+      text(70, 114, '*Part 3 · a stateless agent: one State in, a new State out; prompts in files', {
+        anchor: 'start',
+      }) +
+      `<rect x="80" y="130" width="600" height="132" rx="12" fill="${KIND.model.fill}" stroke="${KIND.model.stroke}" stroke-width="1.5"/>` +
+      text(100, 156, '*Part 2 · the loop, with a step limit', { anchor: 'start', fill: KIND.model.ink }) +
+      box(110, 176, 150, 56, 'model', ['Model', 'asks for a tool']) +
+      arrow([
+        [260, 204],
+        [308, 204],
+      ]) +
+      box(310, 176, 150, 56, 'code', ['Your code', 'runs it']) +
+      arrow([
+        [460, 204],
+        [508, 204],
+      ]) +
+      box(510, 176, 150, 56, 'data', ['Context', 'grows']) +
+      curve(585, 232, 385, 268, 187, 234),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {

@@ -10,6 +10,12 @@ tags:
   - agents
   - tool-use
   - structured-output
+takeaways:
+  - "Asking for JSON in the prompt is best-effort: plan for a reply `json.loads` can't parse."
+  - 'A strict tool schema with `tool_choice="required"` makes the format a rule (Factor 4).'
+  - 'The model only asks for a tool. Your code decides what runs, and an unknown name becomes an error message.'
+  - 'The conversation is a list you own, with each request and result linked by `call_id` (Factor 3).'
+  - 'Your code runs the loop with a step limit (Factor 8) and turns tool errors into messages (Factor 9).'
 draft: false
 ---
 
@@ -46,6 +52,8 @@ except json.JSONDecodeError:
 
 Asking is a request, not a rule. Usually the model complies. Sometimes it adds "Sure! Here's your answer:" first, and
 `json.loads` fails. That's why the `try`/`except` matters: your code has to cope.
+
+![Asking for JSON in the prompt. The same prompt can get two kinds of reply. Usually the model returns plain JSON, {"answer": "42"}, and json.loads works. Sometimes it adds "Sure! Here's your answer:" before the JSON, and json.loads raises JSONDecodeError, so the code needs a fallback.](../../assets/images/12-factor-agents-2/ask-for-json.svg)
 
 ## Step 2: Make the form a rule
 
@@ -99,6 +107,8 @@ match item.name:
 ```
 
 The last case catches any tool name you didn't plan for, so a made-up tool can't crash the program.
+
+![The model asks, your code acts. The model writes a request: name add, arguments a 15 and b 27. Your code matches on the name. add runs add(a=15, b=27) and gets 42. multiply runs multiply. Any other name falls through to the last case and becomes an error string, so a made-up tool cannot crash the program.](../../assets/images/12-factor-agents-2/model-asks-code-acts.svg)
 
 ## Step 4: The conversation is a list you own
 
@@ -167,6 +177,8 @@ except Exception as e:
 The model then reads something like `{"error": "Tool divide not found"}` and can try another approach. The step limit
 still applies, so it can't retry forever.
 
+![Without error handling, the model asks for a divide tool that does not exist, the lookup raises an exception, and the program crashes mid-task. With try/except, the exception is caught and added to the context as {"error": "Tool divide not found"}. On the next step the model reads it and tries something else.](../../assets/images/12-factor-agents-2/error-to-message.svg)
+
 To be clear: the lessons build this error path, but none of their runs actually hit an error.
 
 ## One small bug in the loop
@@ -175,13 +187,7 @@ After the loop, the lesson checks `if step >= max_steps` to warn that the limit 
 exactly step 5, that warning fires even though everything went fine. Checking `if not done` fixes it. A one-line fix,
 and only possible because the loop is your own readable code.
 
-## What to remember
-
-- **Asking for JSON is best-effort.** Plan for the reply not being valid.
-- **A strict tool schema makes the format a rule** (Factor 4).
-- **The model asks, your code acts.** It never runs tools itself.
-- **The conversation is a list you own**, with each request and result linked by `call_id` (Factor 3).
-- **Your code runs the loop**, with a step limit (Factor 8), and turns errors into messages (Factor 9).
+![The step-limit bug. Three runs with max_steps 5. A run that finishes at step 3 gets no warning from either check. A run that finishes at exactly step 5 gets a false "limit hit" warning from step >= max_steps, but no warning from not done. A run stopped by the limit gets a warning from both. Only the run that finishes on exactly the last step is misreported.](../../assets/images/12-factor-agents-2/step-limit-bug.svg)
 
 This agent works, but it lives inside one script: its prompt is a string in the code, and its memory vanishes when
 the program ends. [Part 3](/engineering/12-factor-agents-3-a-stateless-agent) fixes that.
