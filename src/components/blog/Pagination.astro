@@ -49,7 +49,7 @@ const numbers = Array.from({ length: last - first + 1 }, (_, i) => first + i);
               <a
                 href={pageUrl(n)}
                 aria-current={n === currentPage ? 'page' : undefined}
-                class={`px-3 py-1 rounded-md ${n === currentPage ? 'bg-primary text-white font-semibold' : 'hover:bg-gray-100 dark:hover:bg-slate-800'}`}
+                class={`px-3 py-1 rounded-md ${n === currentPage ? 'bg-primary text-on-primary font-semibold' : 'hover:bg-gray-100 dark:hover:bg-slate-800'}`}
               >
                 {n}
               </a>

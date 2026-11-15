@@ -3,9 +3,12 @@ title: 'Optimizing LLM Costs, Part 3: Sending the Model Less Work'
 excerpt: 'Four ways to make AI requests smaller or skip them: trimming old chat messages, asking for short answers, reusing answers to repeated questions, and getting a discount on long prompts that repeat, which is easy to set up wrong so it costs more instead. Part 3 of a series.'
 publishDate: 2026-11-20T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/llm-costs-3-reducing-llm-work.svg
+series: 'Optimizing LLM Costs'
+seriesPart: 3
 tags:
   - llm-costs
-  - caching
+  - production
 draft: false
 ---
 

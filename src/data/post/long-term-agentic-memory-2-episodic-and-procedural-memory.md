@@ -3,6 +3,9 @@ title: 'Episodic and Procedural Memory: Learning From Examples and Feedback'
 excerpt: 'Episodic memory as labeled examples, and procedural memory as instructions that rewrite themselves from feedback. How one correction changed how an email assistant sorted and signed emails. Part 2 of 2 on the Long-Term Agentic Memory course.'
 publishDate: 2026-11-06T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/long-term-agentic-memory-2-episodic-and-procedural-memory.svg
+series: 'Agent Memory'
+seriesPart: 2
 tags:
   - agents
   - memory

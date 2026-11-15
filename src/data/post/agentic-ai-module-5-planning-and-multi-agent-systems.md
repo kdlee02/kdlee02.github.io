@@ -3,10 +3,11 @@ title: 'Planning and Multi-Agent Systems'
 excerpt: 'Planning and multi-agent systems explained in plain words: letting the AI write its own plan, why a plan written as code works best, checking a plan before it runs, and how teams of AI agents divide up work. Part 5 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-12T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/agentic-ai-module-5-planning-and-multi-agent-systems.svg
+series: 'Agentic AI'
+seriesPart: 5
 tags:
   - agents
-  - agentic-workflows
-  - multi-agent
 draft: false
 ---
 

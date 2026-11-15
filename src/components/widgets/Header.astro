@@ -161,7 +161,7 @@ const persistKey = `header-${Array.from(
             {
               showRssFeed && (
                 <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
                   aria-label="RSS Feed"
                   href={getAsset('/rss.xml')}
                 >
@@ -271,8 +271,6 @@ const persistKey = `header-${Array.from(
         applyStyles();
         document.addEventListener('scroll', this.onScroll, { passive: true });
       }
-
-      document.documentElement.classList.add('motion-safe:scroll-smooth');
     }
 
     disconnectedCallback() {

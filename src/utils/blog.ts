@@ -42,7 +42,7 @@ const generatePermalink = async ({
 
 const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> => {
   const { id, data } = post;
-  const { Content, remarkPluginFrontmatter } = await render(post);
+  const { Content, remarkPluginFrontmatter, headings } = await render(post);
 
   const {
     publishDate: rawPublishDate = new Date(),
@@ -54,6 +54,9 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     tags: rawTags = [],
     category: rawCategory,
     author,
+    series,
+    seriesPart,
+    takeaways,
     draft = false,
     metadata = {},
   } = data;
@@ -90,6 +93,10 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     category: category,
     tags: tags,
     author: author,
+
+    series: series ? { slug: cleanSlug(series), title: series, part: seriesPart } : undefined,
+    takeaways: takeaways,
+    headings: headings,
 
     draft: draft,
 
@@ -174,6 +181,12 @@ export const findLatestPosts = async ({ count }: { count?: number }): Promise<Ar
 
   return posts ? posts.slice(0, _count) : [];
 };
+
+/** Posts of one series, in reading order. */
+export const fetchSeriesPosts = async (seriesSlug: string): Promise<Array<Post>> =>
+  (await fetchPosts())
+    .filter((post) => post.series?.slug === seriesSlug)
+    .sort((a, b) => (a.series?.part ?? 0) - (b.series?.part ?? 0));
 
 /** */
 export const getStaticPathsBlogList = async ({ paginate }: { paginate: PaginateFunction }) => {

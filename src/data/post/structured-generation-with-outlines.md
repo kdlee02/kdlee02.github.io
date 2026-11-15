@@ -3,9 +3,11 @@ title: 'Structured Generation: Limiting What an AI Can Write (Part 2)'
 excerpt: 'How structured generation reaches inside an AI model and blocks every word that would break your format, shown token by token with a tiny model. Part 2 of 2 on structured output.'
 publishDate: 2026-07-25T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/structured-generation-with-outlines.svg
+series: 'Structured Output'
+seriesPart: 2
 tags:
   - structured-output
-  - constrained-decoding
 draft: false
 ---
 

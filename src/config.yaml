@@ -30,7 +30,7 @@ i18n:
 apps:
   blog:
     isEnabled: true
-    postsPerPage: 10
+    postsPerPage: 100 # one page: the tag filter on /engineering works on the posts in the page
 
     post:
       isEnabled: true

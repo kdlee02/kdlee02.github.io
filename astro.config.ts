@@ -33,18 +33,27 @@ export default defineConfig({
     defaultStrategy: 'viewport',
   },
 
-  // Native Fonts API: self-hosts + subsets + preloads Inter and generates
+  // Native Fonts API: self-hosts + subsets + preloads the fonts and generates
   // metric-adjusted fallbacks. Injected via <Font /> in Layout.astro and
-  // consumed through the `--font-inter` CSS variable in CustomStyles.astro.
+  // consumed through the `--font-host` / `--font-jbmono` CSS variables in CustomStyles.astro.
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: 'Inter',
-      cssVariable: '--font-inter',
-      weights: ['100 900'],
+      name: 'Host Grotesk',
+      cssVariable: '--font-host',
+      weights: ['300 800'],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['sans-serif'],
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: 'JetBrains Mono',
+      cssVariable: '--font-jbmono',
+      weights: ['100 800'],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['monospace'],
     },
   ],
 

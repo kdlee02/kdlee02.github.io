@@ -3,9 +3,12 @@ title: 'Optimizing LLM Costs, Part 1: Where the Money Actually Goes'
 excerpt: 'Every question you send to an AI model comes with a small bill. How that bill is calculated, why answers cost more than questions, why "thinking" makes short answers expensive, and how to keep a record so you can prove later that you saved anything. Part 1 of a series.'
 publishDate: 2026-11-18T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/llm-costs-1-measuring-what-a-request-costs.svg
+series: 'Optimizing LLM Costs'
+seriesPart: 1
 tags:
   - llm-costs
-  - tokens
+  - production
 draft: false
 ---
 

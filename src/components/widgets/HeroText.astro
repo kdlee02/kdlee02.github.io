@@ -31,7 +31,7 @@ const {
       <div class="text-center max-w-5xl mx-auto">
         {
           badge && (
-            <span class="inline-block mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary dark:bg-primary/25 dark:text-blue-200 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+            <span class="inline-block mb-4 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary dark:bg-primary/25 dark:text-blue-200 intersect-once intersect-quarter">
               {badge}
             </span>
           )
@@ -39,7 +39,7 @@ const {
         {
           tagline && (
             <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase intersect-once intersect-quarter"
               set:html={tagline}
             />
           )
@@ -47,7 +47,7 @@ const {
         {
           title && (
             <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-heading intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-heading intersect-once intersect-quarter"
               set:html={title}
             />
           )
@@ -56,13 +56,13 @@ const {
           {
             subtitle && (
               <p
-                class="text-xl text-muted mb-6 dark:text-slate-300 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+                class="text-xl text-muted mb-6 dark:text-slate-300 intersect-once intersect-quarter"
                 set:html={subtitle}
               />
             )
           }
           <div
-            class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+            class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter"
           >
             {
               callToAction && (

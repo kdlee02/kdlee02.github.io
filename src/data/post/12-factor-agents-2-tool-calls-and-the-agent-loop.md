@@ -3,6 +3,9 @@ title: '12-Factor Agents, Part 2: Tool Calls and a Loop You Control'
 excerpt: 'Building a tiny calculator agent in Python: asking for JSON versus requiring a strict tool call, letting your code run the tools, keeping the conversation in a list you own, and wrapping it all in a loop with a step limit and errors fed back to the model. Part 2 of a series.'
 publishDate: 2026-11-15T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/12-factor-agents-2-tool-calls-and-the-agent-loop.svg
+series: '12-Factor Agents'
+seriesPart: 2
 tags:
   - agents
   - tool-use

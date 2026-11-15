@@ -3,10 +3,12 @@ title: 'Reflection: Having an AI Review Its Own Work'
 excerpt: 'Reflection explained in plain words: an AI reviews its own draft and rewrites it. When that helps, why a fact from outside the model makes all the difference, and how to tell whether it worked. Part 2 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-08T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/agentic-ai-module-2-reflection.svg
+series: 'Agentic AI'
+seriesPart: 2
 tags:
   - agents
-  - agentic-workflows
-  - reflection
+  - evals
 draft: false
 ---
 

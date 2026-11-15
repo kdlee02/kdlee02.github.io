@@ -3,10 +3,13 @@ title: '12-Factor Agents, Part 3: A Stateless Agent You Can Pause and Resume'
 excerpt: 'Reorganizing a one-script agent so it works like a function: prompts in their own files, a clean summary page for the model to read, and one saved State object that holds everything, so a run can stop and pick up later. Part 3 of a series.'
 publishDate: 2026-11-16T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/12-factor-agents-3-a-stateless-agent.svg
+series: '12-Factor Agents'
+seriesPart: 3
 tags:
   - agents
-  - agentic-workflows
-  - pydantic
+  - structured-output
+  - production
 draft: false
 ---
 

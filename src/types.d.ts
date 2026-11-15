@@ -24,6 +24,13 @@ export interface Post {
   tags?: Taxonomy[];
   author?: string;
 
+  /** Series the post belongs to, with its position (starting at 1). */
+  series?: Taxonomy & { part?: number };
+  /** Key ideas shown in a box at the top of the post. */
+  takeaways?: string[];
+  /** Headings of the rendered body, for the table of contents. */
+  headings?: { depth: number; slug: string; text: string }[];
+
   metadata?: MetaData;
 
   draft?: boolean;

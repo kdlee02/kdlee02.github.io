@@ -23,6 +23,12 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: var(--aw-font-serif, ui-serif), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-heading: var(--aw-font-heading, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--aw-font-mono, ui-monospace), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-on-primary: var(--aw-color-on-primary);
+  --color-surface: var(--aw-color-bg-surface);
+  --color-card: var(--aw-color-bg-card);
+  --color-line: var(--aw-color-line);
 
   --animate-fade: fadeInUp 0.5s both;
 
@@ -36,6 +42,37 @@
       transform: translateY(0);
     }
   }
+}
+
+/* ponytail: the template hard-codes gray/slate/blue utilities in ~60 places. Remapping the
+   palette variables here rethemes all of them at once; edit the components instead if a
+   single one ever needs its own colour. */
+:root {
+  --color-gray-100: var(--aw-color-bg-surface);
+  --color-gray-200: var(--aw-color-line);
+}
+.dark {
+  --color-slate-900: #162a17;
+  --color-slate-800: #1c331d;
+  --color-slate-700: #2a472b;
+  --color-slate-600: #48684a;
+  --color-slate-500: #7d967d;
+  --color-slate-400: #a9bda9;
+  --color-slate-300: #d3dfd3;
+  --color-slate-200: #e6eee6;
+  --color-gray-700: #2a472b;
+  --color-gray-400: #a9bda9;
+  --color-gray-300: #d3dfd3;
+  --color-blue-200: var(--aw-color-primary);
+  --color-blue-300: var(--aw-color-primary);
+  --color-blue-400: var(--aw-color-primary);
+  --color-blue-700: var(--aw-color-secondary);
+}
+
+/* Keyboard focus: one clear 2px ring in the accent colour on every control. */
+:focus-visible {
+  outline: 2px solid var(--aw-color-primary);
+  outline-offset: 2px;
 }
 
 @utility bg-page {
@@ -55,11 +92,11 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+  @apply inline-flex items-center justify-center rounded-lg border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3 px-5 md:px-6 ease-out duration-150 hover:-translate-y-px active:translate-y-px active:scale-[0.98] focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
 }
 
 @utility btn-primary {
-  @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white dark:text-white dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
+  @apply btn font-medium bg-primary text-on-primary border-primary hover:bg-secondary hover:border-secondary hover:text-on-primary dark:text-on-primary dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
 }
 
 @utility btn-secondary {
@@ -149,4 +186,88 @@
 .dark .astro-code span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Blog prose: one set of colours for both themes, taken from the page tokens. */
+.prose {
+  --tw-prose-body: var(--aw-color-text-default);
+  --tw-prose-headings: var(--aw-color-text-heading);
+  --tw-prose-lead: var(--aw-color-text-muted);
+  --tw-prose-links: var(--aw-color-primary);
+  --tw-prose-bold: var(--aw-color-text-heading);
+  --tw-prose-counters: var(--aw-color-text-muted);
+  --tw-prose-bullets: var(--aw-color-text-muted);
+  --tw-prose-hr: var(--aw-color-line);
+  --tw-prose-quotes: var(--aw-color-text-default);
+  --tw-prose-quote-borders: var(--aw-color-primary);
+  --tw-prose-captions: var(--aw-color-text-muted);
+  --tw-prose-code: var(--aw-color-text-heading);
+  --tw-prose-th-borders: var(--aw-color-line);
+  --tw-prose-td-borders: var(--aw-color-line);
+  line-height: 1.7;
+}
+.prose :where(h2, h3, h4) {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+/* Blockquotes are used as notes, not quotations. */
+.prose :where(blockquote) {
+  font-style: normal;
+  font-weight: 400;
+  background-color: var(--aw-color-bg-surface);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 1rem 1.25rem;
+}
+.prose :where(blockquote p)::before,
+.prose :where(blockquote p)::after {
+  content: none;
+}
+.prose :where(blockquote > :first-child) {
+  margin-top: 0;
+}
+.prose :where(blockquote > :last-child) {
+  margin-bottom: 0;
+}
+.prose :where(img) {
+  border-radius: 0.75rem;
+  border: 1px solid var(--aw-color-line);
+  cursor: zoom-in;
+}
+.prose :where(pre) {
+  position: relative;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.copy-code {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--aw-color-line);
+  background-color: var(--aw-color-bg-card);
+  color: var(--aw-color-text-muted);
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+pre:hover .copy-code,
+.copy-code:focus-visible {
+  opacity: 1;
+}
+/* Dark code blocks sit on the forest ground instead of GitHub's blue-grey. */
+.dark .prose pre.astro-code {
+  background-color: #0a160b !important;
+}
+.dark .prose pre.astro-code span {
+  background-color: transparent !important;
+}
+
+/* Homepage hero: text and picture rise in once on load. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-enter {
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
 }

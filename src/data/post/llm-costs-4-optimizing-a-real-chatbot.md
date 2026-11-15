@@ -3,9 +3,13 @@ title: "Optimizing LLM Costs, Part 4: Cutting a Real Chatbot's Bill by 88%"
 excerpt: 'Every technique from the series applied to one support chatbot: measure it first, send easy questions to the cheap model, shrink each request, fix a cache that never worked, and prove the 88% saving while the bot still tells customers everything they need. Part 4 of a series.'
 publishDate: 2026-11-21T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/llm-costs-4-optimizing-a-real-chatbot.svg
+series: 'Optimizing LLM Costs'
+seriesPart: 4
 tags:
   - llm-costs
   - evals
+  - production
 draft: false
 ---
 

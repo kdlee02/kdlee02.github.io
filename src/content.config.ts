@@ -64,6 +64,13 @@ const postCollection = defineCollection({
     tags: z.array(z.string()).optional(),
     author: z.string().optional(),
 
+    /** Series name shown on the card and the post, e.g. 'LangGraph'. */
+    series: z.string().optional(),
+    /** Position in the series, starting at 1. */
+    seriesPart: z.number().optional(),
+    /** Three to five key ideas shown in a box at the top of the post. */
+    takeaways: z.array(z.string()).optional(),
+
     metadata: metadataDefinition(),
   }),
 });

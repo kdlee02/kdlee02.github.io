@@ -3,9 +3,11 @@ title: 'Tool Use: Letting an AI Call Functions'
 excerpt: 'Tool use explained in plain words: how an AI asks for a function to be run, picks from several tools and chains them, writes its own code when no tool fits, and why MCP lets everyone share tools. Part 3 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-10T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/agentic-ai-module-3-tool-use.svg
+series: 'Agentic AI'
+seriesPart: 3
 tags:
   - agents
-  - agentic-workflows
   - tool-use
 draft: false
 ---

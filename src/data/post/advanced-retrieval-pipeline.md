@@ -3,10 +3,10 @@ title: 'Hybrid Search, HyDE and Reranking Explained'
 excerpt: 'Hybrid search, HyDE and reranking explained in plain words with pictures: what each one fixes, how they fit together, and which to try first.'
 publishDate: 2026-07-20T02:00:00Z
 category: 'RAG'
+image: ~/assets/images/covers/advanced-retrieval-pipeline.svg
 tags:
   - retrieval
   - reranking
-  - hybrid-search
 draft: false
 ---
 

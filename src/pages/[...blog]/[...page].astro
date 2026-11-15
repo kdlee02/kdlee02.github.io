@@ -5,7 +5,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-import CategoryNav from '~/components/blog/CategoryNav.astro';
+import TagFilter from '~/components/blog/TagFilter.astro';
 import Breadcrumbs from '~/components/common/Breadcrumbs.astro';
 import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
 
@@ -48,9 +48,9 @@ const metadata = {
     {page.url.next && <link rel="next" href={page.url.next} />}
   </Fragment>
   <Breadcrumbs bar items={breadcrumbs} />
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
+  <section class="px-4 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-6xl">
     <Headline subtitle="Notes on RAG, AI agents, MCP, evaluation and shipping AI products.">Engineering</Headline>
-    <CategoryNav />
+    <TagFilter posts={page.data} />
     <BlogList posts={page.data} />
     <Pagination
       prevUrl={page.url.prev}

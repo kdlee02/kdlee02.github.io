@@ -3,9 +3,12 @@ title: 'Optimizing LLM Costs, Part 2: Picking the Right Model for Each Request'
 excerpt: 'Does every question need the expensive AI model? Comparing a cheap and a premium model on the same question, building a simple router that picks one per request (and honestly measuring that it saved only 2.5%), and planning for bad answers and outages. Part 2 of a series.'
 publishDate: 2026-11-19T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/llm-costs-2-model-selection-and-routing.svg
+series: 'Optimizing LLM Costs'
+seriesPart: 2
 tags:
   - llm-costs
-  - model-routing
+  - production
 draft: false
 ---
 

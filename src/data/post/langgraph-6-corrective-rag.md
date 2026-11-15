@@ -3,6 +3,9 @@ title: 'Corrective RAG in LangGraph'
 excerpt: 'A RAG graph that grades what it found, boils the good documents down to the sentences that matter, and searches the web when nothing useful is left. Plus a price that got thrown away for scoring exactly 0.5. Part 6, the last in a series on LangChain and LangGraph.'
 publishDate: 2026-11-06T06:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/langgraph-6-corrective-rag.svg
+series: 'LangGraph'
+seriesPart: 6
 tags:
   - langgraph
   - retrieval

@@ -3,6 +3,9 @@ title: 'A ReAct Agent With Memory in LangGraph'
 excerpt: 'The ReAct cycle of reason, act and observe, built three ways in LangGraph: with create_agent, by hand from a model node and a ToolNode, and with tools_condition. Then a checkpointer, so the agent remembers what "the two" means. Part 3 of a series on LangChain and LangGraph.'
 publishDate: 2026-11-06T03:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/langgraph-3-react-agent-and-memory.svg
+series: 'LangGraph'
+seriesPart: 3
 tags:
   - langgraph
   - agents

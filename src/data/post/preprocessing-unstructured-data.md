@@ -3,9 +3,10 @@ title: 'Turning PDFs, Slides and Web Pages Into Clean Text for AI'
 excerpt: 'How to turn PDFs, slides, web pages and tables into clean, labeled pieces an AI can search, explained in plain words with pictures. No code required.'
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
+image: ~/assets/images/covers/preprocessing-unstructured-data.svg
 tags:
-  - preprocessing
   - chunking
+  - retrieval
 draft: false
 ---
 

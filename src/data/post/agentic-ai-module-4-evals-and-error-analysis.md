@@ -3,9 +3,11 @@ title: 'Evals and Error Analysis for AI Agents'
 excerpt: 'Evals and error analysis explained in plain words: how to score an agent’s output, trace a bad result back to the step that caused it, test one step on its own, and only then worry about speed and cost. Part 4 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-11T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/agentic-ai-module-4-evals-and-error-analysis.svg
+series: 'Agentic AI'
+seriesPart: 4
 tags:
   - agents
-  - agentic-workflows
   - evals
 draft: false
 ---

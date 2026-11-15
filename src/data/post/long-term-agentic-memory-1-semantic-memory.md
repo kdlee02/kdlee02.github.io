@@ -3,6 +3,9 @@ title: 'Semantic Memory: Helping an AI Agent Remember Facts'
 excerpt: 'The three kinds of memory an AI agent can have, when it should save them, and what happened when I gave an email assistant tools to remember facts, plus how one sentence fixed a missed save. Part 1 of 2 on the Long-Term Agentic Memory course.'
 publishDate: 2026-11-05T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/long-term-agentic-memory-1-semantic-memory.svg
+series: 'Agent Memory'
+seriesPart: 1
 tags:
   - agents
   - memory

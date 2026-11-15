@@ -34,6 +34,9 @@ const { post } = Astro.props as Props;
 
 const url = getCanonical(getPermalink(post.permalink, 'post'));
 const image = (await findImage(post.image)) as ImageMetadata | string | undefined;
+// Covers are SVG; the PNG drawn next to each one (scripts/covers.mjs) is what social previews use.
+const ogImage = ((typeof post.image === 'string' && (await findImage(post.image.replace(/\.svg$/, '.png')))) ||
+  image) as ImageMetadata | string | undefined;
 
 const metadata = merge(
   {
@@ -53,15 +56,19 @@ const metadata = merge(
         ...(post.category ? { section: post.category.title } : {}),
         ...(post.tags?.length ? { tags: post.tags.map((tag) => tag.title) } : {}),
       },
-      ...(image
-        ? { images: [{ url: image, width: (image as ImageMetadata)?.width, height: (image as ImageMetadata)?.height }] }
+      ...(ogImage
+        ? {
+            images: [
+              { url: ogImage, width: (ogImage as ImageMetadata)?.width, height: (ogImage as ImageMetadata)?.height },
+            ],
+          }
         : {}),
     },
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
 
-const imageUrl = typeof image === 'string' ? image : image?.src;
+const imageUrl = typeof ogImage === 'string' ? ogImage : ogImage?.src;
 
 // Article structured data. The breadcrumb trail below carries its own BreadcrumbList.
 const articleSchema = {

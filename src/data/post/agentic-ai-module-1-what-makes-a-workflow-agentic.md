@@ -3,9 +3,11 @@ title: 'What Makes an AI Workflow Agentic'
 excerpt: 'What makes an AI workflow "agentic", how much freedom to give it, why an older model working in steps can beat a newer one, and how to break a job into steps an AI can do. Part 1 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-07T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/agentic-ai-module-1-what-makes-a-workflow-agentic.svg
+series: 'Agentic AI'
+seriesPart: 1
 tags:
   - agents
-  - agentic-workflows
 draft: false
 ---
 

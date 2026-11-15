@@ -3,10 +3,12 @@ title: 'Improving AI Search by Rewriting the Question (Part 1)'
 excerpt: 'Part 1 of 2 on the Chroma course: what a vector database actually does, why its results can miss even on simple questions, and two ways an AI can rewrite your question so search finds more of what you need.'
 publishDate: 2026-07-20T00:00:00Z
 category: 'RAG'
+image: ~/assets/images/covers/query-side-retrieval.svg
+series: 'Advanced Retrieval'
+seriesPart: 1
 tags:
   - retrieval
   - embeddings
-  - query-expansion
 draft: false
 ---
 

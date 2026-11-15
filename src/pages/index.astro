@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import HeroText from '~/components/widgets/HeroText.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Headline from '~/components/ui/Headline.astro';
@@ -9,13 +8,34 @@ import Button from '~/components/ui/Button.astro';
 import ProjectCard from '~/components/project/Card.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 
+import type { ImageMetadata } from 'astro';
 import { fetchProjects } from '~/utils/projects';
+import { fetchPosts } from '~/utils/blog';
+import { findImage } from '~/utils/images';
 import { getPermalink, getBlogPermalink } from '~/utils/permalinks';
 import { GITHUB_URL, LINKEDIN_URL } from '~/navigation';
 import { SITE, METADATA, I18N } from 'astrowind:config';
 import favIconSvg from '~/assets/favicons/favicon.svg';
 
 const projects = (await fetchProjects()).slice(0, 3);
+
+const posts = await fetchPosts();
+const coverOf = async (image: unknown) => {
+  const found = (await findImage(image as string)) as ImageMetadata | string | undefined | null;
+  return typeof found === 'string' ? found : found?.src;
+};
+
+// The hero shows the newest post; the series section shows part 1 of each series.
+const latest = posts[0];
+const latestCover = latest && (await coverOf(latest.image));
+const series = await Promise.all(
+  [...new Set(posts.flatMap((post) => (post.series ? [post.series.slug] : [])))].map(async (slug) => {
+    const parts = posts
+      .filter((post) => post.series?.slug === slug)
+      .sort((a, b) => (a.series?.part ?? 0) - (b.series?.part ?? 0));
+    return { title: parts[0].series!.title, parts, first: parts[0], cover: await coverOf(parts[0].image) };
+  })
+);
 
 const metadata = {
   title: `${SITE.name} — AI Engineer`,
@@ -50,15 +70,97 @@ const structuredData = [
 <Layout metadata={metadata}>
   <StructuredData slot="head" schema={structuredData} />
 
-  <HeroText
-    tagline="AI Engineer"
-    title={SITE.name}
-    subtitle="Building AI products with RAG · Agents · MCP · Data"
-    callToAction={{ text: 'Projects', href: getPermalink('/projects') }}
-    callToAction2={{ text: 'Engineering', href: getBlogPermalink() }}
-  />
+  <section
+    class="mx-auto grid min-h-[calc(100svh-5rem)] max-w-7xl items-center gap-10 px-4 py-12 md:px-6 lg:grid-cols-12 lg:gap-6"
+  >
+    <div class="hero-enter lg:col-span-5">
+      <p class="mb-4 font-mono text-sm text-muted">{posts.length} posts · {series.length} series</p>
+      <h1
+        class="font-heading text-[2.5rem] font-medium leading-[1.02] tracking-tighter text-heading text-balance lg:text-7xl"
+      >
+        Notes on building AI products
+      </h1>
+      <p class="mt-6 max-w-[42ch] text-lg text-muted lg:text-xl lg:leading-[1.5]">
+        Study notes on RAG, agents, evals and LLM costs. Each post explains one idea in plain words, with diagrams.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Button variant="primary" href={getBlogPermalink()}>Read the notes</Button>
+        <Button variant="secondary" href={getPermalink('/projects')}>See the projects</Button>
+      </div>
+    </div>
+    {
+      latest && latestCover && (
+        <a
+          href={getPermalink(latest.permalink, 'post')}
+          class="hero-enter group block overflow-hidden rounded-2xl border border-line bg-card transition duration-200 ease-out [animation-delay:120ms] hover:-translate-y-0.5 hover:shadow-xl lg:col-span-6 lg:col-start-7"
+        >
+          <div class="flex items-center gap-2 border-b border-line px-4 py-3">
+            <span class="h-2.5 w-2.5 rounded-full bg-line" />
+            <span class="h-2.5 w-2.5 rounded-full bg-line" />
+            <span class="h-2.5 w-2.5 rounded-full bg-line" />
+            <span class="ml-3 font-mono text-xs text-muted">{new URL(SITE.site ?? '').host}</span>
+          </div>
+          <div class="aspect-[1200/630] overflow-hidden">
+            <img
+              src={latestCover}
+              alt=""
+              width="1200"
+              height="630"
+              fetchpriority="high"
+              class="h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.02]"
+            />
+          </div>
+          <div class="p-6">
+            <p class="mb-2 font-mono text-xs uppercase tracking-wide text-primary">Latest post</p>
+            <p class="font-heading text-2xl font-medium leading-snug text-heading">{latest.title}</p>
+          </div>
+        </a>
+      )
+    }
+  </section>
 
-  <WidgetWrapper id="projects" containerClass="max-w-5xl">
+  <WidgetWrapper id="series" containerClass="max-w-7xl">
+    <Headline title="Series" classes={{ container: 'text-left md:mb-8', title: 'text-3xl md:text-4xl' }} />
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        series.map((item) => (
+          <a
+            href={getPermalink(item.first.permalink, 'post')}
+            class="group flex flex-col overflow-hidden rounded-xl border border-line bg-card transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            <div class="aspect-[1200/630] overflow-hidden">
+              <img
+                src={item.cover}
+                alt=""
+                width="1200"
+                height="630"
+                loading="lazy"
+                class="h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.03]"
+              />
+            </div>
+            <div class="p-5">
+              <p class="font-heading text-lg font-semibold text-heading">{item.title}</p>
+              <p class="mt-1 font-mono text-xs uppercase tracking-wide text-muted">{item.parts.length} parts</p>
+            </div>
+          </a>
+        ))
+      }
+      <a
+        href={getBlogPermalink()}
+        class="group flex flex-col overflow-hidden rounded-xl border border-line bg-card transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        <div class="flex aspect-[1200/630] items-center justify-center bg-surface">
+          <span class="font-heading text-6xl font-medium tracking-tighter text-primary">{posts.length}</span>
+        </div>
+        <div class="p-5">
+          <p class="font-heading text-lg font-semibold text-heading">All posts</p>
+          <p class="mt-1 font-mono text-xs uppercase tracking-wide text-muted">Filter by tag</p>
+        </div>
+      </a>
+    </div>
+  </WidgetWrapper>
+
+  <WidgetWrapper id="projects" containerClass="max-w-7xl">
     <Headline title="Featured projects" classes={{ container: 'text-left md:mb-8', title: 'text-3xl md:text-4xl' }} />
     {
       projects.length ? (
@@ -81,14 +183,14 @@ const structuredData = [
     title="Latest engineering"
     linkText="All articles"
     count={3}
-    classes={{ container: 'max-w-5xl' }}
+    classes={{ container: 'max-w-7xl' }}
   />
 
-  <WidgetWrapper id="about" containerClass="max-w-5xl">
+  <WidgetWrapper id="about" containerClass="max-w-7xl">
     <Headline title="About" classes={{ container: 'text-left md:mb-8', title: 'text-3xl md:text-4xl' }} />
-    <p class="text-lg text-muted dark:text-slate-400">
-      {/* TODO: two or three sentences about what you work on. */}
-      Placeholder — a short introduction goes here.
+    <p class="max-w-[60ch] text-lg text-muted">
+      I'm working toward building AI services and products that people use every day. These notes are how I learn the
+      parts: retrieval, agents, evals and what it all costs to run. The projects are where I put them together.
     </p>
     <div class="mt-8 flex flex-wrap gap-4">
       <Button variant="secondary" href={GITHUB_URL} target="_blank">GitHub</Button>

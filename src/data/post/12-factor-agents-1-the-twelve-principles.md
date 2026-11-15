@@ -3,10 +3,13 @@ title: '12-Factor Agents, Part 1: The Twelve Principles'
 excerpt: 'Why AI agents that look great in a demo often get stuck at around 80% in real use, and the twelve engineering rules of the 12-Factor Agents method for getting past that. Part 1 of a series.'
 publishDate: 2026-11-14T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/12-factor-agents-1-the-twelve-principles.svg
+series: '12-Factor Agents'
+seriesPart: 1
 tags:
   - agents
-  - agentic-workflows
   - tool-use
+  - production
 draft: false
 ---
 

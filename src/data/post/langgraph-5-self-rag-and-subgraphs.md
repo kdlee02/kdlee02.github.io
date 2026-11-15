@@ -3,6 +3,9 @@ title: 'Self-RAG and Subgraphs in LangGraph'
 excerpt: 'A RAG graph that grades its search results, checks its own answer for made-up facts, and rewords the question when it comes up short. Then a search step that queries several sources at once, packed into a subgraph. Part 5 of a series on LangChain and LangGraph.'
 publishDate: 2026-11-06T05:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/langgraph-5-self-rag-and-subgraphs.svg
+series: 'LangGraph'
+seriesPart: 5
 tags:
   - langgraph
   - retrieval

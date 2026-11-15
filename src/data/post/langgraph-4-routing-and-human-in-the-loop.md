@@ -3,6 +3,9 @@ title: 'Adaptive RAG and Human-in-the-Loop in LangGraph'
 excerpt: 'A router that reads each question and picks where to search, then a graph that stops at breakpoints so a person can check its state, change it and let it carry on. Part 4 of a series on LangChain and LangGraph.'
 publishDate: 2026-11-06T04:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/langgraph-4-routing-and-human-in-the-loop.svg
+series: 'LangGraph'
+seriesPart: 4
 tags:
   - langgraph
   - retrieval

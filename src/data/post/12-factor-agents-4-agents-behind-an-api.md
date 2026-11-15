@@ -3,10 +3,13 @@ title: '12-Factor Agents, Part 4: Putting the Agent Behind an API'
 excerpt: 'Putting the stateless agent behind a small web server: start a run and check on it later, save progress after every step, pause and resume it, and let it stop to ask a person a question. Plus the gaps worth knowing about. Part 4 of a series.'
 publishDate: 2026-11-17T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/12-factor-agents-4-agents-behind-an-api.svg
+series: '12-Factor Agents'
+seriesPart: 4
 tags:
   - agents
-  - agentic-workflows
   - tool-use
+  - production
 draft: false
 ---
 

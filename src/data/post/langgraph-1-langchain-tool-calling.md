@@ -3,10 +3,13 @@ title: 'Tool Calling in LangChain'
 excerpt: 'How a LangChain chat model asks for a tool, how your code runs it and hands the result back, how to write your own tool and steer the choice with examples, and how an agent turns all of that into a loop. Part 1 of a series on LangChain and LangGraph.'
 publishDate: 2026-11-06T01:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/langgraph-1-langchain-tool-calling.svg
+series: 'LangGraph'
+seriesPart: 1
 tags:
-  - tool-use
+  - langgraph
   - agents
-  - langchain
+  - tool-use
 draft: false
 ---
 

@@ -1,0 +1,96 @@
+---
+import type { Post } from '~/types';
+
+export interface Props {
+  posts: Array<Post>;
+}
+
+const { posts } = Astro.props;
+
+// Tags are whatever the posts use, most used first.
+const counts = new Map<string, { title: string; count: number }>();
+for (const post of posts)
+  for (const tag of post.tags ?? [])
+    counts.set(tag.slug, { title: tag.title, count: (counts.get(tag.slug)?.count ?? 0) + 1 });
+const tags = [...counts.entries()].sort((a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0]));
+---
+
+<div data-tag-filter class="mb-10">
+  <div class="flex flex-wrap gap-2" role="group" aria-label="Filter posts by tag">
+    {
+      tags.map(([slug, { title, count }]) => (
+        <button
+          type="button"
+          data-tag={slug}
+          aria-pressed="false"
+          class="rounded-lg border border-line bg-card px-3 py-1.5 font-mono text-sm text-muted transition duration-150 ease-out hover:-translate-y-px hover:text-primary active:translate-y-px disabled:pointer-events-none disabled:opacity-35 aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-on-primary"
+        >
+          {title}{' '}
+          <span data-n class="opacity-60">
+            {count}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+  <p class="mt-4 text-sm text-muted" aria-live="polite">
+    <span data-count>{posts.length} posts</span>
+    <button type="button" data-clear hidden class="ml-2 underline underline-offset-4 hover:text-primary"
+      >Clear tags</button
+    >
+  </p>
+  <p data-empty hidden class="mt-8 text-muted">No post has all of these tags.</p>
+</div>
+
+<script>
+  // A post is shown when it has every selected tag. The selection lives in ?tags=a,b so a filtered view can be linked.
+  const init = () => {
+    const root = document.querySelector<HTMLElement>('[data-tag-filter]');
+    if (!root) return;
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[data-tag]')];
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-post-tags]')];
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const clear = root.querySelector<HTMLButtonElement>('[data-clear]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const known = new Set(buttons.map((b) => b.dataset.tag!));
+    const selected = new Set(
+      (new URLSearchParams(location.search).get('tags') ?? '').split(',').filter((tag) => known.has(tag))
+    );
+
+    const apply = () => {
+      const visible = cards.filter((card) => {
+        const tags = card.dataset.postTags!.split(' ');
+        card.hidden = ![...selected].every((tag) => tags.includes(tag));
+        return !card.hidden;
+      });
+      for (const button of buttons) {
+        const tag = button.dataset.tag!;
+        const n = visible.filter((card) => card.dataset.postTags!.split(' ').includes(tag)).length;
+        button.setAttribute('aria-pressed', String(selected.has(tag)));
+        button.querySelector('[data-n]')!.textContent = String(n);
+        button.disabled = n === 0 && !selected.has(tag);
+      }
+      count.textContent = `${visible.length} ${visible.length === 1 ? 'post' : 'posts'}`;
+      clear.hidden = selected.size === 0;
+      empty.hidden = visible.length > 0;
+
+      const url = new URL(location.href);
+      if (selected.size) url.searchParams.set('tags', [...selected].join(','));
+      else url.searchParams.delete('tags');
+      history.replaceState(history.state, '', url);
+    };
+
+    for (const button of buttons)
+      button.addEventListener('click', () => {
+        const tag = button.dataset.tag!;
+        if (!selected.delete(tag)) selected.add(tag);
+        apply();
+      });
+    clear.addEventListener('click', () => {
+      selected.clear();
+      apply();
+    });
+    apply();
+  };
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -3,9 +3,11 @@ title: 'Getting Structured Output From an AI (Part 1)'
 excerpt: 'Why programs need neat, structured answers from an AI instead of paragraphs, and the first two ways to get them: let the AI company enforce a form, or check the answer and ask again. Part 1 of 2.'
 publishDate: 2026-07-25T00:00:00Z
 category: 'LLM Engineering'
+image: ~/assets/images/covers/three-ways-to-get-structured-output.svg
+series: 'Structured Output'
+seriesPart: 1
 tags:
   - structured-output
-  - pydantic
 draft: false
 ---
 

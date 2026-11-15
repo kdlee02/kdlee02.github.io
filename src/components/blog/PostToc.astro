@@ -1,0 +1,61 @@
+---
+import type { Post } from '~/types';
+import { getPermalink } from '~/utils/permalinks';
+
+export interface Props {
+  post: Post;
+  /** Posts of the same series, in reading order. */
+  seriesPosts: Array<Post>;
+}
+
+const { post, seriesPosts } = Astro.props;
+const headings = (post.headings ?? []).filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+{
+  seriesPosts.length > 1 && (
+    <div class="mb-8">
+      <p class="mb-3 font-mono text-xs uppercase tracking-wide text-muted">
+        {post.series?.title} · {seriesPosts.length} parts
+      </p>
+      <ol class="space-y-2 text-sm">
+        {seriesPosts.map((item) => (
+          <li class="flex gap-2">
+            <span class="font-mono text-muted">{item.series?.part}</span>
+            {item.slug === post.slug ? (
+              <span aria-current="page" class="font-semibold text-primary">
+                {item.title}
+              </span>
+            ) : (
+              <a href={getPermalink(item.permalink, 'post')} class="text-muted transition hover:text-primary">
+                {item.title}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+{
+  headings.length > 0 && (
+    <nav aria-label="On this page" data-toc>
+      <p class="mb-3 font-mono text-xs uppercase tracking-wide text-muted">On this page</p>
+      <ul class="space-y-2 border-l border-line text-sm">
+        {headings.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              class:list={[
+                '-ml-px block border-l border-transparent text-muted transition hover:text-primary aria-[current]:border-primary aria-[current]:text-primary',
+                heading.depth === 3 ? 'pl-7' : 'pl-4',
+              ]}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

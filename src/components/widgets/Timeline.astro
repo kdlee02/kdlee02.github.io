@@ -42,7 +42,7 @@ const alternate = layout === 'alternate';
       items.map(({ date, title: itemTitle, description, icon, image, highlight, ghost }, index) => (
         <li
           class:list={[
-            'relative pl-14 pb-10 last:pb-0 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
+            'relative pl-14 pb-10 last:pb-0 intersect-once intersect-quarter',
             ghost ? 'opacity-80' : '',
             // An entry with nothing but a marker still keeps some room around it.
             !date && !itemTitle && !description && !image ? 'min-h-20' : '',

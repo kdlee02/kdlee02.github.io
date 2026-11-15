@@ -34,11 +34,11 @@ const columnsClass =
     <ul class:list={['grid grid-cols-1 gap-4 md:gap-6 list-none', columnsClass]}>
       {
         images.map(({ src, alt, caption, href }, index) => (
-          <li class="intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+          <li class="intersect-once intersect-quarter">
             <figure>
               <button
                 type="button"
-                class="group block w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                class="group block w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-slate-800 focus-visible:ring-2 focus-visible:ring-primary"
                 data-aw-gallery-open={lightbox ? index : undefined}
                 disabled={!lightbox}
                 aria-label={lightbox ? `Open image: ${alt || caption || index + 1}` : undefined}

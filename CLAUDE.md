@@ -18,11 +18,22 @@ A personal blog about LLM engineering (RAG, agents, evals). Posts live in `src/d
   (not just the video), and never claim a result the notebook didn't produce. If a cell errored, say so or leave it out.
 - **Don't republish third-party material.** No course screenshots or other people's documents. Describe them in words
   and draw original diagrams.
-- **Frontmatter:** `title`, `excerpt`, `publishDate`, `category` (`RAG` or `LLM Engineering`), `tags`, `draft`.
+- **Frontmatter:** `title`, `excerpt`, `publishDate`, `category` (`RAG` or `LLM Engineering`), `image`, `tags`, `draft`.
+  Optional: `series` (display name, e.g. `'LangGraph'`) with `seriesPart` (1, 2, …), and `takeaways` (3 to 5 key
+  ideas, shown in a box at the top of the post).
   - Tags are few and generic (2 to 4), lowercase and hyphenated. Reuse existing tags before inventing one. Check with
     `grep -h -A8 '^tags:' src/data/post/*.md`.
-  - Dates are the user's choice. Don't change `publishDate` or `draft` unprompted. The list sorts newest first, 10 per
-    page, so an older date lands on page 2.
+  - Tags drive the filter on `/engineering` (select several; a post must have all of them). The current set is
+    `agents`, `tool-use`, `langgraph`, `memory`, `evals`, `retrieval`, `chunking`, `embeddings`, `reranking`,
+    `structured-output`, `llm-costs`, `production`.
+  - Dates are the user's choice. Don't change `publishDate` or `draft` unprompted. The list sorts newest first and
+    shows every post on one page (the tag filter only sees the posts on the page).
+
+## Covers
+
+- Every post has a cover: `image: ~/assets/images/covers/<slug>.svg`. Covers are drawn by `scripts/covers.mjs`
+  (series colour, part number, a small diagram of the post's core idea). For a new post, add one entry to `COVERS`,
+  run `node scripts/covers.mjs` and look at the result. The script also writes a `.png` copy for social previews.
 
 ## Diagrams
 

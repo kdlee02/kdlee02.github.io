@@ -3,6 +3,7 @@ title: 'Five Ways to Split Text for AI Search'
 excerpt: 'The 5 levels of text splitting, plus a bonus level, explained in plain words with pictures. No code required.'
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
+image: ~/assets/images/covers/five-levels-of-text-splitting.svg
 tags:
   - chunking
   - retrieval

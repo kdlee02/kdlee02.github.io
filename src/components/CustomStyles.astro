@@ -1,48 +1,53 @@
 ---
-// Font family is provided by Astro's native Fonts API (see `fonts` in
-// astro.config.ts and <Font /> in Layout.astro), exposed as `--font-inter`.
-// To switch typefaces, change the `fonts` entry and repoint `--aw-font-*` below.
+// Fonts come from Astro's native Fonts API (see `fonts` in astro.config.ts and
+// <Font /> in Layout.astro), exposed as `--font-host` and `--font-jbmono`.
+// Light: cool off-white with a cobalt accent. Dark: forest green with a lime accent.
 ---
 
 <style is:inline>
   :root {
-    --aw-font-sans: var(--font-inter);
-    --aw-font-serif: var(--font-inter);
-    --aw-font-heading: var(--font-inter);
+    --aw-font-sans: var(--font-host);
+    --aw-font-serif: var(--font-host);
+    --aw-font-heading: var(--font-host);
+    --aw-font-mono: var(--font-jbmono);
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: #1f2de6;
+    --aw-color-secondary: #1722b8;
+    --aw-color-accent: #1f2de6;
+    --aw-color-on-primary: #ffffff;
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-text-heading: #0b0c0e;
+    --aw-color-text-default: #17191d;
+    --aw-color-text-muted: rgb(11 12 14 / 72%);
+    --aw-color-bg-page: #eef0f3;
+    --aw-color-bg-surface: #e2e5ea;
+    --aw-color-bg-card: #ffffff;
+    --aw-color-line: #d3d8e0;
 
-    --aw-color-bg-page-dark: rgb(8 9 10);
+    --aw-color-bg-page-dark: #0f1f10;
 
     ::selection {
-      background-color: lavender;
+      background-color: #c9cefb;
     }
   }
 
   .dark {
-    --aw-font-sans: var(--font-inter);
-    --aw-font-serif: var(--font-inter);
-    --aw-font-heading: var(--font-inter);
+    --aw-color-primary: #c6f19d;
+    --aw-color-secondary: #a9dc7c;
+    --aw-color-accent: #c6f19d;
+    --aw-color-on-primary: #0f1f10;
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
-
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(8 9 10);
+    --aw-color-text-heading: #ffffff;
+    --aw-color-text-default: #e6eee6;
+    --aw-color-text-muted: rgb(230 238 230 / 72%);
+    --aw-color-bg-page: #0f1f10;
+    --aw-color-bg-surface: #162a17;
+    --aw-color-bg-card: #162a17;
+    --aw-color-line: #2a472b;
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: #c6f19d;
+      color: #0f1f10;
     }
   }
 </style>

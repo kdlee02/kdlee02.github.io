@@ -1,5 +1,5 @@
 ---
-import Item from '~/components/blog/ListItem.astro';
+import Item from '~/components/blog/GridItem.astro';
 import type { Post } from '~/types';
 
 export interface Props {
@@ -9,10 +9,11 @@ export interface Props {
 const { posts } = Astro.props;
 ---
 
-<ul>
+{/* data-post-tags is what TagFilter.astro reads to show and hide cards. */}
+<ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
   {
     posts.map((post) => (
-      <li class="mb-12 md:mb-20">
+      <li data-post-tags={post.tags?.map((tag) => tag.slug).join(' ')}>
         <Item post={post} />
       </li>
     ))

@@ -26,11 +26,11 @@ export const footerData = {
     {
       title: 'Topics',
       links: [
-        { text: 'RAG', href: getPermalink('rag', 'category') },
-        { text: 'AI Agents', href: getPermalink('ai-agents', 'category') },
-        { text: 'MCP', href: getPermalink('mcp', 'category') },
-        { text: 'AI Evaluation', href: getPermalink('ai-evaluation', 'category') },
-        { text: 'AI Product Engineering', href: getPermalink('ai-product-engineering', 'category') },
+        { text: 'Agents', href: `${getBlogPermalink()}?tags=agents` },
+        { text: 'Retrieval', href: `${getBlogPermalink()}?tags=retrieval` },
+        { text: 'LangGraph', href: `${getBlogPermalink()}?tags=langgraph` },
+        { text: 'Evals', href: `${getBlogPermalink()}?tags=evals` },
+        { text: 'LLM costs', href: `${getBlogPermalink()}?tags=llm-costs` },
       ],
     },
   ],

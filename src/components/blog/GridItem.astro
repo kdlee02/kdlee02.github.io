@@ -1,71 +1,54 @@
 ---
+import type { ImageMetadata } from 'astro';
 import { APP_BLOG } from 'astrowind:config';
 import type { Post } from '~/types';
 
-import Image from '~/components/common/Image.astro';
-
 import { findImage } from '~/utils/images';
 import { getPermalink } from '~/utils/permalinks';
+import { getFormattedDate, truncateAtWord } from '~/utils/utils';
 
 export interface Props {
   post: Post;
 }
 
 const { post } = Astro.props;
-const image = await findImage(post.image);
+const image = (await findImage(post.image)) as ImageMetadata | string | undefined | null;
+const src = typeof image === 'string' ? image : image?.src;
 
 const link = APP_BLOG?.post?.isEnabled ? getPermalink(post.permalink, 'post') : '';
+const label = post.series
+  ? `${post.series.title}${post.series.part ? ` · Part ${post.series.part}` : ''}`
+  : post.category?.title;
 ---
 
 <article
-  class="mb-6 transition intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+  class="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-card transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg"
 >
-  <div class="relative md:h-64 bg-gray-400 dark:bg-slate-700 rounded shadow-lg mb-6">
-    {
-      image &&
-        (link ? (
-          <a href={link}>
-            <Image
-              src={image}
-              class="w-full md:h-full object-cover rounded shadow-lg bg-gray-400 dark:bg-slate-700"
-              widths={[400, 900]}
-              width={900}
-              height={506}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={post.title}
-              format="webp"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-        ) : (
-          <Image
-            src={image}
-            class="w-full md:h-full object-cover rounded shadow-lg bg-gray-400 dark:bg-slate-700"
-            widths={[400, 900]}
-            width={900}
-            height={506}
-            sizes="(max-width: 900px) 400px, 900px"
-            alt={post.title}
-            format="webp"
-            loading="lazy"
-            decoding="async"
-          />
-        ))
-    }
+  {
+    src && (
+      <a href={link} tabindex="-1" aria-hidden="true" class="block aspect-[1200/630] overflow-hidden">
+        {/* Covers are SVG: served as-is so they stay sharp at any size. */}
+        <img
+          src={src}
+          alt=""
+          width="1200"
+          height="630"
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover transition duration-300 ease-out group-hover:scale-[1.03]"
+        />
+      </a>
+    )
+  }
+  <div class="flex flex-1 flex-col p-5">
+    {label && <p class="mb-2 font-mono text-xs uppercase tracking-wide text-muted">{label}</p>}
+    <h3 class="font-heading text-lg font-semibold leading-snug text-heading">
+      <a href={link} class="transition hover:text-primary">{post.title}</a>
+    </h3>
+    <p class="mt-2 text-sm leading-6 text-muted">{truncateAtWord(post.excerpt, 140)}</p>
+    <div class="mt-auto flex flex-wrap items-center gap-2 pt-4 text-xs text-muted">
+      <time datetime={post.publishDate.toISOString()}>{getFormattedDate(post.publishDate)}</time>
+      {post.tags?.map((tag) => <span class="rounded bg-surface px-1.5 py-0.5 font-mono">{tag.title}</span>)}
+    </div>
   </div>
-
-  <h3 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
-    {
-      link ? (
-        <a class="inline-block hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200" href={link}>
-          {post.title}
-        </a>
-      ) : (
-        post.title
-      )
-    }
-  </h3>
-
-  <p class="text-muted dark:text-slate-400 text-lg">{post.excerpt}</p>
 </article>

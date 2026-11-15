@@ -59,11 +59,7 @@ const faqSchema = schema
     items.length > 0 && collapsible && (
       <div class:list={['mx-auto max-w-3xl divide-y divide-gray-200 dark:divide-slate-700', classes?.list ?? '']}>
         {items.map(({ title: itemTitle, description, icon, callToAction }, index) => (
-          <details
-            class="group intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-            name={groupName}
-            open={index === defaultOpen}
-          >
+          <details class="group intersect-once" name={groupName} open={index === defaultOpen}>
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 outline-offset-4 [&::-webkit-details-marker]:hidden">
               {itemTitle && <h3 class="text-lg font-semibold text-heading md:text-xl">{itemTitle}</h3>}
               <Icon
@@ -89,7 +85,7 @@ const faqSchema = schema
     items.length > 0 && !collapsible && (
       <div class:list={['grid mx-auto gap-y-6 md:gap-y-8 gap-8', columnsClass]}>
         {items.map(({ title: itemTitle, description, icon, callToAction }) => (
-          <div class="intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
+          <div class="intersect-once">
             <div class="flex flex-row max-w-none">
               <div class="flex justify-center">
                 <Icon
