@@ -8,6 +8,12 @@ series: 'Structured Output'
 seriesPart: 2
 tags:
   - structured-output
+takeaways:
+  - 'An AI writes one token at a time, picking from a list of likely next pieces.'
+  - 'Structured generation removes every token that would break the pattern before the model picks, so a broken form cannot be written.'
+  - 'Outlines turns the form into a regex and tracks where it is with a state machine, like a board game for patterns.'
+  - 'Any format a regex can describe works: labels, phone numbers, CSV rows, even a game board. A wrong rule is followed just as faithfully.'
+  - 'A correct shape is not a correct answer: every way makes the output fit the form, none makes it true.'
 draft: false
 ---
 
@@ -141,6 +147,8 @@ tries several with the same tiny model:
 - **The pattern does the layout, the model makes the choices.** The tic-tac-toe regex fixes every `|`, `-` and `+` on
   the board. The model only decides X, O or blank in each spot, so it can't draw a broken board.
 
+![The pattern does the layout, the model makes the choices. In the phone number (206) 555-1234, the brackets, space and dash are fixed by the pattern and the digits are chosen by the model. On the tic-tac-toe board's top row, X|O|O, the bars are fixed by the pattern and the model only picks X, O or blank in each spot, so it cannot draw a broken board.](../../assets/images/structured-output-explained/pattern-vs-model.svg)
+
 One warning: a wrong rule gets followed just as faithfully as a right one. The course's CSV pattern had a typo that
 forced every price to start with a 1, and the model obeyed it without complaint. Test your pattern on a good example and
 a bad one before you hand it to a model.
@@ -174,6 +182,8 @@ All three ways in this series make the answer **fit the form**. Structured gener
 form can't be written at all. None of them make the answer **true**. `Person(name='John', age=30)` is perfect JSON and
 describes nobody. You still have to check the facts.
 
+![Correct shape isn't correct answer. An answer like Person(name='John', age=30) passes the question "does it fit the form?", which all three ways make sure of. It fails "is it true?", which none of them check: it is perfect JSON that describes nobody. You still have to check the facts yourself, with code or a person.](../../assets/images/structured-output-explained/shape-vs-truth.svg)
+
 ## Which way should you use?
 
 |                             | Way 1: AI company      | Way 2: Check and retry          | Way 3: Structured generation                      |
@@ -187,6 +197,8 @@ describes nobody. You still have to check the facts.
 - **Use Way 2** if you need custom checks or want to switch between companies.
 - **Use Way 3** if you run your own model, or if the output isn't JSON at all: a label, a phone number, a CSV row, a
   game board.
+
+![Which of the three ways to use. If you run your own model, or the output is not JSON at all, use Way 3, structured generation: a broken format cannot be written, and it handles labels, phone numbers, CSV rows and game boards. Otherwise, if you need custom checks or want to switch between companies, use Way 2, check and retry, which costs a full request for every retry. Otherwise use Way 1, where the AI company enforces a simple form.](../../assets/images/structured-output-explained/which-way-3.svg)
 
 The picture I'd keep from this course is the very first chart. Left alone, the model's favorite first word was "Here."
 It was never trying to fill in your form. Each way in this series is just a different place to stop it.

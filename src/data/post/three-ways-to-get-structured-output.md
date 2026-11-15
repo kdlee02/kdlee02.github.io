@@ -8,6 +8,12 @@ series: 'Structured Output'
 seriesPart: 1
 tags:
   - structured-output
+takeaways:
+  - 'A program can act on a filled-in form, not on a chatty sentence, so ask the AI for structured output.'
+  - 'Describe the form once as a Pydantic class; it becomes the JSON Schema every method uses.'
+  - 'Way 1: the AI company enforces the form. Easy, but tied to one provider and only part of JSON.'
+  - 'Way 2: check the answer with Pydantic and send the error back for a retry. Works anywhere, but every retry is a full request.'
+  - 'The AI fills the form top to bottom, so put "thinking" boxes above the answer box.'
 draft: false
 ---
 
@@ -80,6 +86,8 @@ class User(BaseModel):
 The words `str`, `int` and `Optional[str]` are **types**: they say what kind of value may go in each box. `= None`
 means the box can be left out.
 
+![Describe the form once. A short Pydantic class, User with name as text, age as a whole number and an optional email, is turned by Pydantic into a JSON Schema: name is a required string, age a required integer, and email a string or nothing. Way 1 hands that description to the AI company to enforce; Way 2 uses it in your own code to check the answer.](../../assets/images/structured-output-explained/pydantic-to-schema.svg)
+
 ## Way 1: Let the AI company enforce it
 
 With OpenAI's Python library, you hand over the class and get back a filled-in `User`, not text:
@@ -149,6 +157,8 @@ it write the message: "I've been having constant issues with the app crashing on
 
 It's like making students show their work before the final answer. Put the "thinking" boxes first. If you put them
 after the answer, the AI is just explaining a choice it already made.
+
+![The AI fills in the form from top to bottom and can see what it already wrote. In the fake-customer-post form, user_mood comes first and the AI wrote "awful". Then product and sentiment, then an internal_monologue with thoughts like "This app is really frustrating me." Only then did it write the message: "I've been having constant issues with the app crashing on my phone…" Put the thinking boxes first; after the answer, they only explain a choice already made.](../../assets/images/structured-output-explained/box-order.svg)
 
 ### The good and the bad
 
@@ -236,6 +246,8 @@ times, some calls will fail by chance and cost you extra.
 - **Start with Way 1** if you use one provider and your form is simple.
 - **Use Way 2** when you need dates, patterns or your own rules, or want to switch providers easily. Count your
   retries.
+
+![Which way to use. If you need dates, patterns or custom rules, or want to switch providers easily, use Way 2, check and retry: it works with almost any provider and every Pydantic check, but count your retries, because each is a full request. Otherwise start with Way 1, where the AI company enforces the form: a few extra lines, but tied to one provider and only part of JSON.](../../assets/images/structured-output-explained/which-way-1.svg)
 
 Both ways ask the model to behave, then check whether it did.
 [Part 2](/engineering/structured-generation-with-outlines) shows the third way, which makes a broken form impossible to

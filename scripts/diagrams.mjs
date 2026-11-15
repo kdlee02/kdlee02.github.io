@@ -2391,6 +2391,263 @@ const DIAGRAMS = {
       text(595, 178, 'add this first: it runs', { size: 13, fill: KIND.code.ink }) +
       text(595, 196, 'locally, no training', { size: 13, fill: KIND.code.ink }),
   },
+
+  'structured-output-explained/pydantic-to-schema.svg': {
+    w: 760,
+    h: 240,
+    title:
+      'Describe the form once. A short Pydantic class, User with name as text, age as a whole number and an optional email, is turned by Pydantic into a JSON Schema: name is a required string, age a required integer, and email a string or nothing. Way 1 hands that description to the AI company to enforce; Way 2 uses it in your own code to check the answer.',
+    body: () =>
+      box(
+        20,
+        50,
+        240,
+        120,
+        'code',
+        ['`class User(BaseModel):', '`  name: str', '`  age: int', '`  email: Optional[str] = None'],
+        {
+          align: 'left',
+          size: 12,
+        }
+      ) +
+      arrow(
+        [
+          [260, 110],
+          [338, 110],
+        ],
+        { label: 'Pydantic', at: [299, 100] }
+      ) +
+      box(
+        340,
+        50,
+        200,
+        120,
+        'data',
+        ['JSON Schema', 'name: string, required', 'age: integer, required', 'email: string or nothing'],
+        {
+          size: 13,
+        }
+      ) +
+      arrow([
+        [540, 110],
+        [568, 70],
+      ]) +
+      arrow([
+        [540, 110],
+        [568, 150],
+      ]) +
+      box(570, 40, 170, 56, 'model', ['Way 1', 'the company enforces']) +
+      box(570, 124, 170, 56, 'code', ['Way 2', 'your code checks']) +
+      note(380, 216, 'Write the form once; both ways use the same description'),
+  },
+
+  'structured-output-explained/box-order.svg': {
+    w: 780,
+    h: 300,
+    title:
+      'The AI fills in the form from top to bottom and can see what it already wrote. In the fake-customer-post form, user_mood comes first and the AI wrote "awful". Then product and sentiment, then an internal_monologue with thoughts like "This app is really frustrating me." Only then did it write the message: "I\'ve been having constant issues with the app crashing on my phone…" Put the thinking boxes first; after the answer, they only explain a choice already made.',
+    body: () =>
+      text(20, 30, '*The AI fills the form top to bottom, and sees what it already wrote', { anchor: 'start' }) +
+      `<path d="M184 52V212" stroke="#94a3b8" stroke-width="1.5" fill="none"/>` +
+      text(20, 128, '*thinking first', { anchor: 'start', size: 13 }) +
+      text(20, 266, '*then the answer', { anchor: 'start', size: 13 }) +
+      box(200, 52, 520, 40, 'model', ['`user_mood: "awful"'], { align: 'left', size: 12 }) +
+      box(200, 102, 520, 40, 'ghost', ['`product: …   sentiment: …'], { align: 'left', size: 12 }) +
+      box(200, 152, 520, 60, 'model', ['`internal_monologue:', '`  ["This app is really frustrating me.", …]'], {
+        align: 'left',
+        size: 12,
+      }) +
+      box(200, 238, 520, 50, 'data', ['`message: "I\'ve been having constant issues with the app crashing…"'], {
+        align: 'left',
+        size: 12,
+      }) +
+      arrow([
+        [748, 56],
+        [748, 282],
+      ]) +
+      note(748, 46, 'order'),
+  },
+
+  'structured-output-explained/which-way-1.svg': {
+    w: 760,
+    h: 270,
+    title:
+      'Which way to use. If you need dates, patterns or custom rules, or want to switch providers easily, use Way 2, check and retry: it works with almost any provider and every Pydantic check, but count your retries, because each is a full request. Otherwise start with Way 1, where the AI company enforces the form: a few extra lines, but tied to one provider and only part of JSON.',
+    body: () =>
+      diamond(160, 130, 140, 70, ['Need dates, patterns,', 'custom rules or', 'several providers?']) +
+      arrow(
+        [
+          [300, 130],
+          [340, 130],
+          [340, 75],
+          [378, 75],
+        ],
+        { label: 'yes', at: [346, 104], anchor: 'start' }
+      ) +
+      arrow(
+        [
+          [300, 130],
+          [340, 130],
+          [340, 195],
+          [378, 195],
+        ],
+        { label: 'no', at: [346, 166], anchor: 'start' }
+      ) +
+      box(
+        380,
+        40,
+        360,
+        70,
+        'code',
+        ['Way 2: check and retry', 'any provider, every Pydantic check;', 'each retry is a full request'],
+        {
+          size: 13,
+        }
+      ) +
+      box(
+        380,
+        160,
+        360,
+        70,
+        'model',
+        ['Way 1: the AI company enforces it', 'a few extra lines; one provider,', 'only part of JSON'],
+        {
+          size: 13,
+        }
+      ) +
+      note(380, 256, 'Both ask the model to behave, then check whether it did'),
+  },
+
+  'structured-output-explained/pattern-vs-model.svg': {
+    w: 760,
+    h: 240,
+    title:
+      "The pattern does the layout, the model makes the choices. In the phone number (206) 555-1234, the brackets, space and dash are fixed by the pattern and the digits are chosen by the model. On the tic-tac-toe board's top row, X|O|O, the bars are fixed by the pattern and the model only picks X, O or blank in each spot, so it cannot draw a broken board.",
+    body: () => {
+      const row = (y, label, segs) => {
+        let x = 200;
+        let out = text(20, y + 25, `*${label}`, { anchor: 'start', size: 13.5 });
+        for (const [s, k] of segs) {
+          const w = s.length * 15 + 22;
+          out += box(x, y, w, 40, k, ['`' + s], { plain: true, size: 15 });
+          x += w + 6;
+        }
+        return out;
+      };
+      return (
+        text(20, 30, '*The pattern does the layout; the model makes the choices', { anchor: 'start' }) +
+        row(56, 'Phone number', [
+          ['(', 'code'],
+          ['206', 'model'],
+          [')', 'code'],
+          ['555', 'model'],
+          ['-', 'code'],
+          ['1234', 'model'],
+        ]) +
+        row(126, 'Tic-tac-toe, top row', [
+          ['X', 'model'],
+          ['|', 'code'],
+          ['O', 'model'],
+          ['|', 'code'],
+          ['O', 'model'],
+        ]) +
+        `<rect x="200" y="200" width="16" height="16" rx="3" fill="${KIND.code.fill}" stroke="${KIND.code.stroke}" stroke-width="1.5"/>` +
+        note(224, 213, 'fixed by the pattern', { anchor: 'start' }) +
+        `<rect x="400" y="200" width="16" height="16" rx="3" fill="${KIND.model.fill}" stroke="${KIND.model.stroke}" stroke-width="1.5"/>` +
+        note(424, 213, 'chosen by the model', { anchor: 'start' })
+      );
+    },
+  },
+
+  'structured-output-explained/shape-vs-truth.svg': {
+    w: 760,
+    h: 220,
+    title:
+      'Correct shape isn\'t correct answer. An answer like Person(name=\'John\', age=30) passes the question "does it fit the form?", which all three ways make sure of. It fails "is it true?", which none of them check: it is perfect JSON that describes nobody. You still have to check the facts yourself, with code or a person.',
+    body: () =>
+      box(20, 70, 240, 80, 'data', ['The answer', "`Person(name='John', age=30)"], { size: 12.5 }) +
+      arrow([
+        [260, 110],
+        [298, 70],
+      ]) +
+      arrow([
+        [260, 110],
+        [298, 160],
+      ]) +
+      box(300, 40, 210, 60, 'code', ['Fits the form?', '✓ all three ways check']) +
+      box(300, 130, 210, 60, 'bad', ['Is it true?', '✗ none of them check']) +
+      arrow([
+        [510, 160],
+        [538, 160],
+      ]) +
+      box(540, 130, 200, 60, 'choice', ['You check the facts', 'with code or a person']) +
+      note(540, 66, 'perfect JSON that', { anchor: 'start' }) +
+      note(540, 84, 'describes nobody', { anchor: 'start' }),
+  },
+
+  'structured-output-explained/which-way-3.svg': {
+    w: 800,
+    h: 340,
+    title:
+      'Which of the three ways to use. If you run your own model, or the output is not JSON at all, use Way 3, structured generation: a broken format cannot be written, and it handles labels, phone numbers, CSV rows and game boards. Otherwise, if you need custom checks or want to switch between companies, use Way 2, check and retry, which costs a full request for every retry. Otherwise use Way 1, where the AI company enforces a simple form.',
+    body: () =>
+      diamond(150, 90, 130, 56, ['Own model, or', 'output not JSON?']) +
+      arrow(
+        [
+          [280, 90],
+          [418, 90],
+        ],
+        { label: 'yes' }
+      ) +
+      box(
+        420,
+        54,
+        360,
+        72,
+        'code',
+        ['Way 3: structured generation', "a broken format can't be written", 'labels, phones, CSV rows, boards'],
+        {
+          size: 13,
+        }
+      ) +
+      arrow(
+        [
+          [150, 146],
+          [150, 162],
+        ],
+        { label: 'no', at: [164, 158], anchor: 'start' }
+      ) +
+      diamond(150, 220, 130, 56, ['Custom checks or', 'several companies?']) +
+      arrow(
+        [
+          [280, 220],
+          [418, 220],
+        ],
+        { label: 'yes' }
+      ) +
+      box(
+        420,
+        184,
+        360,
+        72,
+        'code',
+        ['Way 2: check and retry', 'any company, every Pydantic check', 'a full request for every retry'],
+        {
+          size: 13,
+        }
+      ) +
+      arrow(
+        [
+          [150, 276],
+          [150, 300],
+          [418, 300],
+        ],
+        { label: 'no', at: [164, 294], anchor: 'start' }
+      ) +
+      box(420, 272, 360, 52, 'model', ['Way 1: the AI company enforces it', 'one provider, a simple form'], {
+        size: 13,
+      }),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {
