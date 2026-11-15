@@ -10,6 +10,12 @@ tags:
   - retrieval
   - reranking
   - embeddings
+takeaways:
+  - 'Search scores the question and each chunk separately (fast); a reranker reads them together (sharp but slow), so it only sorts the shortlist.'
+  - 'Ask search for more results than you need and let the reranker pick: it pushed both distractors out of the top 5.'
+  - 'With query expansion, score every chunk against the original question so the variations widen the net but do not decide what stays.'
+  - 'Reranker scores are only useful as an order, not as percentages.'
+  - 'An embedding adaptor is a small trained grid that nudges the question so it lands nearer the right chunks; train it once users give feedback.'
 draft: false
 ---
 
@@ -198,12 +204,16 @@ The last lesson is a short tour of ideas that are still being worked out:
 - **Smarter chunking:** using AI models to decide where to cut documents. The instructor calls this an often overlooked
   piece, and the [text splitting post](/engineering/five-levels-of-text-splitting) shows why it matters.
 
+![Where researchers are pushing next, one idea per step of the pipeline. Chunking: let AI models decide where to cut, an often overlooked piece. Embedding model: fine-tune it with good and bad examples, then re-save every chunk. Adaptor: a full neural network or a transformer layer instead of one grid. Reranker: a more powerful relevance model. Answer model: fine-tune it to expect retrieved text, as in RA-DIT and InstructRetro.](../../assets/images/reranking-explained/next-ideas.svg)
+
 ## The whole course in four steps
 
 1. **Search by meaning** works, but it returns its closest chunks even when they're distractors (part 1).
 2. **Rewrite the question** so it lands in a better spot or covers more ground (part 1).
 3. **Rerank** the results, scoring each one against the original question (this post).
 4. **Train an adaptor** to aim questions better, once you have examples of good and bad results (this post).
+
+![The whole course on one pipeline. A question is rewritten (step 2, part 1), turned into numbers and adjusted by an adaptor (step 4, part 2), searched by meaning (step 1, part 1), and reranked against the original question (step 3, part 2) before the top 5 go to the AI. Start with reranking: it runs locally and needs no training. Train an adaptor only once real users give feedback.](../../assets/images/reranking-explained/course-map.svg)
 
 If I were starting, I'd add reranking first. It runs locally, needs no training, and in the R&D example it pushed both
 distractors out of the top 5. Pair it with query expansion for broad questions. Save adaptors for when real users are

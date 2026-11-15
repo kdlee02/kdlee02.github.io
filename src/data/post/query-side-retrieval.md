@@ -9,6 +9,12 @@ seriesPart: 1
 tags:
   - retrieval
   - embeddings
+takeaways:
+  - 'Look at your results, not just the answer: a plot shows whether a question landed inside your data or outside it.'
+  - 'Search always returns something. If nothing fits, every chunk you get back is a distractor.'
+  - 'Distractors pull the AI off course, and the wrong answers they cause are hard to trace.'
+  - 'Rewrite badly aimed questions: glue on a pretend answer for short ones, or split broad ones into related questions.'
+  - 'Once an AI writes your questions, the prompt is part of your search; small prompt changes give very different results.'
 draft: false
 ---
 
@@ -169,16 +175,7 @@ So you need a way to score every chunk against the _original_ question and keep 
 **reranker**, which reads the question and each chunk together and scores how well they match. That's the course's next
 lesson, and it's where [part 2](/engineering/reranking-and-embedding-adaptors) picks up.
 
-## Things to take away
-
-- **Look at your results, not just the answer.** A plot like the ones above shows quickly whether a question landed
-  inside your data or outside it.
-- **Search always returns something.** If nothing in your documents fits, you still get the closest chunks, and every
-  one of them is a distractor.
-- **Rewrite the question when it's aimed badly.** Glue on a pretend answer for short questions, or split broad ones into
-  related questions.
-- **The prompt is part of your search now.** Once an AI writes your questions, small prompt changes give very different
-  results. The instructor's advice is to experiment with the prompts, the questions and the models.
+![The catch with asking several questions. The original question and five AI-written variations each get five results, up to 30 chunks instead of 5. Some answer a neighboring question rather than yours, like "decreases in revenue". A reranker scores every chunk against the original question, and only the top 5 go to the AI.](../../assets/images/query-side-explained/result-pile.svg)
 
 Next up, [part 2](/engineering/reranking-and-embedding-adaptors): sorting the results with a reranker, and training a
 small adjustment that makes questions land in the right place.

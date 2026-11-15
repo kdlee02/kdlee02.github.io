@@ -2277,6 +2277,120 @@ const DIAGRAMS = {
       box(20, 148, 390, 64, 'choice', ['To John instead', '"Would you like me to schedule a reminder?"']) +
       note(380, 246, 'Email 2, "Any update on my previous ask?": only Jim again (0.22), so it asked John'),
   },
+
+  'query-side-explained/result-pile.svg': {
+    w: 760,
+    h: 280,
+    title:
+      'The catch with asking several questions. The original question and five AI-written variations each get five results, up to 30 chunks instead of 5. Some answer a neighboring question rather than yours, like "decreases in revenue". A reranker scores every chunk against the original question, and only the top 5 go to the AI.',
+    body: () => {
+      const neighbor = new Set([7, 13, 14, 21, 26, 28]);
+      let out = text(279, 28, '5 results each: up to 30 chunks', { size: 13 });
+      for (let r = 0; r < 6; r++) {
+        const cy = 50 + r * 34;
+        out +=
+          box(20, cy - 14, 150, 28, r === 0 ? 'choice' : 'data', [r === 0 ? 'original question' : `variation ${r}`], {
+            size: 12.5,
+            plain: r !== 0,
+          }) +
+          arrow([
+            [170, cy],
+            [204, cy],
+          ]);
+        for (let c = 0; c < 5; c++) {
+          const k = neighbor.has(r * 5 + c) ? KIND.choice : KIND.data;
+          out += `<rect x="${210 + c * 28}" y="${cy - 11}" width="22" height="22" rx="4" fill="${k.fill}" stroke="${k.stroke}" stroke-width="1.5"/>`;
+        }
+      }
+      return (
+        out +
+        arrow([
+          [358, 135],
+          [398, 135],
+        ]) +
+        box(400, 99, 170, 72, 'model', ['Reranker', 'scores each chunk', 'vs the original']) +
+        arrow([
+          [570, 135],
+          [598, 135],
+        ]) +
+        box(600, 99, 140, 72, 'code', ['Top 5', 'go to the AI']) +
+        `<rect x="210" y="246" width="16" height="16" rx="3" fill="${KIND.choice.fill}" stroke="${KIND.choice.stroke}" stroke-width="1.5"/>` +
+        note(234, 259, 'answers a neighboring question, like "decreases in revenue"', { anchor: 'start' })
+      );
+    },
+  },
+
+  'reranking-explained/next-ideas.svg': {
+    w: 844,
+    h: 260,
+    title:
+      'Where researchers are pushing next, one idea per step of the pipeline. Chunking: let AI models decide where to cut, an often overlooked piece. Embedding model: fine-tune it with good and bad examples, then re-save every chunk. Adaptor: a full neural network or a transformer layer instead of one grid. Reranker: a more powerful relevance model. Answer model: fine-tune it to expect retrieved text, as in RA-DIT and InstructRetro.',
+    body: () =>
+      text(20, 30, '*Where researchers are pushing next, step by step', { anchor: 'start' }) +
+      [
+        ['data', 'Chunking', ['AI decides', 'where to cut', '(often overlooked)']],
+        ['model', 'Embedding model', ['fine-tune it,', 'then re-save', 'every chunk']],
+        ['code', 'Adaptor', ['a full network or a', 'transformer layer,', 'not one grid']],
+        ['model', 'Reranker', ['a more powerful', 'relevance model']],
+        ['model', 'Answer model', ['fine-tune it to use', 'retrieved text', '(RA-DIT, InstructRetro)']],
+      ]
+        .map(([k, name, idea], i) => {
+          const x = 20 + i * 164;
+          return (
+            box(x, 50, 148, 50, k, [name]) +
+            (i < 4
+              ? arrow([
+                  [x + 148, 75],
+                  [x + 162, 75],
+                ])
+              : '') +
+            arrow(
+              [
+                [x + 74, 100],
+                [x + 74, 128],
+              ],
+              { dashed: true }
+            ) +
+            box(x, 130, 148, 100, 'data', idea, { dashed: true, plain: true, size: 12.5 })
+          );
+        })
+        .join(''),
+  },
+
+  'reranking-explained/course-map.svg': {
+    w: 800,
+    h: 226,
+    title:
+      'The whole course on one pipeline. A question is rewritten (step 2, part 1), turned into numbers and adjusted by an adaptor (step 4, part 2), searched by meaning (step 1, part 1), and reranked against the original question (step 3, part 2) before the top 5 go to the AI. Start with reranking: it runs locally and needs no training. Train an adaptor only once real users give feedback.',
+    body: () =>
+      text(20, 30, '*The whole course on one pipeline', { anchor: 'start' }) +
+      [
+        ['data', ['Question', 'from the user'], ''],
+        ['model', ['Rewrite', 'the question'], '2 · part 1'],
+        ['code', ['Embed', '+ adaptor'], '4 · part 2'],
+        ['code', ['Search', 'by meaning'], '1 · part 1'],
+        ['model', ['Rerank', 'vs the original'], '3 · part 2'],
+        ['code', ['Top 5', 'to the AI'], ''],
+      ]
+        .map(([k, l, step], i) => {
+          const x = 20 + i * 130;
+          return (
+            box(x, 60, 110, 64, k, l, { size: 13, dashed: i === 2 }) +
+            (i < 5
+              ? arrow([
+                  [x + 110, 92],
+                  [x + 128, 92],
+                ])
+              : '') +
+            (step ? note(x + 55, 146, step) : '')
+          );
+        })
+        .join('') +
+      text(335, 178, 'train it only once', { size: 13, fill: MUTED }) +
+      text(335, 196, 'users give feedback', { size: 13, fill: MUTED }) +
+      text(595, 178, 'add this first: it runs', { size: 13, fill: KIND.code.ink }) +
+      text(595, 196, 'locally, no training', { size: 13, fill: KIND.code.ink }),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {
