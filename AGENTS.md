@@ -32,7 +32,7 @@ src/
   components/
     common/        # Shared: Image, Metadata, Analytics, ToggleTheme
     ui/            # Primitives: Button, Form, Headline, Timeline, WidgetWrapper
-    widgets/       # Page sections: Hero, HeroText, Features, Content, Steps, Stats, FAQs, Gallery, Video…
+    widgets/       # Page sections: Hero, Features, Content, Steps, Stats, FAQs, Gallery, Video…
     blog/          # Blog: SinglePost, List, Pagination, Tags
     CustomStyles.astro  # CSS variables for colors and fonts
   content.config.ts    # Content Collections schema (Astro 5+ location)
