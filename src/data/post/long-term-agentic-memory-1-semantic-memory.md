@@ -10,6 +10,12 @@ tags:
   - agents
   - memory
   - tool-use
+takeaways:
+  - 'Agents borrow three kinds of human memory: semantic (facts), episodic (past examples) and procedural (instructions).'
+  - 'Memories can be saved in the hot path, while the agent replies, or in the background by a separate process afterwards.'
+  - 'Semantic memory here is two tools, save and search, over a store with one drawer per user, searched by meaning.'
+  - 'In the hot path, saving is optional: my agent promised Alice an update and never saved it, until one sentence told it to.'
+  - 'A search by meaning always returns something, so the agent has to judge whether the closest match is relevant.'
 draft: false
 ---
 
@@ -122,6 +128,8 @@ The first test talks to the response agent directly. I told it "Jim is my friend
 "Jim is John Doe's friend." Then, in a brand-new conversation, I asked "who is jim?" It searched its memory for "Jim",
 found that note with a score of 0.39, and answered "Jim is John's friend."
 
+![Adding semantic memory. The response agent gets two more tools and decides when to use them: manage_memory creates, updates or deletes a memory, and search_memory returns up to 10 of the closest memories by meaning. Both work on one drawer of the store, named email_assistant / lance / collection. Each memory, like "Jim is John Doe's friend.", is saved as text plus an embedding from text-embedding-3-small. In a new conversation, "who is jim?" led to a search for "Jim" that found it with a score of 0.39.](../../assets/images/long-term-agentic-memory/semantic-store.svg)
+
 ## Where it broke: Alice's follow-up
 
 Next, the full assistant (triage plus response agent) gets real emails, and this is where my first run went differently
@@ -140,6 +148,8 @@ remembering.
 **Email 2.** Alice writes back: "Any update on my previous ask?" The agent searched for "Alice Smith previous request"
 and again got only the Jim memory, at 0.22. With nothing to go on, it didn't reply. Instead it asked John: "What was
 Alice's original ask?"
+
+![Where it broke, in my first run. Alice's email asked about missing API endpoints. The agent searched memory and found only the Jim fact, at 0.26, then replied to Alice that it would send an update once the docs were revised. It never called manage_memory, so the promise was not saved. Instead it asked John: "Would you like me to schedule a reminder?" When Alice's second email asked for an update, the search found only the Jim fact again, at 0.22, so the agent had to ask John what she had wanted.](../../assets/images/long-term-agentic-memory/remember-gap.svg)
 
 ## Fixing it with one sentence
 

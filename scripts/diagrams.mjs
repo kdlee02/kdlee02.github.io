@@ -2212,6 +2212,71 @@ const DIAGRAMS = {
         .join('') +
       note(380, 204, 'Check the top of your prompt: anything that changes on every request breaks the cache'),
   },
+
+  'long-term-agentic-memory/semantic-store.svg': {
+    w: 800,
+    h: 290,
+    title:
+      'Adding semantic memory. The response agent gets two more tools and decides when to use them: manage_memory creates, updates or deletes a memory, and search_memory returns up to 10 of the closest memories by meaning. Both work on one drawer of the store, named email_assistant / lance / collection. Each memory, like "Jim is John Doe\'s friend.", is saved as text plus an embedding from text-embedding-3-small. In a new conversation, "who is jim?" led to a search for "Jim" that found it with a score of 0.39.',
+    body: () =>
+      box(20, 100, 170, 80, 'model', ['Response agent', 'decides when to', 'save or search']) +
+      arrow([
+        [190, 125],
+        [238, 88],
+      ]) +
+      arrow([
+        [190, 155],
+        [238, 192],
+      ]) +
+      box(240, 60, 210, 56, 'code', ['`manage_memory', 'create · update · delete']) +
+      box(240, 164, 210, 56, 'code', ['`search_memory', 'up to 10 closest by meaning']) +
+      arrow([
+        [450, 88],
+        [498, 100],
+      ]) +
+      arrow([
+        [450, 192],
+        [498, 180],
+      ]) +
+      box(500, 40, 280, 196, 'data', []) +
+      text(640, 66, '*One drawer of the store') +
+      text(640, 88, '`email_assistant / lance / collection', { size: 12 }) +
+      `<rect x="520" y="106" width="240" height="40" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>` +
+      text(640, 131, '"Jim is John Doe\'s friend."', { size: 13.5 }) +
+      text(640, 176, 'saved as text + an embedding', { size: 12.5, fill: MUTED }) +
+      text(640, 196, '`text-embedding-3-small`', { size: 12.5, fill: MUTED }) +
+      note(400, 272, 'New conversation: "who is jim?" → search "Jim" → found it, score 0.39'),
+  },
+
+  'long-term-agentic-memory/remember-gap.svg': {
+    w: 760,
+    h: 262,
+    title:
+      'Where it broke, in my first run. Alice\'s email asked about missing API endpoints. The agent searched memory and found only the Jim fact, at 0.26, then replied to Alice that it would send an update once the docs were revised. It never called manage_memory, so the promise was not saved. Instead it asked John: "Would you like me to schedule a reminder?" When Alice\'s second email asked for an update, the search found only the Jim fact again, at 0.22, so the agent had to ask John what she had wanted.',
+    body: () =>
+      text(20, 30, '*Email 1: it told John to remember, instead of remembering', { anchor: 'start' }) +
+      box(20, 54, 170, 64, 'data', ["Alice's email", 'missing API endpoints?']) +
+      arrow([
+        [190, 86],
+        [228, 86],
+      ]) +
+      box(230, 54, 180, 64, 'model', ['`search_memory', 'only Jim, score 0.26']) +
+      arrow([
+        [410, 86],
+        [438, 86],
+      ]) +
+      box(440, 54, 300, 64, 'code', ['Reply to Alice', '"I\'ll send you an update once…"']) +
+      arrow(
+        [
+          [590, 118],
+          [590, 146],
+        ],
+        { dashed: true }
+      ) +
+      box(440, 148, 300, 64, 'bad', ['`manage_memory` never called', 'the promise was not saved'], { dashed: true }) +
+      box(20, 148, 390, 64, 'choice', ['To John instead', '"Would you like me to schedule a reminder?"']) +
+      note(380, 246, 'Email 2, "Any update on my previous ask?": only Jim again (0.22), so it asked John'),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {

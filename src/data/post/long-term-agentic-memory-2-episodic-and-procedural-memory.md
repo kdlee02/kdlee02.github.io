@@ -9,6 +9,12 @@ seriesPart: 2
 tags:
   - agents
   - memory
+takeaways:
+  - 'In episodic and procedural memory the code reads memory on every run, and new memories come from people, not the agent.'
+  - 'Episodic memory saves corrected emails as few-shot examples; one example was enough to flip a label.'
+  - 'Examples can quietly override the written rules when the prompt says to follow examples first.'
+  - 'Procedural memory keeps the instructions in the store, and a prompt optimizer rewrites them from feedback.'
+  - 'Show a person each rewritten instruction before saving it: one sentence of feedback became a rule that ignores outage reports.'
 draft: false
 ---
 
