@@ -9,6 +9,12 @@ seriesPart: 2
 tags:
   - agents
   - evals
+takeaways:
+  - 'Reflection means the AI reviews its own work and improves it: draft, critique, revise.'
+  - "A reviewer that sees only what the writer saw tends to repeat the writer's mistakes."
+  - 'Give the reviewer a new fact, like an error message, the rendered chart or the query result, and it can catch real bugs.'
+  - 'Measure before keeping a review step: a small test set when there is a right answer, a yes/no checklist when there is not.'
+  - 'Asking an AI which of two outputs is better is unreliable; models often pick whichever they saw first.'
 draft: false
 ---
 
@@ -143,6 +149,8 @@ same assumption as the writer.
 The fixed query uses `ABS(...)`, which drops the minus sign, and answers **white, 358,315.09**. The model didn't get
 smarter between the two calls. It got a fact it didn't have before: a negative total.
 
+![The bug only the result could reveal. The first query summed qty_delta times unit_price per color and sorted from biggest to smallest. Sales are stored as negative numbers, so it returned the lowest seller: blue, minus 190,571.46. A reviewer that saw only the question, the query and the column list said the query fully answers the question. The same reviewer, also given the result row, noticed the total was negative and suggested ABS. The fixed query answered white, 358,315.09.](../../assets/images/agentic-ai-module-2/negative-sales.svg)
+
 ## How do you know reflection helped?
 
 Every review step adds another AI call, which costs time and money. So before keeping it, measure it.
@@ -171,6 +179,8 @@ What works better is grading **one** chart at a time against a **yes/no checklis
 
 Add up the yeses. AI models are inconsistent when asked to "rate this from 1 to 5," but much steadier on simple yes/no
 questions. In Ng's example, charts scored 4, 5 and 5 points without reflection and 6, 8 and 7 with it.
+
+![Measure reflection before keeping it. If there is a right answer, build a test set of 10 to 15 questions, run each with and without reflection and count the right answers; in Ng's store example, items sold in May came out as 980 without reflection and 1201, the right answer, with it. If there is no right answer, asking an AI which of two charts is better is unreliable because of position bias. Instead, grade one chart at a time against a yes/no checklist; Ng's charts scored 4, 5 and 5 points without reflection and 6, 8 and 7 with it.](../../assets/images/agentic-ai-module-2/measure-reflection.svg)
 
 The big idea from module 2: writing the review step is easy. What matters is what you give the reviewer. If it only
 sees what the writer saw, it tends to make the same mistakes. Hand it something new, like an error message, a picture,

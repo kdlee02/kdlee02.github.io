@@ -1664,6 +1664,340 @@ const DIAGRAMS = {
       box(510, 176, 150, 56, 'data', ['Context', 'grows']) +
       curve(585, 232, 385, 268, 187, 234),
   },
+
+  'agentic-ai-module-1/decompose.svg': {
+    w: 640,
+    h: 290,
+    title:
+      'The main skill: take a step of the job and ask whether an AI, a short piece of code or a tool can do it. If yes, build it. If no, ask how a person would do it, split it into smaller steps, and ask again for each smaller step.',
+    body: () =>
+      text(20, 30, '*Keep splitting until every step is buildable', { anchor: 'start' }) +
+      box(20, 100, 140, 64, 'data', ['A step', 'of the job']) +
+      arrow([
+        [160, 132],
+        [192, 132],
+      ]) +
+      diamond(290, 132, 96, 56, ['Can an AI, code', 'or a tool do it?']) +
+      arrow(
+        [
+          [386, 132],
+          [448, 132],
+        ],
+        { label: 'yes' }
+      ) +
+      box(450, 100, 170, 64, 'code', ['Build it', 'AI · code · tool']) +
+      arrow(
+        [
+          [290, 188],
+          [290, 214],
+        ],
+        { label: 'no', at: [302, 205], anchor: 'start' }
+      ) +
+      box(180, 216, 220, 52, 'data', ['How would a person do it?', 'Split it into smaller steps']) +
+      arrow(
+        [
+          [180, 242],
+          [90, 242],
+          [90, 166],
+        ],
+        { label: 'try again', at: [135, 234] }
+      ),
+  },
+
+  'agentic-ai-module-1/essay-rounds.svg': {
+    w: 760,
+    h: 290,
+    title:
+      "Ng's essay writer in three rounds. Round 1, one prompt that writes the essay: it only covered the obvious points. Round 2, outline, search, then write: better, but choppy, as if pieces were glued together. Round 3, outline, search, draft, review, revise: now one step's whole job is to find choppy parts and fix them.",
+    body: () =>
+      [
+        ['Round 1', [['model', 'Write']], 'only covered the obvious points', 'bad'],
+        [
+          'Round 2',
+          [
+            ['model', 'Outline'],
+            ['code', 'Search'],
+            ['model', 'Write'],
+          ],
+          'better, but choppy: pieces glued together',
+          'bad',
+        ],
+        [
+          'Round 3',
+          [
+            ['model', 'Outline'],
+            ['code', 'Search'],
+            ['model', 'Draft'],
+            ['model', 'Review'],
+            ['model', 'Revise'],
+          ],
+          'one step now exists just to fix choppy parts',
+          'code',
+        ],
+      ]
+        .map(([label, steps, result, rk], r) => {
+          const y = 34 + r * 84;
+          return (
+            text(20, y + 28, `*${label}`, { anchor: 'start' }) +
+            steps
+              .map(
+                ([k, s], i) =>
+                  box(110 + i * 112, y, 92, 44, k, [s]) +
+                  (i < steps.length - 1
+                    ? arrow([
+                        [202 + i * 112, y + 22],
+                        [220 + i * 112, y + 22],
+                      ])
+                    : '')
+              )
+              .join('') +
+            text(110, y + 66, result, { anchor: 'start', size: 13, fill: KIND[rk].ink })
+          );
+        })
+        .join(''),
+  },
+
+  'agentic-ai-module-1/four-patterns.svg': {
+    w: 760,
+    h: 250,
+    title:
+      'The four patterns of the course along the autonomy scale. Reflection (module 2): the AI reviews its own work. Tool use (module 3): the AI decides which tools to call. In both, the programmer still sets the steps. Planning (module 5): the AI writes the steps. Multi-agent (module 5): several AIs, each with a role. These hand more control to the AI.',
+    body: () =>
+      text(196, 40, 'the programmer still sets the steps', { fill: KIND.code.ink, size: 13 }) +
+      text(560, 40, 'the AI takes more of the control', { fill: KIND.model.ink, size: 13 }) +
+      [
+        ['code', ['Reflection', 'the AI reviews', 'its own work'], 'module 2'],
+        ['code', ['Tool use', 'the AI decides', 'which tools to call'], 'module 3'],
+        ['model', ['Planning', 'the AI writes', 'the steps'], 'module 5'],
+        ['model', ['Multi-agent', 'several AIs,', 'each with a role'], 'module 5'],
+      ]
+        .map(([k, l, m], i) => box(20 + i * 182, 56, 170, 90, k, l) + note(105 + i * 182, 170, m))
+        .join('') +
+      arrow([
+        [40, 200],
+        [720, 200],
+      ]) +
+      note(40, 224, 'less autonomous', { anchor: 'start' }) +
+      note(720, 224, 'more autonomous', { anchor: 'end' }),
+  },
+
+  'agentic-ai-module-2/negative-sales.svg': {
+    w: 800,
+    h: 330,
+    title:
+      'The bug only the result could reveal. The first query summed qty_delta times unit_price per color and sorted from biggest to smallest. Sales are stored as negative numbers, so it returned the lowest seller: blue, minus 190,571.46. A reviewer that saw only the question, the query and the column list said the query fully answers the question. The same reviewer, also given the result row, noticed the total was negative and suggested ABS. The fixed query answered white, 358,315.09.',
+    body: () =>
+      box(20, 46, 280, 80, 'model', ['First query', '`SUM(qty_delta * unit_price)', '`ORDER BY total_sales DESC']) +
+      arrow([
+        [300, 86],
+        [338, 86],
+      ]) +
+      box(340, 61, 230, 50, 'bad', ['blue, −190,571.46']) +
+      note(590, 82, 'sales are stored as negative,', { anchor: 'start' }) +
+      note(590, 100, 'so this is the lowest seller', { anchor: 'start' }) +
+      text(20, 160, '*Review with only the query', { anchor: 'start', size: 13 }) +
+      box(20, 168, 280, 56, 'data', ['Reviewer sees: question,', 'query, column list'], { plain: true }) +
+      arrow([
+        [300, 196],
+        [338, 196],
+      ]) +
+      box(340, 168, 230, 56, 'model', ['`gpt-4.1', '"fully answers the question"']) +
+      arrow([
+        [570, 196],
+        [598, 196],
+      ]) +
+      box(600, 168, 180, 56, 'bad', ['Bug missed']) +
+      text(20, 254, '*Review with the result too', { anchor: 'start', size: 13 }) +
+      box(20, 262, 280, 56, 'data', ['… plus the result row', '`blue, −190,571.46'], { plain: true }) +
+      arrow([
+        [300, 290],
+        [338, 290],
+      ]) +
+      box(340, 262, 230, 56, 'model', ['`gpt-4.1', '"negative total → use ABS"']) +
+      arrow([
+        [570, 290],
+        [598, 290],
+      ]) +
+      box(600, 262, 180, 56, 'code', ['Fixed query', 'white, 358,315.09']),
+  },
+
+  'agentic-ai-module-2/measure-reflection.svg': {
+    w: 800,
+    h: 290,
+    title:
+      "Measure reflection before keeping it. If there is a right answer, build a test set of 10 to 15 questions, run each with and without reflection and count the right answers; in Ng's store example, items sold in May came out as 980 without reflection and 1201, the right answer, with it. If there is no right answer, asking an AI which of two charts is better is unreliable because of position bias. Instead, grade one chart at a time against a yes/no checklist; Ng's charts scored 4, 5 and 5 points without reflection and 6, 8 and 7 with it.",
+    body: () =>
+      text(20, 30, '*Measure reflection before keeping it', { anchor: 'start' }) +
+      diamond(130, 150, 110, 56, ['Is there a', 'right answer?']) +
+      arrow(
+        [
+          [240, 150],
+          [270, 150],
+          [270, 95],
+          [298, 95],
+        ],
+        { label: 'yes', at: [256, 118] }
+      ) +
+      arrow(
+        [
+          [240, 150],
+          [270, 150],
+          [270, 215],
+          [298, 215],
+        ],
+        { label: 'no', at: [256, 192] }
+      ) +
+      box(300, 50, 480, 90, 'code', [
+        'Test set of 10–15 questions',
+        'run each with and without reflection, count the right ones',
+        'e.g. items sold in May: 980 without, 1201 (right) with',
+      ]) +
+      box(300, 170, 230, 90, 'bad', ['Asking which of two', 'charts is better:', 'unreliable (position bias)']) +
+      arrow([
+        [530, 215],
+        [558, 215],
+      ]) +
+      box(560, 170, 220, 90, 'code', ['Instead: a yes/no', 'checklist per chart', '4, 5, 5 → 6, 8, 7 points']),
+  },
+
+  'agentic-ai-module-3/tools-are-limits.svg': {
+    w: 800,
+    h: 280,
+    title:
+      '"Delete Alice\'s email" with two tool lists. Without a delete tool (list, search, mark read, send), the AI finds the email, then says "I can\'t delete emails" and offers to mark it read or reply. With a delete tool added, it searches and deletes: "Done — I found and deleted the email." The list of tools is the list of things the agent can do.',
+    body: () =>
+      text(20, 30, '*"Delete Alice\'s email", with two different tool lists', { anchor: 'start' }) +
+      text(20, 66, '*Without a delete tool', { anchor: 'start', size: 13 }) +
+      box(20, 76, 250, 56, 'data', ['Tools', 'list · search · mark read · send'], { size: 13 }) +
+      arrow([
+        [270, 104],
+        [298, 104],
+      ]) +
+      box(300, 76, 200, 56, 'model', ['Finds the email']) +
+      arrow([
+        [500, 104],
+        [528, 104],
+      ]) +
+      box(530, 76, 250, 56, 'bad', ['"I can\'t delete emails"', 'offers to mark read or reply'], { size: 13 }) +
+      text(20, 172, '*With a delete tool added', { anchor: 'start', size: 13 }) +
+      box(20, 182, 250, 56, 'data', ['Tools', '… + delete'], { size: 13 }) +
+      arrow([
+        [270, 210],
+        [298, 210],
+      ]) +
+      box(300, 182, 200, 56, 'model', ['Search → delete']) +
+      arrow([
+        [500, 210],
+        [528, 210],
+      ]) +
+      box(530, 182, 250, 56, 'code', ['"Done — I found and', 'deleted the email"'], { size: 13 }) +
+      note(400, 266, 'The list of tools is the list of things your agent can do'),
+  },
+
+  'agentic-ai-module-4/build-analyze.svg': {
+    w: 760,
+    h: 300,
+    title:
+      'Build first, then look. Build a rough version, analyze its outputs, and go back to build. For the invoice reader, run 20 invoices and note what went wrong with each: invoice 1 is fine, invoice 2 mixed up the invoice date with the due date, invoices 3 and 4 are fine. If date mix-ups keep showing up, that is the most common problem and the thing to measure next.',
+    body: () =>
+      box(20, 70, 160, 64, 'code', ['Build', 'a rough version']) +
+      arrow([
+        [70, 134],
+        [70, 184],
+      ]) +
+      box(20, 186, 160, 64, 'choice', ['Analyze', 'read the outputs']) +
+      curve(180, 218, 240, 160, 182, 104) +
+      text(500, 46, '*20 invoices, read one by one') +
+      [
+        ['code', 'Invoice 1   ✓ fine'],
+        ['bad', 'Invoice 2   ✗ invoice date mixed up with due date'],
+        ['code', 'Invoice 3   ✓ fine'],
+        ['code', 'Invoice 4   ✓ fine'],
+        ['choice', '…  date mix-ups keep showing up → measure that next'],
+      ]
+        .map(([k, s], i) => box(280, 60 + i * 46, 460, 38, k, [s], { align: 'left', plain: true, size: 13.5 }))
+        .join(''),
+  },
+
+  'agentic-ai-module-4/component-eval.svg': {
+    w: 800,
+    h: 330,
+    title:
+      'Test one step on its own. Rerunning the whole research agent (request, search terms, web search, pick sources, write) after every change is slow, costly and noisy. Instead, pull out the web search step and check its result links: pass if at least 40 percent come from preferred sites such as arxiv.org and nature.com. In my run, a request for recent papers passed with 4 of 4 links, 100 percent, for papers from 1998 and 2006: the eval checks where links point, not how old the papers are, so the eval needs fixing.',
+    body: () =>
+      ['Request', 'Search terms', 'Web search', 'Pick sources', 'Write']
+        .map(
+          (s, i) =>
+            box(20 + i * 126, 46, 110, 44, i === 2 ? 'code' : 'ghost', [s], { size: 13 }) +
+            (i < 4
+              ? arrow([
+                  [130 + i * 126, 68],
+                  [144 + i * 126, 68],
+                ])
+              : '')
+        )
+        .join('') +
+      note(650, 64, 'rerunning it all:', { anchor: 'start' }) +
+      note(650, 82, 'slow, costly, noisy', { anchor: 'start' }) +
+      arrow(
+        [
+          [327, 90],
+          [327, 122],
+          [110, 122],
+          [110, 148],
+        ],
+        { dashed: true, label: 'pull out one step', at: [218, 114] }
+      ) +
+      box(20, 150, 180, 70, 'code', ['Web search', 'on its own']) +
+      arrow([
+        [200, 185],
+        [238, 185],
+      ]) +
+      box(240, 150, 220, 70, 'data', ['Result links', 'arxiv.org, nature.com, …']) +
+      arrow([
+        [460, 185],
+        [498, 185],
+      ]) +
+      box(500, 150, 280, 70, 'choice', ['≥ 40% from preferred sites?', 'PASS or FAIL']) +
+      box(
+        20,
+        250,
+        760,
+        56,
+        'bad',
+        [
+          'My run: "recent" papers from 1998 and 2006 still scored 4 of 4, 100%, PASS',
+          'The eval checks where links point, not how old the papers are: fix the eval first',
+        ],
+        { size: 13 }
+      ),
+  },
+
+  'agentic-ai-module-5/five-habits.svg': {
+    w: 760,
+    h: 346,
+    title:
+      'Five modules, five habits. Module 1: break the job into steps an AI, a bit of code or a tool can do. Module 2: give the reviewer a new fact, not just a second look. Module 3: let the AI ask for tools, and let it write code when small tools keep piling up. Module 4, the one worth rereading: measure, and count which step causes the errors before fixing anything. Module 5: hand over only as much control as the job needs.',
+    body: () =>
+      text(20, 30, '*Five modules, five habits', { anchor: 'start' }) +
+      [
+        'Break the job into steps an AI, a bit of code or a tool can do',
+        'Give the reviewer a new fact, not just a second look',
+        'Let the AI ask for tools; let it write code when small tools pile up',
+        'Measure, and count which step causes the errors, before fixing anything',
+        'Hand over only as much control as the job needs',
+      ]
+        .map((h, i) => {
+          const y = 50 + i * 54;
+          const k = i === 3 ? 'choice' : 'data';
+          return (
+            box(20, y, 120, 44, k, [`Module ${i + 1}`]) +
+            box(150, y, 590, 44, k, [h], { align: 'left', plain: true, size: 13.5 })
+          );
+        })
+        .join('') +
+      note(740, 332, 'module 4 is the one to reread: every other pattern needs a way to measure', { anchor: 'end' }),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {

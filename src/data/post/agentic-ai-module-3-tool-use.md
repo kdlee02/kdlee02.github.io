@@ -9,6 +9,12 @@ seriesPart: 3
 tags:
   - agents
   - tool-use
+takeaways:
+  - 'A tool is optional: the AI decides when a tool would help and answers directly when it would not.'
+  - 'The AI never runs anything. It writes a request, and your program runs the function and sends back the result.'
+  - "A tool's short description is all the AI knows about it, so write it clearly."
+  - 'The tools you hand over are the only things your agent can do, and the only things it can break.'
+  - 'When small tools keep piling up, let the AI write code in a sandbox; MCP lets apps share tools instead of rebuilding them.'
 draft: false
 ---
 
@@ -86,6 +92,8 @@ emails," "mark as read," and "send email." Here's what happened with three reque
 
 The middle row is the lesson: without the right tool, the AI can still think about the task, but it can't do it. The
 list of tools is the list of things your agent is able to do.
+
+!["Delete Alice's email" with two tool lists. Without a delete tool (list, search, mark read, send), the AI finds the email, then says "I can't delete emails" and offers to mark it read or reply. With a delete tool added, it searches and deletes: "Done — I found and deleted the email." The list of tools is the list of things the agent can do.](../../assets/images/agentic-ai-module-3/tools-are-limits.svg)
 
 The lab's prompt tells the AI "never ask the user for confirmation before performing an action." On a real inbox, I'd
 want a person to approve deletions, like the human sign-off step in module 1.

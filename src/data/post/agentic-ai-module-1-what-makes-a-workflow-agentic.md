@@ -8,6 +8,12 @@ series: 'Agentic AI'
 seriesPart: 1
 tags:
   - agents
+takeaways:
+  - 'An agentic workflow is a job split into steps, where an AI does some of them and tools or people do the rest.'
+  - 'Autonomy is a scale. Most useful work today sits at the less autonomous end, where the programmer fixes the steps.'
+  - 'How you set up the work can matter more than the model: GPT-3.5 in a workflow beat GPT-4 on its own on HumanEval.'
+  - 'The main skill is breaking a job into steps an AI, a bit of code or a tool can do, and splitting the weakest step further.'
+  - 'Four patterns follow: reflection, tool use, planning and multi-agent.'
 draft: false
 ---
 
@@ -100,12 +106,16 @@ Ng calls this the most important skill in the whole course. Split the task into 
 
 If yes, build it. If no, ask how a person would do that step, and split it smaller.
 
+![The main skill: take a step of the job and ask whether an AI, a short piece of code or a tool can do it. If yes, build it. If no, ask how a person would do it, split it into smaller steps, and ask again for each smaller step.](../../assets/images/agentic-ai-module-1/decompose.svg)
+
 You rarely get it right the first time. Ng's own essay writer went through rounds:
 
 1. **One prompt.** The essay only covered the obvious points.
 2. **Outline, then search, then write.** Better, but the essays felt choppy, as if separate pieces were glued
    together.
 3. **Split "write" into draft, review, revise.** Now one step's whole job is to find choppy parts and fix them.
+
+![Ng's essay writer in three rounds. Round 1, one prompt that writes the essay: it only covered the obvious points. Round 2, outline, search, then write: better, but choppy, as if pieces were glued together. Round 3, outline, search, draft, review, revise: now one step's whole job is to find choppy parts and fix them.](../../assets/images/agentic-ai-module-1/essay-rounds.svg)
 
 Each round, you look at what came out, find the weakest step, and split _that_ step further. To know whether a change
 actually helped, you also need a way to measure the results. The course covers that in module 4.
@@ -131,6 +141,8 @@ The remaining modules each cover one way to design agentic workflows:
 
 The first two fit inside a workflow the programmer still controls. The last two hand more of the control to the AI,
 which moves you along the scale toward highly autonomous.
+
+![The four patterns of the course along the autonomy scale. Reflection (module 2): the AI reviews its own work. Tool use (module 3): the AI decides which tools to call. In both, the programmer still sets the steps. Planning (module 5): the AI writes the steps. Multi-agent (module 5): several AIs, each with a role. These hand more control to the AI.](../../assets/images/agentic-ai-module-1/four-patterns.svg)
 
 The big idea from module 1: an agentic workflow isn't a magic new kind of AI. It's a job split into steps, with the
 AI doing some of them. [Module 2](/engineering/agentic-ai-module-2-reflection) starts with the first pattern,

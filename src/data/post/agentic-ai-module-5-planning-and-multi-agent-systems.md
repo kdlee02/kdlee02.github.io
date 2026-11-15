@@ -8,6 +8,12 @@ series: 'Agentic AI'
 seriesPart: 5
 tags:
   - agents
+takeaways:
+  - 'In planning, the AI writes its own step-by-step plan from the tools it has, and your program runs it.'
+  - 'Plans written as code beat JSON and plain text (CodeAct), but run AI-written code in a sandbox.'
+  - 'A reviewer that checks the plan before it runs catches broken steps, like a missing stock update.'
+  - 'Multi-agent systems split a big job into roles, each with its own instructions and tools.'
+  - 'Linear and manager setups are the common ones; all-to-all is the hardest to predict.'
 draft: false
 ---
 
@@ -125,6 +131,8 @@ Five modules, five habits:
    ([module 4](/engineering/agentic-ai-module-4-evals-and-error-analysis)).
 5. **Hand over only as much control as the job needs.** Planning and teams of agents are powerful but harder to predict
    (this module).
+
+![Five modules, five habits. Module 1: break the job into steps an AI, a bit of code or a tool can do. Module 2: give the reviewer a new fact, not just a second look. Module 3: let the AI ask for tools, and let it write code when small tools keep piling up. Module 4, the one worth rereading: measure, and count which step causes the errors before fixing anything. Module 5: hand over only as much control as the job needs.](../../assets/images/agentic-ai-module-5/five-habits.svg)
 
 If I had to reread one, it would be module 4. Every other pattern depends on being able to tell whether a change
 actually helped.

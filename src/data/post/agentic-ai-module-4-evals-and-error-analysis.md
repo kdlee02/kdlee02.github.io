@@ -9,6 +9,12 @@ seriesPart: 4
 tags:
   - agents
   - evals
+takeaways:
+  - "Build a rough version fast, then read its outputs: it's hard to predict where an agent will struggle."
+  - 'An eval is a repeatable test with a score. Start with 10 to 20 examples, checked by code or by an AI judge.'
+  - 'Error analysis: collect the bad outputs, mark which step did worse than an expert would with the same input, and count.'
+  - 'Test the step you are fixing on its own (a component eval), and fix the eval when it disagrees with your own reading.'
+  - 'Get quality right first, then measure time and cost per step; the AI steps are often the cheap ones.'
 draft: false
 ---
 
@@ -33,6 +39,8 @@ quickly, then read what it produces.
 Take the invoice reader from module 1. Run 20 invoices through it and note what went wrong with each. Invoice 1 is fine.
 Invoice 2 mixed up the invoice date with the due date. Invoices 3 and 4 are fine. If date mix-ups keep showing up,
 you've found your most common problem, and you know what to measure next.
+
+![Build first, then look. Build a rough version, analyze its outputs, and go back to build. For the invoice reader, run 20 invoices and note what went wrong with each: invoice 1 is fine, invoice 2 mixed up the invoice date with the due date, invoices 3 and 4 are fine. If date mix-ups keep showing up, that is the most common problem and the thing to measure next.](../../assets/images/agentic-ai-module-4/build-analyze.svg)
 
 ## Scoring the final output
 
@@ -111,6 +119,8 @@ not how old the papers are. It also counted each paper twice, once for its abstr
 
 This is Ng's "the eval can be wrong too" tip in action. When your own reading and the score disagree, fix the
 eval. Here I'd add a date check and count each paper once.
+
+![Test one step on its own. Rerunning the whole research agent (request, search terms, web search, pick sources, write) after every change is slow, costly and noisy. Instead, pull out the web search step and check its result links: pass if at least 40 percent come from preferred sites such as arxiv.org and nature.com. In my run, a request for recent papers passed with 4 of 4 links, 100 percent, for papers from 1998 and 2006: the eval checks where links point, not how old the papers are, so the eval needs fixing.](../../assets/images/agentic-ai-module-4/component-eval.svg)
 
 Once the component eval is trustworthy, you can improve the step itself:
 
