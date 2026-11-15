@@ -1,5 +1,5 @@
 ---
-title: 'How to Make an AI Fill Out a Form'
+title: 'Getting Structured Output From an AI (Part 1)'
 excerpt: 'Why programs need neat, structured answers from an AI instead of paragraphs, and the first two ways to get them: let the AI company enforce a form, or check the answer and ask again. Part 1 of 2.'
 publishDate: 2026-07-25T00:00:00Z
 category: 'LLM Engineering'
@@ -46,10 +46,10 @@ If the AI answers with a predictable form instead, the change is one line. The f
 
 ![Top: the AI's free-text answer goes through a fragile hand-written parser that has to guess both "is it a complaint?" and "what's the reply?". Bottom: the AI fills a form with a complaint box and a response box, and a simple if-statement sends it to support or to the social media site.](../../assets/images/structured-output-explained/parser-vs-form.svg)
 
-## The three ways, and the journey between them
+## Three ways to get a form back
 
-The course sorts the ways to get structured output into three groups, and presents them as steps on a journey from
-"prompt hacking" (rewording your request until it seems to work) toward real engineering:
+The course sorts the ways to get structured output into three groups, on a journey from "prompt hacking" (rewording
+your request until it seems to work) toward real engineering:
 
 ![Four steps from left to right: chatting with the AI and hoping, the AI company's JSON feature, re-prompting libraries like Instructor, and structured generation. An arrow underneath runs from "prompt hacking" to "AI engineering".](../../assets/images/structured-output-explained/journey.svg)
 
@@ -57,32 +57,13 @@ The course sorts the ways to get structured output into three groups, and presen
    fill it in.
 2. **Check the answer and ask again.** A library like Instructor checks the AI's answer on your computer. If it's
    wrong, it sends the AI the error and asks for a fix.
-3. **Make wrong answers impossible to type.** This is called **structured generation**. It reaches inside the model
-   and blocks every word that would break the form, before the model can pick it.
-
-This post covers the first two. Part 2 covers the third, which is where the course spends most of its time.
+3. **Make wrong answers impossible to type.** This is called **structured generation**, and Part 2 covers it.
 
 ## First, describe the form
 
-Every method starts with writing down what the form looks like. The official way to describe the shape of a JSON form
-is a **JSON Schema**. Here's one for a person:
-
-```json
-{
-  "properties": {
-    "name": { "title": "Name", "type": "string" },
-    "age": { "title": "Age", "type": "integer" },
-    "email": { "anyOf": [{ "type": "string" }, { "type": "null" }], "title": "Email" }
-  },
-  "required": ["name", "age"],
-  "title": "User",
-  "type": "object"
-}
-```
-
-That's a lot of punctuation for three boxes, and real forms are much bigger. So in Python, people describe the form
-with **Pydantic** instead, a library that checks data has the right shape. You write a short class and Pydantic
-produces the schema for you:
+Every method starts with writing down what the form looks like. In Python, people do this with **Pydantic**, a library
+that checks data has the right shape. You write a short class, and Pydantic turns it into the official description of a
+JSON form (a **JSON Schema**) for you:
 
 ```python
 from typing import Optional
@@ -144,9 +125,7 @@ The notebook ran three posts through it and turned the results straight into a t
 | "hey @techcorp you're so evil"                             | `not_applicable` | negative  | `False`        | none                                      |
 
 The "don't reply to bait" rule was one sentence in the instructions, and it came back as a plain `False` your program
-can act on. The instructions also had a personality setting. Switching it from "friendly" to "rude" turned the reply to
-the first post into "Thanks for the compliment! It's about time someone appreciated good design around here." Same
-form, different voice.
+can act on.
 
 ### The order of the boxes matters
 
@@ -164,32 +143,18 @@ class UserPostWithExtras(BaseModel):
 ```
 
 In the notebook the AI first wrote the mood `awful` and thoughts like "This app is really frustrating me." Only then did
-it write the message: "I've been having constant issues with the app crashing on my phone…" Fed back into the agent,
-that post got an apology and the ticket "User reported constant app crashes on their phone, requesting a fix."
+it write the message: "I've been having constant issues with the app crashing on my phone…"
 
 It's like making students show their work before the final answer. Put the "thinking" boxes first. If you put them
 after the answer, the AI is just explaining a choice it already made.
 
-### How do the AI companies do it?
-
-The course lists the tricks providers use, and you usually can't tell which one you're getting:
-
-- **Function calling** (or **tool use**): the model was trained to produce JSON when it wants to "call" a tool, and the
-  form is dressed up as a tool.
-- **JSON mode**: the model was trained to answer in JSON when asked to.
-- **Constrained decoding**: the provider blocks invalid words as the model writes. This is the technique Part 2 covers.
-- Something else they haven't told anyone about.
-
 ### The good and the bad
 
-The good part is that it's easy. If you already use OpenAI, it's a few extra lines, and the providers keep improving it.
+The good part is that it's easy. If you already use OpenAI, it's a few extra lines.
 
-The course lists four problems:
+The two big problems:
 
 - **You're tied to one company.** Code written for OpenAI's version needs rewriting to use someone else's.
-- **Results can be inconsistent**, depending on the provider.
-- **The effect on answer quality is unclear.** Some people have found that forcing a format makes answers worse on
-  tests. The course says this isn't proven, but it's a worry.
 - **Only part of Pydantic is allowed.** At the time of the course, OpenAI rejected `date` types and pattern rules like
   "must look like an email address." You write a rich form, and the provider only accepts a simpler one.
 
@@ -201,40 +166,8 @@ along with the exact error message and asks for a fix. Think of a teacher handin
 
 ![The AI fills in the form. A Pydantic check on your computer looks at it. If it passes, your program gets the result. If it fails, the error goes back to the AI for another try, up to max_retries.](../../assets/images/structured-output-explained/retry-loop.svg)
 
-Pydantic and Instructor do different jobs. Pydantic on its own never talks to an AI. It only checks data you already
-have. Instructor is the wrapper that does the asking, and the asking again. You could write that loop yourself in
-about fifteen lines. Instructor saves you the trouble.
-
-### One set of code for many AI companies
-
-Most AI providers copy OpenAI's way of sending requests, so OpenAI's own Python library can talk to them if you change
-the web address it sends to. The course uses this to reach **Together AI**, a company that hosts open models like
-Meta's Llama but doesn't offer a structured output feature of its own:
-
-```python
-import instructor
-from openai import OpenAI
-
-together_client = OpenAI(base_url="https://api.together.xyz/v1", api_key=...)
-instructor_client = instructor.from_openai(together_client)
-```
-
-Wrapping the client is the only change. After that you ask for a `response_model` and get back an object:
-
-```python
-class Greeting(BaseModel):
-    hello: str
-
-instructor_client.chat.completions.create(
-    model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
-    messages=[{"role": "user", "content": "sup"}],
-    response_model=Greeting,
-)
-```
-
-Watch the name: OpenAI calls this setting `response_format`, Instructor calls it `response_model`. (And the word
-_Instruct_ in a model's name has nothing to do with Instructor. It means the model was trained to follow instructions
-like a chatbot.)
+Instructor works with almost any AI company, including ones that have no structured output feature of their own. The
+course uses it with Meta's Llama model hosted on Together AI.
 
 ### All of Pydantic is allowed
 
@@ -264,9 +197,6 @@ The `pattern=` parts are **regular expressions**, a mini-language for describing
 means "two capital letters." `\d{5}` means "five digits." If the AI writes `Oregon` or a four-digit zip code, the check
 fails and Instructor asks again.
 
-`participants` is a list of `Person` rather than a list of names. That's ordinary good programming: when you later want
-each person's email, you add one line to `Person`.
-
 The course fed this the sentence "Alice and Bob are going to a science fair on Friday, January 2024… at Hazeldale
 Elementary School at 20080 SW Farmington Road in Beaverton Oregon." The description never mentions a zip code, but the
 form has a box for one, so the model has to come up with something. Asking for a box is a way of asking for
@@ -274,14 +204,9 @@ information. Just remember that a made-up zip code passes the five-digit check w
 
 ### The bad part: retries cost money and time
 
-The course is honest about the downsides:
-
 - **Retries are expensive.** Every retry resends the whole conversation, so each failed try costs a full request's worth
   of tokens (the small chunks of text AI companies charge by). Your user waits through every one.
 - **It can still fail.** There's no guarantee the AI ever gets it right.
-- **It's hard to see what happened.** Instructor doesn't show you how many tries it took. The course had to add its own
-  counter to find out.
-- **It only works with chat-style models** that already support function calling or JSON mode.
 
 The course demonstrates the failure on purpose. The form asks for three simple values:
 
@@ -294,11 +219,8 @@ class Complicated(BaseModel):
 
 The user asks for "a short essay on Dolly Parton," and the system prompt says "Don't give me what I want." With
 `max_retries=3`, Instructor tries three times in total, gets an essay each time, and gives up with an
-`InstructorRetryException`. Three paid requests, no answer. When the prompt simply asks for a, b and c, it works on the
-first try.
-
-That example is rigged, but the course's point holds. If you call a model thousands of times, some calls will fail by
-chance, and each one costs you extra tokens and waiting time.
+`InstructorRetryException`. Three paid requests, no answer. The example is rigged, but if you call a model thousands of
+times, some calls will fail by chance and cost you extra.
 
 ## Which one should you use?
 
@@ -313,10 +235,6 @@ chance, and each one costs you extra tokens and waiting time.
 - **Use Way 2** when you need dates, patterns or your own rules, or want to switch providers easily. Count your
   retries.
 
-One thing neither way does: make sure the answer is **true**. A form that passes every check can still hold the wrong
-company name or a made-up zip code. Structured output turns a messy problem into a tidy one, but you still have to check
-the facts.
-
-Both ways also share a deeper limit: they ask the model to behave, then check whether it did. The course argues that the
-next step is to stop asking, and to make a broken form impossible for the model to write at all.
-[Part 2](/engineering/structured-generation-with-outlines) shows how that works, one token at a time.
+Both ways ask the model to behave, then check whether it did.
+[Part 2](/engineering/structured-generation-with-outlines) shows the third way, which makes a broken form impossible to
+write at all.

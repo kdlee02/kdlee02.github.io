@@ -1,5 +1,5 @@
 ---
-title: 'Giving an AI Assistant a Memory'
+title: 'Semantic Memory: Helping an AI Agent Remember Facts'
 excerpt: 'The three kinds of memory an AI agent can have, when it should save them, and what happened when I gave an email assistant tools to remember facts, plus how one sentence fixed a missed save. Part 1 of 2 on the Long-Term Agentic Memory course.'
 publishDate: 2026-11-05T00:00:00Z
 category: 'LLM Engineering'
@@ -17,9 +17,8 @@ course, taught by Harrison Chase. This is part 1 of 2: the basic email assistant
 Imagine hiring a personal assistant who forgets everything at the end of each conversation. You tell them on Monday
 that Jim is your friend. On Tuesday, Jim emails, and they have no idea who he is. You'd stop trusting them pretty fast.
 
-Most AI agents work like that by default. Each conversation starts from a blank page. That's a real problem for the
-kind of job people most want agents for: when the course team surveyed developers about what agents are best at today,
-personal assistant and productivity tasks came second. Those jobs depend on remembering things over weeks and months.
+Most AI agents work like that by default. Each conversation starts from a blank page. That's a real problem for jobs like a personal
+assistant, which depend on remembering things over weeks and months.
 That's what **long-term memory** means here: memory that lasts across separate conversations.
 
 The course builds one example the whole way through: an assistant that reads your email and decides what to do with
@@ -48,13 +47,13 @@ There's a second choice, separate from the kind of memory: _when_ memories get w
 
 ![Two setups. In the hot path, one agent reads the email, writes the reply and saves memories in one go: one agent and memories saved right away, but the agent juggles two jobs and the reply takes longer. In the background, the agent only replies, and later a separate memory manager saves memories: the agent stays simple and replies faster, but there are two agents to run and memories update only when the second one runs.](../../assets/images/long-term-agentic-memory/update-timing.svg)
 
-The **hot path** is the work the agent does while you wait for its answer. Saving memories there means the agent
-replies and remembers in the same run. It's simple, with only one agent, and the memory is there right away. But the
-agent now has two jobs, which makes it more complicated and slower to respond.
+The **hot path** is the work the agent does while you wait for its answer. Saving memories there means one agent
+replies and remembers in the same run, so the memory is there right away, but the agent juggles two jobs and replies
+more slowly.
 
-Saving memories **in the background** flips that. The agent only replies, and a separate process looks at the
-conversation afterwards and decides what's worth keeping. Each piece is simpler and replies come faster, but you now
-run two agents, and a memory doesn't exist until that second one runs.
+Saving memories **in the background** means a separate process reads the conversation afterwards and decides what to
+keep. The replying agent stays simple and fast, but you run two agents, and a memory doesn't exist until the second one
+runs.
 
 This post uses the hot path. [Part 2](/engineering/long-term-agentic-memory-2-episodic-and-procedural-memory) moves
 memory updates outside the agent.
@@ -82,9 +81,8 @@ labeled **ignore**. An email from a teammate, Alice, asking whether two API endp
 purpose, was labeled **respond**, because it was "a direct question from a team member."
 
 **Step 2: the response agent.** Only "respond" emails get this far. The response agent is a model that can use
-tools: write an email, schedule a meeting, or check John's calendar. The tools are pretend. The calendar always says
-John is free at 9 AM, 2 PM and 4 PM, and "sending" an email just prints a confirmation. Asked "what is my availability
-for Tuesday?", the agent checked the calendar tool and listed exactly those three times.
+tools: write an email, schedule a meeting, or check John's calendar. The tools are pretend: the calendar
+always returns the same three free slots, and "sending" an email just prints a confirmation.
 
 Given Alice's email, it wrote back thanking her and promising to "get back to you with the confirmation … by
 tomorrow." A promise like that is exactly the kind of thing a good assistant should remember. This version can't.
@@ -111,23 +109,15 @@ a **score** for how close the meanings are. Higher means closer.
 
 Both tools come ready-made from a library called LangMem.
 
-- **`manage_memory`** creates, updates or deletes a memory. Its built-in description tells the AI to call it
-  "proactively" when it spots a new preference, is asked to remember something, wants to record important context, or
-  finds an old memory that's wrong.
+- **`manage_memory`** creates, updates or deletes a memory. Its built-in description tells the AI to use it
+  "proactively" whenever it learns something worth keeping.
 - **`search_memory`** takes a search phrase and returns up to 10 of the closest memories by default.
-
-For this lesson, the response agent was also switched to Claude (`claude-3-5-sonnet-latest`).
 
 ### It remembered Jim
 
 The first test talks to the response agent directly. I told it "Jim is my friend." It called `manage_memory` and saved
 "Jim is John Doe's friend." Then, in a brand-new conversation, I asked "who is jim?" It searched its memory for "Jim",
 found that note with a score of 0.39, and answered "Jim is John's friend."
-
-You can also open the drawer yourself. Listing everything in it showed one memory and no score, since there was no
-search phrase to compare against. Searching the store for "jim" returned the same memory with a score of 0.50.
-
-So far, so good.
 
 ## Where it broke: Alice's follow-up
 
@@ -169,9 +159,8 @@ did what it skipped before and called `manage_memory`, saving this note:
 request" returned two memories: the new action item at **0.35**, and the Jim memory at 0.21. The agent picked the
 right one and explained the situation: John "promised a clear answer but the action item is still open."
 
-It didn't send a reply right away. It wrote a draft ("I'm still looking into your question … I'll get back to you with
-a clear update very shortly") and asked John whether to send it or adjust it first. That's a reasonable thing for an
-assistant to do when the open question is still unanswered.
+It drafted a reply saying John was still looking into it, and asked John whether to send it. That's reasonable while
+the question is still unanswered.
 
 ![Alice's two emails, before and after one added sentence. Before, with the course's instructions: on email 1 the agent searched memory and found only the Jim fact at 0.26, sent a reply, and never called manage_memory, so nothing about Alice was saved. On email 2 it found only the Jim fact at 0.22, sent no reply, and asked John what Alice's original ask was. After, with the extra sentence: on email 1 it searched, found only the Jim fact at 0.25, sent a reply, then called manage_memory and saved an action item saying Alice is awaiting a follow-up. On email 2 it found the action item at 0.35 ahead of the Jim fact at 0.21, drafted a reply, and asked John before sending.](../../assets/images/long-term-agentic-memory/alice-follow-up.svg)
 
@@ -183,13 +172,11 @@ one clear sentence telling it to save promises, it saved. That's one run each, s
 every time, since AI output varies from run to run. But it points to the cause: the instructions, not the memory
 system.
 
-**A search always returns something.** Searching by meaning finds the closest match, even when nothing is close.
-Alice's first email got the Jim memory back at 0.25 even though it had nothing to do with her question. The agent has
-to judge whether a result is relevant, and in both runs it judged well. In the first run it asked John instead of
-inventing an answer about what Alice wanted. Making something up would have been worse than asking.
+**A search always returns something.** Searching by meaning finds the closest match, even when nothing is close,
+so Alice's emails kept getting the Jim memory back. The agent has to judge whether a result is relevant, and in both
+runs it judged well. In the first run it asked John instead of inventing what Alice wanted.
 
-There's a limit to this fix, too. It still depends on the agent following the instruction. Moving memory updates out
-of the agent is another answer. If new memories come from somewhere else, like a person correcting the assistant or a
-separate program reviewing its work, saving no longer depends on the replying agent doing it in the moment. That's
-[Part 2](/engineering/long-term-agentic-memory-2-episodic-and-procedural-memory): episodic memory saved from a
-person's corrections, and procedural memory, where the assistant's own instructions get rewritten from feedback.
+This fix still depends on the agent following the instruction.
+[Part 2](/engineering/long-term-agentic-memory-2-episodic-and-procedural-memory) takes saving out of the agent's hands:
+episodic memory saved from a person's corrections, and procedural memory, where the assistant's own instructions get
+rewritten from feedback.

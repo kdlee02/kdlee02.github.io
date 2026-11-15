@@ -1,7 +1,7 @@
 ---
-title: 'Corrective RAG in LangGraph: Grade, Boil Down, or Go to the Web'
+title: 'Corrective RAG in LangGraph'
 excerpt: 'A RAG graph that grades what it found, boils the good documents down to the sentences that matter, and searches the web when nothing useful is left. Plus a price that got thrown away for scoring exactly 0.5. Part 6, the last in a series on LangChain and LangGraph.'
-publishDate: 2026-11-06T00:00:00Z
+publishDate: 2026-11-06T06:00:00Z
 category: 'LLM Engineering'
 tags:
   - langgraph

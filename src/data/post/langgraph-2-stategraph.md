@@ -1,7 +1,7 @@
 ---
-title: 'LangGraph StateGraph: State, Nodes, Edges and Reducers'
+title: 'LangGraph Basics: State, Nodes, Edges and Reducers'
 excerpt: 'How LangGraph turns an AI app into named steps joined by arrows: the state every step reads and writes, edges that branch on that state, reducers that decide how updates combine, a state built for chat messages, and a first loop that grades its own answer. Part 2 of a series on LangChain and LangGraph.'
-publishDate: 2026-11-06T00:00:00Z
+publishDate: 2026-11-06T02:00:00Z
 category: 'LLM Engineering'
 tags:
   - langgraph

@@ -1,7 +1,7 @@
 ---
-title: 'Adaptive RAG and Human-in-the-Loop in LangGraph: Route the Question, Pause the Graph'
+title: 'Adaptive RAG and Human-in-the-Loop in LangGraph'
 excerpt: 'A router that reads each question and picks where to search, then a graph that stops at breakpoints so a person can check its state, change it and let it carry on. Part 4 of a series on LangChain and LangGraph.'
-publishDate: 2026-11-06T00:00:00Z
+publishDate: 2026-11-06T04:00:00Z
 category: 'LLM Engineering'
 tags:
   - langgraph
@@ -102,7 +102,7 @@ Three things make this work:
 The only change from the course's code is the model line. `init_chat_model("openai:gpt-5.4-mini")` replaces
 `ChatGoogleGenerativeAI(model="gemini-1.5-flash")`.
 
-_My run:_ five questions, each asked three times. All three runs agreed every time.
+_My run:_ six questions, each asked three times. All three runs agreed every time.
 
 | Question                                                | Routed to     |
 | ------------------------------------------------------- | ------------- |

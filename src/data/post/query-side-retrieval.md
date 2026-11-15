@@ -1,5 +1,5 @@
 ---
-title: 'Why AI Search Brings Back the Wrong Pages (Part 1)'
+title: 'Improving AI Search by Rewriting the Question (Part 1)'
 excerpt: 'Part 1 of 2 on the Chroma course: what a vector database actually does, why its results can miss even on simple questions, and two ways an AI can rewrite your question so search finds more of what you need.'
 publishDate: 2026-07-20T00:00:00Z
 category: 'RAG'

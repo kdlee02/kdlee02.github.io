@@ -1,5 +1,5 @@
 ---
-title: 'Giving an AI Tools It Can Choose to Use'
+title: 'Tool Use: Letting an AI Call Functions'
 excerpt: 'Tool use explained in plain words: how an AI asks for a function to be run, picks from several tools and chains them, writes its own code when no tool fits, and why MCP lets everyone share tools. Part 3 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-10T00:00:00Z
 category: 'LLM Engineering'
@@ -23,7 +23,7 @@ letting it decide when.
 ## The AI decides when to use a tool
 
 In the course's first lab, the AI (`gpt-4o`) gets one tool, `get_current_time`. Asked "What time is it?", it answered
-"The current time is 06:19:19." (The lab's servers run on Greenwich time, which is why it's so early.)
+"The current time is 06:19:19."
 
 The important part is that the tool is **optional**. Ask the same AI, with the same tool, how much caffeine is in green
 tea, and it just answers. It never touches the clock.
@@ -47,9 +47,6 @@ programmer says "here are some tools, use them if you think you should," and the
 3. Your program sees the request, runs the real function, and sends the result back.
 4. Now the AI has the fact it was missing, and it writes the final answer.
 
-You can see step 2 in the lab's raw output. The AI's reply has no text at all. Its content is empty, and instead it
-lists one `tool_calls` entry naming `get_current_time`, with the reason for stopping marked as `"tool_calls"`.
-
 Since the description is all the AI knows about a tool, it matters a lot. A clear one-line description is how the AI
 tells your tools apart.
 
@@ -58,9 +55,8 @@ tells your tools apart.
 Next, the lab gives `gpt-5-mini` four tools: get the time, get the weather, write a text file, and make a QR code. Each
 request got the right tool:
 
-- "Can you get the weather for my location?" → the weather tool, which reported 59.6°F with a high of 65.2°F.
-- "Make a txt note called reminders.txt that reminds me to call Daniel tomorrow at 7PM" → the file tool, with the
-  file name and the sentence filled in from the request.
+- "Can you get the weather for my location?" → the weather tool.
+- "Make a txt note called reminders.txt that reminds me to call Daniel tomorrow at 7PM" → the file tool.
 - "Make a QR code using my company's logo that goes to www.deeplearning.ai" → the QR tool.
 
 Here's that QR code. The real one had the course's logo in the middle. This copy was made with the same library,
@@ -74,10 +70,6 @@ The most interesting run asked for two things at once:
 
 Nobody wrote that order. The AI planned it from the request. It even looked up the time without being asked, and used it
 to stamp the note "generated at 06:20:39."
-
-One small thing I noticed: the lab's request says `www.deeplearning.com`, not `.ai`. The AI made the QR code for
-exactly what it was told. A tool does what the request says, so a mistake in the request becomes a mistake in the
-result.
 
 ## The tools you give are the only things it can do
 
@@ -93,9 +85,8 @@ emails," "mark as read," and "send email." Here's what happened with three reque
 The middle row is the lesson: without the right tool, the AI can still think about the task, but it can't do it. The
 list of tools is the list of things your agent is able to do.
 
-One thing I'd change before using this on a real inbox. The lab's prompt tells the AI "never ask the user for
-confirmation before performing an action." That's fine for a practice inbox. For real deletions, I'd want a person to
-approve, like the human sign-off step in module 1.
+The lab's prompt tells the AI "never ask the user for confirmation before performing an action." On a real inbox, I'd
+want a person to approve deletions, like the human sign-off step in module 1.
 
 ## When no tool fits, let the AI write code
 

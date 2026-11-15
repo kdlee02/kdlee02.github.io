@@ -1,5 +1,5 @@
 ---
-title: 'Teaching an AI to Check Its Own Work'
+title: 'Reflection: Having an AI Review Its Own Work'
 excerpt: 'Reflection explained in plain words: an AI reviews its own draft and rewrites it. When that helps, why a fact from outside the model makes all the difference, and how to tell whether it worked. Part 2 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-08T00:00:00Z
 category: 'LLM Engineering'
@@ -42,8 +42,7 @@ Two tips for the review request:
 ## Does it help?
 
 Researchers tested this in a paper called **Self-Refine** (Madaan et al., 2023). They compared plain prompting against
-prompting plus a review step. Plain prompting here means **zero-shot**: the request has no worked examples in it. (A
-**one-shot** prompt includes one example, and **few-shot** includes several.)
+prompting plus a review step.
 
 ![Points GPT-4 gained by adding Self-Refine reflection, by task: dialogue response plus 49.2, sentiment reversal plus 32.4, constrained generation plus 30.0, code readability plus 28.8, acronym generation plus 25.6, code optimization plus 8.7, math reasoning plus 0.2.](../../assets/images/agentic-ai-module-2/self-refine.svg)
 
@@ -71,8 +70,8 @@ The outside fact usually comes from a small, ordinary piece of code:
 | An essay says the Taj Mahal was "built in 1648" | Web search: started 1631, finished 1648 |
 | A product description is too long               | Count the words                         |
 
-The word count is my favorite because it's so simple. AI models are still bad at hitting an exact length. A one-line
-counter that says "you're at 340 words, the limit is 250" hands the model a fact it can't work out for itself.
+AI models are bad at hitting an exact length, so a one-line counter that says "340 words, the limit is 250" hands them
+a fact they can't work out alone.
 
 Ng draws the payoff like this:
 
@@ -106,14 +105,11 @@ the legend out of the way:
 
 ![Chart v2: the same grouped bars with a number on every bar, a light grid, and the legend moved clear of the data.](../../assets/images/agentic-ai-module-2/chart-v2.png)
 
-V2 is clearly easier to read. The numbers show that Cocoa jumped from 23 to 357 while Cortado barely moved, from 86 to 88. But v1 was already the right kind of chart. In the lecture, v1 was a stacked bar chart that was hard to compare, so
-the fix was much bigger. Reflection can only fix what v1 got wrong, and how much v1 gets wrong changes from run to run.
+V2 is clearly easier to read. The numbers show that Cocoa jumped from 23 to 357 while Cortado barely moved, from 86 to 88. Reflection can only fix what v1 got wrong, though, and that changes from run to run. In the lecture, v1 was a
+hard-to-compare stacked bar chart, so the fix was much bigger.
 
-When I ran the lab again later, the first draft didn't even run. The prompt said the data was already loaded, but the
-model wrote code to load the file again. The raw file is missing the `year` column the lab adds, so the code crashed.
-The lab sent the error message back to the model for one retry, and the retry crashed the same way. So an outside fact
-is necessary but not magic. The notebook also kept showing an old v1 chart from an earlier run, which made it look
-like everything had worked. If you try this yourself, delete the old images before rerunning.
+When I ran the lab again later, the first draft crashed, and one retry with the error message crashed the same way. An
+outside fact helps, but it isn't magic.
 
 ## Lab 2: the bug only the result could reveal
 
@@ -161,8 +157,8 @@ one with and without reflection, and count how many come out right. Ng's example
 Rerun the test every time you change the review prompt, so you know whether the change helped.
 
 **When there's no right answer**, like "which chart is better?", you might ask another AI to compare v1 and v2. Ng
-warns that this works poorly. The verdict changes with small wording changes, it often disagrees with human experts,
-and many models just pick whichever option they were shown first. That last one is called **position bias**.
+warns that this works poorly: the verdict shifts with small wording changes, it often disagrees with human experts,
+and many models just pick whichever option they saw first (**position bias**).
 
 What works better is grading **one** chart at a time against a **yes/no checklist**:
 

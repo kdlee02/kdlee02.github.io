@@ -1,5 +1,5 @@
 ---
-title: 'When an AI Plans Its Own Steps and Works in a Team'
+title: 'Planning and Multi-Agent Systems'
 excerpt: 'Planning and multi-agent systems explained in plain words: letting the AI write its own plan, why a plan written as code works best, checking a plan before it runs, and how teams of AI agents divide up work. Part 5 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-12T00:00:00Z
 category: 'LLM Engineering'
@@ -35,8 +35,7 @@ Return a step-by-step plan to carry out the user's request."
 ![A customer asks whether any round sunglasses under 100 dollars are in stock. The AI planner sees six tools and writes a three-step plan: find round sunglasses, check which are in stock, and check which are under 100 dollars. Your code then runs the steps in order, feeding each result into the next.](../../assets/images/agentic-ai-module-5/plan-steps.svg)
 
 Your program then runs the plan one step at a time, handing each step's result to the next. A different request gets a
-different plan from the same tools. "I'd like to return the gold frame glasses I bought, but not the metal frame ones"
-becomes: look up what they bought, find which pair is the gold one, then process that return.
+different plan from the same tools.
 
 ## Plans your program can follow
 
@@ -57,9 +56,8 @@ The better idea: let the AI write the plan **as code**.
 A few lines of Python are a plan, and running them carries it out. Python's data libraries already have thousands of
 functions, and AI models have seen huge amounts of code using them, so they know how to chain them together.
 
-The course backs this up with results from a research paper, CodeAct (Wang et al., 2024). It compared eight models,
-letting each take actions as code, as JSON, or as plain text. For every one of the eight models, code gave the highest
-success rate.
+The course backs this up with a research paper, CodeAct (Wang et al., 2024). Across eight models, taking actions as
+code beat JSON and plain text every time.
 
 Two caveats. AI-written code should run in a sandbox, as in module 3. And when the actions are your own special tools,
 like processing a refund or sending an email, a JSON plan over those tools is still the right fit.
@@ -81,10 +79,6 @@ The reviewer earns its place on bad plans. The lab hands it a deliberately broke
 problems, including a wrong setting name, a missing stock update, and a missing check that stock stays at zero or above.
 Then it wrote a fixed plan.
 
-There's also an explanation step for when a check fails. The lab tests it with a made-up failure, not a real run:
-a report saying an order for 999 Aviators would have pushed stock to −995. The AI worked out that only 4 were left,
-explained in plain words why the order was stopped, and suggested selling those 4 and backordering the rest.
-
 ## Teams of agents
 
 The usual reaction to multi-agent systems is "isn't it just the same AI called several times?" Yes. Ng's point is that
@@ -96,11 +90,10 @@ The second lab builds a marketing team for a summer sunglasses campaign, with fo
 
 ![The campaign lab as a linear pipeline of four agents. The market researcher found that wraparound shield frames are trending and picked the Sport model, 11 in stock at 144 dollars. The graphic designer made a close-up image of a model in wraparound shades by the sea. The copywriter wrote "Shield the Sun. Own the Summer." The packager put it all into one report.](../../assets/images/agentic-ai-module-5/campaign.svg)
 
-The researcher searched the web for 2026 sunglasses trends and compared them with the shop's catalog. It picked the
-**Sport** wraparound as the hero product, because "shield" style wraparounds were the big trend. It also flagged a risk
-on its own: only 11 are in stock, so a successful campaign could sell out. The designer made an image to match, the
-copywriter looked at the image and wrote "Shield the Sun. Own the Summer.", and the packager assembled an executive
-report.
+The researcher compared 2026 sunglasses trends with the shop's catalog and picked the **Sport** wraparound, because
+"shield" style wraparounds were the big trend. It also flagged on its own that only 11 were in stock, so a successful
+campaign could sell out. The designer made a matching image, the copywriter wrote a line for it, and the packager
+assembled the report.
 
 Instead of a fixed order, you can also put a **manager** agent in charge: "You're a marketing manager with this team.
 Return a step-by-step plan." That's just planning again, except the tools are now other agents.
@@ -114,8 +107,8 @@ With more than one agent, the big design choice is who talks to whom, like an or
 - **Linear** and **manager** are the two Ng sees most. The campaign lab is linear.
 - **Deeper hierarchy** gives some agents their own helpers, like a researcher with a fact checker. It's used less and is
   more complex.
-- **All-to-all** lets any agent message any other, and the run ends when they all agree they're done. Ng finds the
-  results hard to predict. It's fine when a bad run can just be retried, but not when you need control.
+- **All-to-all** lets any agent message any other. Ng finds the results hard to predict, so it suits jobs where a bad
+  run can just be retried.
 
 ## Looking back at the series
 

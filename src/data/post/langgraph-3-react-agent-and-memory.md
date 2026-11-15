@@ -1,7 +1,7 @@
 ---
-title: 'A ReAct Agent in LangGraph, and How It Remembers'
+title: 'A ReAct Agent With Memory in LangGraph'
 excerpt: 'The ReAct cycle of reason, act and observe, built three ways in LangGraph: with create_agent, by hand from a model node and a ToolNode, and with tools_condition. Then a checkpointer, so the agent remembers what "the two" means. Part 3 of a series on LangChain and LangGraph.'
-publishDate: 2026-11-06T00:00:00Z
+publishDate: 2026-11-06T03:00:00Z
 category: 'LLM Engineering'
 tags:
   - langgraph
@@ -272,13 +272,9 @@ to many customers at once without mixing them up: each conversation gets its own
 
 ![Left, without a checkpointer: "Which of the two is cheaper?" arrives alone, so the model asks which two are meant. Right, with InMemorySaver: thread 1 holds the steak question, the search, its result and both prices, so the follow-up is answered from history, the Tenderloin Steak Salad at ₩26,000, with no new search. Thread 2 is empty, so the same follow-up gets "which two?" again.](../../assets/images/langgraph-3/memory-threads.svg)
 
-Two cautions about this kind of memory:
-
-- **`InMemorySaver` lives in RAM.** Restart the program and every conversation is gone. For real apps, LangGraph has
-  checkpointers that save to a database instead. The interface is the same; only the storage changes.
-- **The history only grows.** Every turn adds messages, and every model call sends all of them, which part 2's
-  cautions about message state already warned about. Long conversations get slower and more expensive, so trimming or
-  summarizing old messages is the usual fix.
+One caution about this kind of memory: **`InMemorySaver` lives in RAM.** Restart the program and every conversation is
+gone. For real apps, LangGraph has checkpointers that save to a database instead. The interface is the same; only the
+storage changes.
 
 ## What to take away
 

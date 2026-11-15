@@ -1,5 +1,5 @@
 ---
-title: 'When an AI Works in Steps Instead of One Shot'
+title: 'What Makes an AI Workflow Agentic'
 excerpt: 'What makes an AI workflow "agentic", how much freedom to give it, why an older model working in steps can beat a newer one, and how to break a job into steps an AI can do. Part 1 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-07T00:00:00Z
 category: 'LLM Engineering'
@@ -29,8 +29,7 @@ task.** Instead of one big request, the job is split up:
 Not every step has to be the AI. Some steps use a **tool**, an ordinary program like a web search. Some steps can even
 be a person, for example someone who checks the key facts before the final version.
 
-The word _agentic_ is an adjective on purpose. People used to argue about whether a system was a "real" AI agent or
-not. Ng's view is that systems can be agentic to different degrees, so the more useful question is _how much_.
+Ng sees _agentic_ as a matter of degree. The useful question is how much freedom the AI gets.
 
 ## How much freedom to give the AI
 
@@ -63,10 +62,8 @@ Two more benefits come from splitting a job into steps:
 
 ![One essay request fans out into three searches that run at the same time. Each search fetches its top three pages, so nine pages download at once, and the AI writes the essay from all of them. The middle search has been swapped for a news search.](../../assets/images/agentic-workflow-explained/parallel.svg)
 
-- **Speed.** A person reads search results one at a time. A workflow can run three searches and download nine pages
-  at the same moment.
-- **Swappable parts.** Each step is its own piece, so you can swap one out, like a different search engine, a news
-  search, or a different AI model for the writing, without rebuilding everything else.
+- **Speed.** A workflow can run three searches and download nine pages at the same moment.
+- **Swappable parts.** You can swap one step, like the search engine or the writing model, without rebuilding the rest.
 
 ## Easier jobs and harder jobs
 
@@ -81,10 +78,6 @@ change, so it works reliably.
 **Answering a customer email** is a bit harder. Say someone writes, "I ordered a green desk lamp but you sent me a blue
 one." The AI finds the order number, a tool looks up the order, and the AI drafts a reply. But a person reads the
 reply before it goes out. Deciding where the AI stops and a person takes over is part of the design.
-
-Further along, an AI handling _any_ customer question has to figure out the steps on the fly, because "Can I return
-this?" and "Where's my package?" need different steps. And an AI that uses a web browser like a person, clicking
-through an airline site to check seats, works sometimes but still gets stuck on slow or confusing pages.
 
 The pattern:
 

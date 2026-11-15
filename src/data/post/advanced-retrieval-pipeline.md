@@ -1,7 +1,7 @@
 ---
-title: 'Three Tricks That Help an AI Find the Right Page'
+title: 'Hybrid Search, HyDE and Reranking Explained'
 excerpt: 'Hybrid search, HyDE and reranking explained in plain words with pictures: what each one fixes, how they fit together, and which to try first.'
-publishDate: 2026-07-20T00:00:00Z
+publishDate: 2026-07-20T02:00:00Z
 category: 'RAG'
 tags:
   - retrieval

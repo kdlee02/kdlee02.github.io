@@ -1,5 +1,5 @@
 ---
-title: 'Teaching AI Search to Pick Better Pages (Part 2)'
+title: 'Improving AI Search With Reranking and Embedding Adaptors (Part 2)'
 excerpt: 'Part 2 of 2 on the Chroma course: how a reranker re-sorts search results, how an embedding adaptor learns to aim questions better, and what researchers are trying next.'
 publishDate: 2026-07-20T01:00:00Z
 category: 'RAG'

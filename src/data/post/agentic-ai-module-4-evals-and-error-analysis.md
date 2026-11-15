@@ -1,5 +1,5 @@
 ---
-title: 'Finding Which Step Broke Your AI Agent'
+title: 'Evals and Error Analysis for AI Agents'
 excerpt: 'Evals and error analysis explained in plain words: how to score an agent’s output, trace a bad result back to the step that caused it, test one step on its own, and only then worry about speed and cost. Part 4 of 5 on Andrew Ng’s Agentic AI course.'
 publishDate: 2026-10-11T00:00:00Z
 category: 'LLM Engineering'
@@ -26,7 +26,7 @@ The process is a loop between two activities:
 ## Build first, then look
 
 It's hard to predict where an agent will struggle, so Ng's advice is not to spend weeks planning. Build a rough version
-quickly (without leaking anyone's data), then read what it produces.
+quickly, then read what it produces.
 
 Take the invoice reader from module 1. Run 20 invoices through it and note what went wrong with each. Invoice 1 is fine.
 Invoice 2 mixed up the invoice date with the due date. Invoices 3 and 4 are fine. If date mix-ups keep showing up,
@@ -105,16 +105,18 @@ passes. Here's what happened when I ran it:
 
 Both runs passed. But the first request asked for _recent_ papers and got ones from 1998 and 2006. The AI even admitted
 it: "Unfortunately, these papers are not recent." The eval passed anyway, because it only checks where links point,
-not how old the papers are. It also counted each paper twice, since every paper had an abstract link and a PDF link.
+not how old the papers are. It also counted each paper twice, once for its abstract link and once for its PDF.
 
-This is Ng's "the eval can be wrong too" tip in action. Reading the output says the result is bad, and the score says
-it's perfect. When they disagree, fix the eval. Here I'd add a date check and count each paper once.
+This is Ng's "the eval can be wrong too" tip in action. When your own reading and the score disagree, fix the
+eval. Here I'd add a date check and count each paper once.
 
-Once the component eval is trustworthy, there are several ways to improve the step itself. For tools like search,
-adjust settings such as the number of results or the date range, or switch providers. For AI steps, roughly from
-cheapest to most expensive: improve the prompt, try a different model, split one overloaded step into two simpler ones,
-or, for a mature system that's stuck, train the model further on your own examples (**fine-tuning**). Afterwards,
-rerun the end-to-end eval to confirm the improvement carried through to the final result.
+Once the component eval is trustworthy, you can improve the step itself:
+
+- **Tools like search:** adjust settings such as the number of results or the date range, or switch providers.
+- **AI steps,** roughly from cheapest to most expensive: improve the prompt, try a different model, split one
+  overloaded step into two simpler ones, or train the model further on your own examples (**fine-tuning**).
+
+Afterwards, rerun the end-to-end eval to confirm the improvement carried through to the final result.
 
 ## Speed and cost come last
 
@@ -127,14 +129,12 @@ slow or too expensive, use the same trick as error analysis. Measure each step, 
 fetching pages in parallel), try a smaller and faster model for a slow AI step, or use a provider with faster hardware.
 
 **Cost.** The surprise is that the AI steps are cheap. Picking search terms costs $0.0004, while one web search costs
-$0.016, 40 times as much. The most expensive step is converting fetched PDFs to text, at $0.03. Switching the first AI
-step to a cheaper model would save almost nothing. PDF conversion is about half of the whole bill, so that's where a
-cheaper option would actually matter.
+$0.016, 40 times as much. Converting PDFs to text costs $0.03, about half the bill, so that's where
+a cheaper option would matter. A cheaper model for the first AI step would save almost nothing.
 
 That's the useful part of measuring: it shows where to optimize, and also which parts aren't worth worrying about.
 
 The big idea from module 4: don't guess. Read the outputs, count which step causes the problems, and test that step on
-its own. Keep checking that your eval agrees with your own judgment, because a score that says "PASS" on 1998 papers
-isn't measuring what you care about.
+its own.
 [Module 5](/engineering/agentic-ai-module-5-planning-and-multi-agent-systems) covers the last two patterns, planning and
 multi-agent systems.

@@ -1,7 +1,7 @@
 ---
-title: 'Tool Calling in LangChain: From One Search to an Agent'
+title: 'Tool Calling in LangChain'
 excerpt: 'How a LangChain chat model asks for a tool, how your code runs it and hands the result back, how to write your own tool and steer the choice with examples, and how an agent turns all of that into a loop. Part 1 of a series on LangChain and LangGraph.'
-publishDate: 2026-11-06T00:00:00Z
+publishDate: 2026-11-06T01:00:00Z
 category: 'LLM Engineering'
 tags:
   - tool-use
@@ -357,9 +357,8 @@ _My run (`gpt-5.5`):_
 All three routed the way the examples taught: the menu for what the restaurant serves, the blog for what people think,
 the web for general knowledge. The first question had two halves, and the model split it across two tools in one reply.
 
-Two notes against the course. It builds this with `ChatPromptTemplate.from_messages`, which still works; a plain list
-does the same job. And one detail matters more than it looks: the tool names in the examples and the system message
-must match the real tools. The course's prompt says `web_search` because that was its tool's name. With the current
+One detail matters more than it looks: the tool names in the examples and the system message must match the real
+tools. The course's prompt says `web_search` because that was its tool's name. With the current
 Tavily tool, the name is `tavily_search`, so the examples above use that.
 
 ## From tool calls to an agent

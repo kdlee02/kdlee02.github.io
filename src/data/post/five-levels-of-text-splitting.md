@@ -1,5 +1,5 @@
 ---
-title: 'How to Cut Up a Book So an AI Can Read It'
+title: 'Five Ways to Split Text for AI Search'
 excerpt: 'The 5 levels of text splitting, plus a bonus level, explained in plain words with pictures. No code required.'
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'

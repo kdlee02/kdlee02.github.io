@@ -1,5 +1,5 @@
 ---
-title: 'Getting Messy Documents Ready for AI'
+title: 'Turning PDFs, Slides and Web Pages Into Clean Text for AI'
 excerpt: 'How to turn PDFs, slides, web pages and tables into clean, labeled pieces an AI can search, explained in plain words with pictures. No code required.'
 publishDate: 2026-07-14T00:00:00Z
 category: 'RAG'
@@ -267,7 +267,7 @@ has six players. Without the filter, paragraphs about curling, another team spor
 2. **Longer inputs cost more money.** Smaller, focused chunks keep each question cheap.
 
 How you cut also changes what search finds. Better chunks mean better search results, which mean better answers. (For a
-deeper dive on chunking methods, see [How to Cut Up a Book So an AI Can Read It](/engineering/five-levels-of-text-splitting).)
+deeper dive on chunking methods, see [Five Ways to Split Text for AI Search](/engineering/five-levels-of-text-splitting).)
 
 ### Cutting by size vs. building from blocks
 
