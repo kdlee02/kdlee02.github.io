@@ -9,6 +9,12 @@ seriesPart: 3
 tags:
   - llm-costs
   - production
+takeaways:
+  - 'Give chat history a token budget, and always keep the newest message.'
+  - 'Ask only for what the app uses. It cut output by 95% here.'
+  - 'A saving counts only if the answer is still usable; a redo is another paid request.'
+  - 'Reuse answers to repeated questions, but let them expire and never share personal ones.'
+  - 'Prompt caching needs an identical start and a breakpoint right after it. Done wrong it costs more than no caching; done right, a tenth.'
 draft: false
 ---
 
@@ -94,6 +100,8 @@ Five questions, two paid requests. Repeats cost nothing.
 Two cautions the lesson's simple version doesn't handle: saved answers go stale when your information changes, so
 they should expire; and an answer that mentions one customer's details must never be reused for another.
 
+![A response cache in your own app. Each question is checked: has this exact question been seen before? On a hit, the saved answer comes back for $0. On a miss, the model is called and paid for, and the answer is saved for next time. In the lesson's run, 5 questions needed only 2 paid calls and 3 were avoided. The simple version is missing two things: saved answers should expire, and one customer's answer must never be reused for another.](../../assets/images/llm-costs-3/response-cache.svg)
+
 ## 4. Prompt caching (and how it backfires)
 
 This is a different cache, run by the AI company. Many prompts start with a long fixed block (like a policy document)
@@ -168,15 +176,6 @@ how you spot it:
 
 These settings are OpenAI's as of 2026. Other companies have their own versions, but the rule is the same everywhere:
 **put what never changes first, and what changes last.**
-
-## What to remember
-
-- **Give chat history a budget**, and always keep the newest message.
-- **Ask only for what the app uses.** It cut output by 95% here.
-- **A saving counts only if the answer is usable.** A redo is another paid request.
-- **Reuse answers to repeated questions**, but let them expire and never share personal ones.
-- **Prompt caching needs an identical start and a breakpoint right after it.** Wrong costs more than no caching;
-  right costs a tenth.
 
 Next, [part 4](/engineering/llm-costs-4-optimizing-a-real-chatbot) applies all of this to a real chatbot and cuts its
 bill by 88%.

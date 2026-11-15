@@ -9,6 +9,12 @@ seriesPart: 1
 tags:
   - llm-costs
   - production
+takeaways:
+  - 'The bill is split into parts, and answers cost much more than questions (6× the price per token here).'
+  - 'Hidden thinking (reasoning tokens) is billed as output. It is already in the output total, so never add it twice.'
+  - "You can predict the question's cost, not the answer's. Limit answer length when you need a firm budget."
+  - 'Keep all the cost math in one place, so every call is priced the same way.'
+  - 'Record every request, so you can later prove what a change saved and find what eats the budget.'
 draft: false
 ---
 
@@ -58,6 +64,8 @@ Newer models do hidden scratch work before answering, called **reasoning tokens*
 them at the output price. That's why a three-sentence reply can cost like an essay.
 
 The company already counts reasoning inside the output total. A common bug is adding it again, which charges it twice.
+
+![Thinking tokens are already inside the output count. In the course run the model reported 148 output tokens: 109 in the answer you see and 39 of hidden thinking, all billed at the output price of $6.00 per million. The right cost uses the 148. A common bug adds the 39 reasoning tokens again, billing 187 tokens and charging the thinking twice.](../../assets/images/llm-costs-1/reasoning-tokens.svg)
 
 ## Predicting the cost before you ask
 
@@ -116,13 +124,7 @@ Total spend: $0.036001
 One request was **98% of the bill**. Three requests prove nothing about a real app, but the method is the point: with
 a record of every request, "what's eating our budget?" becomes easy to answer.
 
-## What to remember
-
-- The bill is split into parts, and **answers cost much more than questions** (6× here).
-- **Hidden thinking is billed as output.** It's already in the total; don't add it twice.
-- **You can predict the question's cost, not the answer's.** Limit answer length for a firm budget.
-- **Keep all cost math in one place.**
-- **Record every request**, so you can prove later what a change saved.
+![Three logged requests, drawn as cost bars to scale. "Define latency in one sentence" on gpt-5.6-luna cost $0.000120. "Summarize why prompt caching reduces cost" on gpt-5.6-luna cost $0.000561. "Analyze the tradeoffs of model routing" on gpt-5.6-sol, five times the price, cost $0.035320. The total was $0.036001, and the one premium request was 98 percent of the bill.](../../assets/images/llm-costs-1/request-log.svg)
 
 Next, [part 2](/engineering/llm-costs-2-model-selection-and-routing) asks whether each question needed the expensive
 model in the first place.

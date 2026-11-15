@@ -9,6 +9,12 @@ seriesPart: 2
 tags:
   - llm-costs
   - production
+takeaways:
+  - 'Set the quality standard first, then compare models against it.'
+  - 'Cost is price times length: how much a model writes matters as much as its rate.'
+  - 'Measure what routing saves. A perfect router saved only 2.5% here, because the mix of questions decides.'
+  - "Translate every company's reply into one format, and check how each counts thinking tokens."
+  - 'Plan for bad answers and outages, and count every rejected answer as money spent.'
 draft: false
 ---
 
@@ -40,6 +46,8 @@ The important habit: **decide what a good answer looks like before reading the r
 you trade for savings.
 
 One question is evidence, not proof. Harder tasks are where premium models earn their price.
+
+![Same question, two models. The quality bar is set first: the answer must explain how indexes work and name one tradeoff. The question about database indexes goes to gpt-5.6-luna, the cheap tier, which answered correctly with two tradeoffs for $0.000535, and to gpt-5.6-sol, the premium tier at five times the price, which answered correctly with one tradeoff for $0.001775. Premium cost 3.3 times more for no better answer; not the full 5 times, because the cheap model wrote a longer answer.](../../assets/images/llm-costs-2/same-question.svg)
 
 ## A router made of simple rules
 
@@ -151,12 +159,6 @@ From reading the code:
   the check, nothing crashed, so the message reads `No acceptable response: None`. Remembering the last rejected
   answer too would make it say what actually happened.
 
-## What to remember
-
-- **Set the quality standard first**, then compare models against it.
-- **Cost is price times length.** How much a model writes matters as much as its rate.
-- **Measure what routing saves.** A perfect router saved 2.5% here; the mix of questions decides.
-- **Translate every company's reply into one format**, and check how each counts thinking tokens.
-- **Plan for bad answers and outages**, and count every rejected answer as money spent.
+![Three gaps in the router, found by reading the code. A failed cheap answer never moves up to premium: it tries other cheap models, then gives up; part 4 adds the escalation. The quality check is word matching, so a wrong answer containing the right words passes; the course has no fix for this. The final error only remembers crashes, so when every answer failed the check it reads "No acceptable response: None"; remembering the last rejected answer too would say what happened.](../../assets/images/llm-costs-2/routing-gaps.svg)
 
 Next, [part 3](/engineering/llm-costs-3-reducing-llm-work) shrinks the requests themselves.

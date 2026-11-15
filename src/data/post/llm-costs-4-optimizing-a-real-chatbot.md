@@ -10,6 +10,12 @@ tags:
   - llm-costs
   - evals
   - production
+takeaways:
+  - 'Measure first with a fixed test that checks both cost and the facts each answer must mention.'
+  - 'Routing easy messages to the cheap model, with a premium retry when an answer fails the check, saved 47.8% at the same quality.'
+  - 'Shorter history, shorter answers, reused openers and a working prompt cache cut the rest; the whole bot became 88% cheaper.'
+  - 'The current time and a request ID at the top of the prompt silently broke the cache. Removing them was free.'
+  - 'Guard the saving: rerun the test after every change and alert when cost per message rises more than 20%.'
 draft: false
 ---
 
@@ -146,12 +152,16 @@ The test also shows where to look next: 5 premium requests make up 84% of what's
 - **The quality check is word matching.** It confirms a fact is mentioned, not that it's stated correctly.
 - **14 scripted messages aren't real traffic.** They make a fair comparison, not a prediction for your app.
 
+![Noise versus a real saving, drawn to scale. The same unchanged conversation cost $0.102 on one run and $0.111 on another, about 9 percent apart. The full 14-message test went from $0.298967 for the original bot to $0.035259 for the optimized one, an 88 percent saving. The regression alert sits between the two, at 20 percent more per message.](../../assets/images/llm-costs-4/noise-vs-saving.svg)
+
 ## The whole series in four lines
 
 1. **Measure.** Record what every request costs. ([Part 1](/engineering/llm-costs-1-measuring-what-a-request-costs))
 2. **Pick the right model** for each request, with a quality check and a retry. ([Part 2](/engineering/llm-costs-2-model-selection-and-routing))
 3. **Send less work:** shorter history, shorter answers, reused answers, and a cache that actually hits. ([Part 3](/engineering/llm-costs-3-reducing-llm-work))
 4. **Prove it and guard it** with a repeatable test that checks quality before cost.
+
+![The series in four steps and the number each one found. 1, measure: record every request; one request was 98 percent of the bill. 2, pick the model: rules plus a quality check; a perfect router saved only 2.5 percent. 3, send less work: shorter history and answers, reused answers and prompt caching; output was cut 95 percent. 4, prove and guard: check quality before cost; the bot became 88 percent cheaper with facts still 14 of 14.](../../assets/images/llm-costs-4/series-map.svg)
 
 If you check one thing in your own app, check the top of your prompt. Anything that changes on every request, sitting
 above content that never changes, silently breaks the cache. Here it was free to fix.

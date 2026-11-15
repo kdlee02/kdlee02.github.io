@@ -1998,6 +1998,220 @@ const DIAGRAMS = {
         .join('') +
       note(740, 332, 'module 4 is the one to reread: every other pattern needs a way to measure', { anchor: 'end' }),
   },
+
+  'llm-costs-1/reasoning-tokens.svg': {
+    w: 760,
+    h: 250,
+    title:
+      'Thinking tokens are already inside the output count. In the course run the model reported 148 output tokens: 109 in the answer you see and 39 of hidden thinking, all billed at the output price of $6.00 per million. The right cost uses the 148. A common bug adds the 39 reasoning tokens again, billing 187 tokens and charging the thinking twice.',
+    body: () =>
+      text(20, 30, '*Thinking tokens are already inside the output count', { anchor: 'start' }) +
+      box(20, 54, 530, 50, 'data', ['Answer you see: 109 tokens']) +
+      box(550, 54, 190, 50, 'model', ['Hidden thinking: 39'], { dashed: true }) +
+      `<path d="M20 116V124H740V116" fill="none" stroke="#94a3b8" stroke-width="1.5"/>` +
+      note(380, 144, 'Output reported by the company: 148 tokens, all at $6.00 per million') +
+      box(20, 168, 350, 60, 'code', ['Right: bill the output once', '148 tokens × $6.00 / million']) +
+      box(390, 168, 350, 60, 'bad', ['Bug: add reasoning again', '148 + 39 = 187 tokens billed']),
+  },
+
+  'llm-costs-1/request-log.svg': {
+    w: 760,
+    h: 250,
+    title:
+      'Three logged requests, drawn as cost bars to scale. "Define latency in one sentence" on gpt-5.6-luna cost $0.000120. "Summarize why prompt caching reduces cost" on gpt-5.6-luna cost $0.000561. "Analyze the tradeoffs of model routing" on gpt-5.6-sol, five times the price, cost $0.035320. The total was $0.036001, and the one premium request was 98 percent of the bill.',
+    body: () =>
+      text(20, 30, '*Three logged requests, cost drawn to scale', { anchor: 'start' }) +
+      [
+        ['Define latency in one sentence.', 'gpt-5.6-luna', 0.00012, '$0.000120'],
+        ['Summarize why prompt caching reduces cost.', 'gpt-5.6-luna', 0.000561, '$0.000561'],
+        ['Analyze the tradeoffs of model routing.', 'gpt-5.6-sol', 0.03532, '$0.035320'],
+      ]
+        .map(([q, m, c, s], i) => {
+          const y = 56 + i * 54;
+          const w = Math.max(2, (c / 0.03532) * 330);
+          const k = i === 2 ? KIND.choice : KIND.model;
+          return (
+            text(20, y + 14, q, { anchor: 'start', size: 13 }) +
+            text(20, y + 32, `\`${m}\``, { anchor: 'start', size: 12.5, fill: MUTED }) +
+            `<rect x="330" y="${y + 4}" width="${w.toFixed(1)}" height="28" rx="4" fill="${k.fill}" stroke="${k.stroke}" stroke-width="1.5"/>` +
+            text(330 + w + 10, y + 23, s, { anchor: 'start', size: 13, mono: true })
+          );
+        })
+        .join('') +
+      text(20, 232, '*Total $0.036001: the one premium request is 98% of the bill', { anchor: 'start' }),
+  },
+
+  'llm-costs-2/same-question.svg': {
+    w: 760,
+    h: 290,
+    title:
+      'Same question, two models. The quality bar is set first: the answer must explain how indexes work and name one tradeoff. The question about database indexes goes to gpt-5.6-luna, the cheap tier, which answered correctly with two tradeoffs for $0.000535, and to gpt-5.6-sol, the premium tier at five times the price, which answered correctly with one tradeoff for $0.001775. Premium cost 3.3 times more for no better answer; not the full 5 times, because the cheap model wrote a longer answer.',
+    body: () =>
+      box(20, 30, 720, 44, 'choice', [
+        'Quality bar, set before reading: explains how indexes work, names one tradeoff',
+      ]) +
+      box(20, 136, 170, 64, 'data', ['Question', 'about database indexes']) +
+      arrow([
+        [190, 168],
+        [220, 168],
+        [220, 128],
+        [248, 128],
+      ]) +
+      arrow([
+        [190, 168],
+        [220, 168],
+        [220, 208],
+        [248, 208],
+      ]) +
+      box(250, 100, 220, 56, 'model', ['`gpt-5.6-luna', 'cheap tier']) +
+      arrow([
+        [470, 128],
+        [498, 128],
+      ]) +
+      box(500, 100, 240, 56, 'code', ['✓ $0.000535', 'correct, names two tradeoffs']) +
+      box(250, 180, 220, 56, 'model', ['`gpt-5.6-sol', 'premium, 5× the price']) +
+      arrow([
+        [470, 208],
+        [498, 208],
+      ]) +
+      box(500, 180, 240, 56, 'code', ['✓ $0.001775', 'correct, names one tradeoff']) +
+      note(380, 272, 'Premium cost 3.3× more for no better answer (not 5×: the cheap model wrote more)'),
+  },
+
+  'llm-costs-2/routing-gaps.svg': {
+    w: 800,
+    h: 252,
+    title:
+      'Three gaps in the router, found by reading the code. A failed cheap answer never moves up to premium: it tries other cheap models, then gives up; part 4 adds the escalation. The quality check is word matching, so a wrong answer containing the right words passes; the course has no fix for this. The final error only remembers crashes, so when every answer failed the check it reads "No acceptable response: None"; remembering the last rejected answer too would say what happened.',
+    body: () =>
+      text(205, 36, '*Gap (from reading the code)') +
+      text(600, 36, '*Fix') +
+      [
+        [
+          ['A failed cheap answer never goes premium', 'other cheap models, then it gives up'],
+          ['Escalate to premium when the cheap tier fails', '(part 4 adds this)'],
+          'code',
+        ],
+        [
+          ['The quality check is word matching', 'a wrong answer with the right words passes'],
+          ['Needs a check of meaning, not words', '(not covered in the course)'],
+          'ghost',
+        ],
+        [
+          ['The final error hides the cause', '"No acceptable response: None"'],
+          ['Also remember the last rejected answer', 'so the error says what happened'],
+          'code',
+        ],
+      ]
+        .map(([gap, fix, k], i) => {
+          const y = 52 + i * 64;
+          return (
+            box(20, y, 370, 52, 'bad', gap, { align: 'left', size: 13.5, lh: 18 }) +
+            arrow([
+              [390, y + 26],
+              [418, y + 26],
+            ]) +
+            box(420, y, 360, 52, k, fix, { align: 'left', plain: true, size: 13.5, lh: 18, dashed: k === 'ghost' })
+          );
+        })
+        .join(''),
+  },
+
+  'llm-costs-3/response-cache.svg': {
+    w: 800,
+    h: 296,
+    title:
+      "A response cache in your own app. Each question is checked: has this exact question been seen before? On a hit, the saved answer comes back for $0. On a miss, the model is called and paid for, and the answer is saved for next time. In the lesson's run, 5 questions needed only 2 paid calls and 3 were avoided. The simple version is missing two things: saved answers should expire, and one customer's answer must never be reused for another.",
+    body: () =>
+      box(20, 110, 140, 60, 'data', ['Question']) +
+      arrow([
+        [160, 140],
+        [173, 140],
+      ]) +
+      diamond(255, 140, 80, 50, ['Same question', 'seen before?']) +
+      arrow(
+        [
+          [335, 140],
+          [360, 140],
+          [360, 80],
+          [388, 80],
+        ],
+        { label: 'hit', at: [352, 104], anchor: 'end' }
+      ) +
+      arrow(
+        [
+          [335, 140],
+          [360, 140],
+          [360, 200],
+          [388, 200],
+        ],
+        { label: 'miss', at: [352, 190], anchor: 'end' }
+      ) +
+      box(390, 52, 170, 56, 'code', ['Saved answer', '`$0.000000']) +
+      box(390, 172, 170, 56, 'model', ['Call the model', 'paid']) +
+      arrow([
+        [560, 200],
+        [598, 200],
+      ]) +
+      box(600, 172, 180, 56, 'code', ['Save the answer', 'for next time']) +
+      box(600, 52, 180, 56, 'data', ['This run: 5 questions', '2 paid calls, 3 avoided']) +
+      note(400, 272, "Missing from the lesson's version: expiry, and never reusing one customer's answer for another", {
+        fill: KIND.bad.ink,
+      }),
+  },
+
+  'llm-costs-4/noise-vs-saving.svg': {
+    w: 760,
+    h: 276,
+    title:
+      'Noise versus a real saving, drawn to scale. The same unchanged conversation cost $0.102 on one run and $0.111 on another, about 9 percent apart. The full 14-message test went from $0.298967 for the original bot to $0.035259 for the optimized one, an 88 percent saving. The regression alert sits between the two, at 20 percent more per message.',
+    body: () => {
+      const bar = (y, label, v, s, k) => {
+        const w = (v / 0.298967) * 420;
+        return (
+          text(20, y + 18, label, { anchor: 'start', size: 13 }) +
+          `<rect x="130" y="${y}" width="${w.toFixed(1)}" height="26" rx="4" fill="${KIND[k].fill}" stroke="${KIND[k].stroke}" stroke-width="1.5"/>` +
+          text(130 + w + 10, y + 18, s, { anchor: 'start', size: 13, mono: true })
+        );
+      };
+      return (
+        text(20, 36, '*Noise: the same conversation, run twice (about 9% apart)', { anchor: 'start' }) +
+        bar(50, 'run 1', 0.102, '$0.102', 'data') +
+        bar(84, 'run 2', 0.111, '$0.111', 'data') +
+        text(20, 148, '*The saving: the full 14-message test (88% less)', { anchor: 'start' }) +
+        bar(162, 'original', 0.298967, '$0.298967', 'bad') +
+        bar(196, 'optimized', 0.035259, '$0.035259', 'code') +
+        note(380, 256, 'The regression alert sits between the two: it fires at +20% per message')
+      );
+    },
+  },
+
+  'llm-costs-4/series-map.svg': {
+    w: 760,
+    h: 226,
+    title:
+      'The series in four steps and the number each one found. 1, measure: record every request; one request was 98 percent of the bill. 2, pick the model: rules plus a quality check; a perfect router saved only 2.5 percent. 3, send less work: shorter history and answers, reused answers and prompt caching; output was cut 95 percent. 4, prove and guard: check quality before cost; the bot became 88 percent cheaper with facts still 14 of 14.',
+    body: () =>
+      text(20, 30, '*Four steps, and the number each one found', { anchor: 'start' }) +
+      [
+        ['data', ['1 · Measure', 'record every request', 'one request was', '98% of the bill']],
+        ['choice', ['2 · Pick the model', 'rules + quality check', 'a perfect router', 'saved only 2.5%']],
+        ['code', ['3 · Send less work', 'history, answer length,', 'reuse, prompt caching', 'output cut 95%']],
+        ['code', ['4 · Prove and guard', 'quality before cost', '88% cheaper,', 'facts still 14/14']],
+      ]
+        .map(
+          ([k, l], i) =>
+            box(20 + i * 186, 50, 160, 120, k, l, { size: 13 }) +
+            (i < 3
+              ? arrow([
+                  [180 + i * 186, 110],
+                  [204 + i * 186, 110],
+                ])
+              : '')
+        )
+        .join('') +
+      note(380, 204, 'Check the top of your prompt: anything that changes on every request breaks the cache'),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {
