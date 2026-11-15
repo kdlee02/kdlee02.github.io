@@ -7,6 +7,12 @@ image: ~/assets/images/covers/preprocessing-unstructured-data.svg
 tags:
   - chunking
   - retrieval
+takeaways:
+  - 'Normalize every file type into the same labeled building blocks: titles, narrative text, list items, tables, headers and footers.'
+  - 'Web pages label their own parts; PDFs and scans need layout detection or a vision model to read the page.'
+  - 'Keep tables as HTML so rows and columns survive, add summaries so they can be found, and spot-check the numbers.'
+  - 'Extraction is the slow, expensive part, so do it once and save the result.'
+  - 'Metadata like page, date and chapter lets search filter, and starting a new chunk at each title keeps sections together.'
 draft: false
 ---
 
@@ -306,6 +312,8 @@ Here's the whole pipeline, from a messy pile of files to something an AI can use
 4. **Save** the results, so you only pay for extraction once.
 5. **Add metadata** like page numbers, dates and chapters, so search can filter.
 6. **Chunk by section,** then store everything in a vector database and search with meaning _plus_ filters.
+
+![The whole preprocessing pipeline. 1, pull out the content: web pages and slides label themselves, PDFs and images need layout detection or a vision transformer. 2, normalize everything into the same labeled building blocks. 3, keep tables as HTML, add summaries, and spot-check the numbers. 4, save the results so extraction is paid for once. 5, add metadata like page numbers, dates and chapters. 6, chunk by section, store in a vector database, and search with meaning plus filters.](../../assets/images/preprocessing-explained/whole-pipeline.svg)
 
 None of this is flashy, but it decides how good your AI's answers can be. An AI can only answer as well as the text it's
 handed, and handing it the right text starts with clean, well-labeled documents.

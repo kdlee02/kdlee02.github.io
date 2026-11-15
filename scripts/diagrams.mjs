@@ -2648,6 +2648,132 @@ const DIAGRAMS = {
         size: 13,
       }),
   },
+
+  'advanced-retrieval-explained/where-to-start.svg': {
+    w: 760,
+    h: 290,
+    title:
+      'Where to start, in order of payoff for the effort. First, hybrid search: it fixes misses on exact labels like tickers and codes, and running both searches at the same time adds almost no waiting. Second, reranking: the biggest quality boost, and the only step that lets the system say "nothing found". Third, HyDE: it helps most with short or vague questions, but it is the slowest step and the first to drop if the app feels slow. Every step can go wrong quietly, so watch each one.',
+    body: () =>
+      text(20, 30, '*Which trick to add first', { anchor: 'start' }) +
+      [
+        ['code', '1 · Hybrid search', 'fixes misses on exact labels (tickers, codes); adds almost no waiting'],
+        ['model', '2 · Reranking', 'the biggest quality boost; the only step that can say "nothing found"'],
+        ['choice', '3 · HyDE', 'helps short or vague questions; slowest step, first to drop'],
+      ]
+        .map(([k, name, what], i) => {
+          const y = 50 + i * 62;
+          return (
+            box(20, y, 190, 50, k, [name]) +
+            box(220, y, 520, 50, 'data', [what], { align: 'left', plain: true, size: 13.5 })
+          );
+        })
+        .join('') +
+      box(20, 240, 720, 38, 'bad', ['Every step can fail quietly, with no error: keep an eye on each one'], {
+        plain: true,
+        size: 13.5,
+      }),
+  },
+
+  'text-splitting-explained/why-chunk.svg': {
+    w: 760,
+    h: 290,
+    title:
+      "Why not give the AI everything? Asked about World War II, handing over every document goes past the model's reading limit, its context window, and the rest is cut off. Handing over a whole chapter that also covers cooking and car repair stays under the limit but adds noise. Handing over just the right chunk gives a high signal-to-noise ratio.",
+    body: () => {
+      const strip = (x, y, w, k, s) =>
+        `<rect x="${x}" y="${y}" width="${w}" height="26" rx="4" fill="${KIND[k].fill}" stroke="${KIND[k].stroke}" stroke-width="1.2"/>` +
+        text(x + w / 2, y + 18, s, { size: 12.5 });
+      return (
+        text(20, 30, '*Question: "What happened in World War II?"', { anchor: 'start' }) +
+        text(130, 64, '*Everything') +
+        [0, 1, 2, 3, 4, 5]
+          .map((i) => strip(40, 78 + i * 30, 180, i < 4 ? 'data' : 'ghost', i < 4 ? `document ${i + 1}` : 'cut off'))
+          .join('') +
+        `<path d="M30 194H230" stroke="${KIND.bad.stroke}" stroke-width="2" stroke-dasharray="6 4"/>` +
+        note(130, 272, 'past the reading limit', { fill: KIND.bad.ink }) +
+        text(380, 64, '*A whole chapter') +
+        [
+          ['code', 'World War II'],
+          ['data', 'cooking'],
+          ['data', 'car repair'],
+          ['data', 'cooking'],
+        ]
+          .map(([k, s], i) => strip(290, 78 + i * 30, 180, k, s))
+          .join('') +
+        note(380, 272, 'fits, but mostly noise', { fill: KIND.choice.ink }) +
+        text(630, 64, '*The right chunk') +
+        strip(540, 78, 180, 'code', 'World War II') +
+        note(630, 272, 'high signal-to-noise', { fill: KIND.code.ink })
+      );
+    },
+  },
+
+  'text-splitting-explained/which-method.svg': {
+    w: 760,
+    h: 212,
+    title:
+      'Which method to use. Start with level 2, recursive character splitting, which is simple and works well most of the time. Match the method to the material: code, tables and images each need their own handling. Then test with evaluations that measure whether the app finds the right information, change one thing, and measure again.',
+    body: () =>
+      text(20, 30, '*No single best method: start simple, then measure', { anchor: 'start' }) +
+      box(20, 60, 200, 80, 'code', ['Start with level 2', 'cut at natural', 'break points']) +
+      arrow([
+        [220, 100],
+        [258, 100],
+      ]) +
+      box(260, 60, 220, 80, 'choice', ['Match the material', 'code, tables, images', 'need their own handling']) +
+      arrow([
+        [480, 100],
+        [518, 100],
+      ]) +
+      box(520, 60, 220, 80, 'model', ['Test it', 'does the app find', 'the right information?']) +
+      curve(630, 140, 500, 200, 370, 142, { label: 'change one thing, measure again', at: [500, 194] }),
+  },
+
+  'preprocessing-explained/whole-pipeline.svg': {
+    w: 760,
+    h: 300,
+    title:
+      'The whole preprocessing pipeline. 1, pull out the content: web pages and slides label themselves, PDFs and images need layout detection or a vision transformer. 2, normalize everything into the same labeled building blocks. 3, keep tables as HTML, add summaries, and spot-check the numbers. 4, save the results so extraction is paid for once. 5, add metadata like page numbers, dates and chapters. 6, chunk by section, store in a vector database, and search with meaning plus filters.',
+    body: () =>
+      text(20, 30, '*From a messy pile of files to text an AI can use', { anchor: 'start' }) +
+      [
+        ['model', ['1 · Pull out content', 'layout detection or', 'a vision model for PDFs']],
+        ['code', ['2 · Normalize', 'titles, text, lists,', 'tables, headers']],
+        ['code', ['3 · Tables', 'keep as HTML, add a', 'summary, spot-check']],
+        ['data', ['4 · Save', 'extract once,', 'reuse the file']],
+        ['data', ['5 · Metadata', 'page, date, chapter', 'for filtering']],
+        ['code', ['6 · Chunk by section', 'vector database:', 'meaning + filters']],
+      ]
+        .map(([k, l], i) => {
+          const r = Math.floor(i / 3);
+          const c = r === 0 ? i : 5 - i;
+          const x = 20 + c * 250;
+          const y = 50 + r * 130;
+          return box(x, y, 220, 90, k, l, { size: 13 });
+        })
+        .join('') +
+      arrow([
+        [240, 95],
+        [268, 95],
+      ]) +
+      arrow([
+        [490, 95],
+        [518, 95],
+      ]) +
+      arrow([
+        [630, 140],
+        [630, 178],
+      ]) +
+      arrow([
+        [518, 225],
+        [490, 225],
+      ]) +
+      arrow([
+        [268, 225],
+        [240, 225],
+      ]),
+  },
 };
 
 for (const [path, d] of Object.entries(DIAGRAMS)) {

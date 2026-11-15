@@ -7,6 +7,12 @@ image: ~/assets/images/covers/advanced-retrieval-pipeline.svg
 tags:
   - retrieval
   - reranking
+takeaways:
+  - 'Search by meaning (embeddings) handles "sales" vs. "revenue" well but can confuse exact labels like Q3 and Q2.'
+  - 'Hybrid search runs keyword search and meaning search together and combines their rankings.'
+  - 'HyDE searches with a fake answer written by an AI, because answers look more like your chunks than questions do.'
+  - 'A reranker reads the question and each candidate together: too slow for everything, so it sorts the shortlist, and it can say "nothing found".'
+  - 'Cast a wide net first, then pick carefully. Add hybrid search first, reranking second, HyDE last.'
 draft: false
 ---
 
@@ -166,6 +172,8 @@ You don't need all three tricks on day one. In order of payoff for the effort:
 2. **Reranking.** It's the biggest quality boost, and the only step that lets your system say "nothing found."
 3. **HyDE.** It helps most with short or vague questions. It's also the slowest step, since it adds an AI writing call
    before the search starts, so it's the first thing to drop if your app feels slow.
+
+![Where to start, in order of payoff for the effort. First, hybrid search: it fixes misses on exact labels like tickers and codes, and running both searches at the same time adds almost no waiting. Second, reranking: the biggest quality boost, and the only step that lets the system say "nothing found". Third, HyDE: it helps most with short or vague questions, but it is the slowest step and the first to drop if the app feels slow. Every step can go wrong quietly, so watch each one.](../../assets/images/advanced-retrieval-explained/where-to-start.svg)
 
 Every step can also go wrong quietly. A reranker can cut off the end of a chunk, or a fake-answer model can drift into
 nonsense, and nothing will throw an error. Valkov's closing point is a good one: the pipeline is simple to run, but it

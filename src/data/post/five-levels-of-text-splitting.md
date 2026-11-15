@@ -8,6 +8,12 @@ tags:
   - chunking
   - retrieval
   - embeddings
+takeaways:
+  - 'Split documents so the right piece can be found later: models have a reading limit, and extra text adds noise.'
+  - 'Level 1 cuts every N characters; level 2 cuts at natural break points and is the sensible default.'
+  - 'Level 3 cuts by document type: code, web pages and tables each have their own break points.'
+  - 'Levels 4 and 5 cut by meaning: where the topic changes, or by letting an AI group the ideas.'
+  - "What you search doesn't have to be what you hand over: search a table's summary, return the full table."
 draft: false
 ---
 
@@ -43,6 +49,8 @@ Greg has a rule he calls the **chunking commandment**:
 > used later.
 
 Keep that in mind, because every level below is a different way of following it.
+
+![Why not give the AI everything? Asked about World War II, handing over every document goes past the model's reading limit, its context window, and the rest is cut off. Handing over a whole chapter that also covers cooking and car repair stays under the limit but adds noise. Handing over just the right chunk gives a high signal-to-noise ratio.](../../assets/images/text-splitting-explained/why-chunk.svg)
 
 ## Level 1: Cut every N letters
 
@@ -184,3 +192,5 @@ Some advice to take away:
   Tools for this are called _evaluations_.
 - **Remember the commandment.** You're not splitting text for its own sake. You're preparing it so the right piece can
   be found when someone needs it.
+
+![Which method to use. Start with level 2, recursive character splitting, which is simple and works well most of the time. Match the method to the material: code, tables and images each need their own handling. Then test with evaluations that measure whether the app finds the right information, change one thing, and measure again.](../../assets/images/text-splitting-explained/which-method.svg)
