@@ -6,6 +6,12 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-1-langchain-tool-calling.svg
 series: 'LangGraph'
 seriesPart: 1
+takeaways:
+  - "Tool calling is a request, not an action. The model fills in a tool's name and arguments; your code runs it and returns a `ToolMessage` with the same id."
+  - 'A tool is a name, a description, a schema and a function. The model sees only the first three, so write the docstring for the model.'
+  - 'A tool is an offer. The model decides whether to call it and writes its own queries. Check whether `tool_calls` is empty, and use `tool_choice="any"` when a call must happen.'
+  - 'Few-shot examples show the model which tool fits which kind of question. Tool names in prompts must match the real tools.'
+  - 'An agent repeats act, observe, decide until it can answer. In LangChain 1.x, `create_agent` builds that loop on top of LangGraph.'
 tags:
   - langgraph
   - agents
@@ -36,6 +42,8 @@ The classic small example: you ask "What is 2 times 3?" and give the model a `mu
 doesn't calculate anything. It writes back a filled-in request: the tool's name, `multiply`, and its arguments,
 `{"a": 2, "b": 3}`. Your program runs `multiply(2, 3)` and gets 6.
 
+![You ask "What is 2 times 3?". The model writes a tool request naming multiply with a = 2 and b = 3. Your program runs multiply(2, 3) and gets 6. Choosing the tool and filling in the request is the model's job; running it is yours.](../../assets/images/langgraph-1/tool-call-idea.svg)
+
 That's the whole trick. The model's job is to choose the tool and fill in the form. Running it is your job.
 
 ## What a tool is made of
@@ -49,6 +57,8 @@ Every LangChain tool has four parts:
 
 The model only ever sees the first three. It never sees the code inside. So the name, description and schema are the
 order slip the model fills in, and it decides whether to use the tool based on that slip alone.
+
+![The order slip the model reads holds the tool's name, description and input schema. The function, the code that runs, stays in your program and the model never sees it.](../../assets/images/langgraph-1/tool-parts.svg)
 
 LangChain offers many ready-made tools: web search (DuckDuckGo, Tavily and others), code interpreters, productivity
 apps and more. The course uses **Tavily**, a web search service built for AI apps, which needs an API key in the
@@ -128,6 +138,8 @@ original sentence. Nobody told it to split the question; it chose to.
 So after any model call, the thing your code checks is: **is `tool_calls` empty?** Empty means "here's my answer."
 Not empty means "run these first."
 
+![The steak question goes to a model with the search tool attached, and your code checks whether tool_calls is empty. In my run with gpt-5.4-mini it was empty and the model answered Cabernet Sauvignon directly. In the course run with gpt-4o-mini it held two searches to run first. Setting tool_choice to "any" removes the empty branch.](../../assets/images/langgraph-1/offer-vs-forced.svg)
+
 If your app needs a search every time (say, because prices change daily), you can take the choice away with
 `tool_choice`:
 
@@ -171,6 +183,8 @@ tool_message = ToolMessage(
     name=tool_call["name"],
 )
 ```
+
+![Three ways to run one tool call. Invoking the tool with only the args returns raw search results with no id. Invoking it with the whole tool call returns a ToolMessage with the id copied over, the one to remember. Building a ToolMessage yourself means copying the id by hand.](../../assets/images/langgraph-1/three-ways.svg)
 
 A **`ToolMessage`** is the message type for a tool's result. Its key field is `tool_call_id`: it carries the same id
 the model put on its request (`call_5lPOU0…` in the course's run). That's how the model matches each result to the
@@ -259,7 +273,11 @@ def blog_search(query: str) -> list[dict]:
 ```
 
 LangChain reads the function to fill in the order slip. The function's name becomes the tool's **name**, the docstring
-becomes its **description**, and the type hint `query: str` becomes the **schema**. Printed from the current package:
+becomes its **description**, and the type hint `query: str` becomes the **schema**.
+
+![The @tool decorator fills in the order slip from a plain function, one part at a time. The function name, blog_search, becomes the tool name. The type hint query: str becomes the schema. The docstring becomes the description. The body stays code the model never sees.](../../assets/images/langgraph-1/tool-decorator.svg)
+
+Printed from the current package:
 
 ```text
 name:        blog_search
@@ -343,7 +361,10 @@ print(response.tool_calls)
 ```
 
 The steps are: write the examples, put them between the system message and the real question, call the model, and read
-the tool calls from its reply. Both the system message and the examples point the same way: menu questions go to the
+the tool calls from its reply.
+
+![What the model receives, top to bottom: the system message saying which tool is for what, the examples as a fake conversation that calls search_menu, tavily_search and blog_search in turn, and the real question. The model replies with the tool call it wants, search_menu for "pasta dish".](../../assets/images/langgraph-1/few-shot-stack.svg)
+Both the system message and the examples point the same way: menu questions go to the
 menu, general facts to the web, opinions to blogs.
 
 The slides don't show this chain's output, so I ran it with three questions. Only the model was called: these are
@@ -438,18 +459,5 @@ agent ran the loop.
 
 That "small LangGraph graph under the hood" is why this series goes there next. `create_agent` hands you a finished
 loop. LangGraph lets you draw the loop yourself and decide what happens at each step.
-
-## What to take away
-
-- Tool calling is a request, not an action. The model fills in a tool's name and arguments; your code runs it and
-  returns a **`ToolMessage`** with the same id.
-- A tool is a **name, description, schema and function**, and the model sees only the first three. With `@tool`, they
-  come from the function name, the docstring and the type hints, so write the docstring for the model.
-- A tool is an offer. The model decides whether to call it (my run of the same question made no call) and writes its
-  own queries when it does. Use `tool_choice="any"` when a call must happen.
-- **Few-shot examples** show the model which tool fits which kind of question. Keep tool names in prompts matched to
-  the real tools.
-- An **agent** repeats the cycle (act, observe, decide) until it can answer. In LangChain 1.x, `create_agent` builds
-  that loop on top of LangGraph.
 
 Next, in part 2: LangGraph's `StateGraph`, where you lay out the steps and the decisions between them yourself.

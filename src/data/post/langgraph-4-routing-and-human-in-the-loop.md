@@ -6,6 +6,12 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-4-routing-and-human-in-the-loop.svg
 series: 'LangGraph'
 seriesPart: 4
+takeaways:
+  - 'Adaptive RAG picks a strategy for each question before searching: no search, one search or several rounds, depending on how hard the question is.'
+  - "The course's version is a router: a model call with structured output whose one field is a `Literal` with two choices, `search_menu` or `search_web`."
+  - 'A router judges by wording. "What wine goes well with steak?" went to the web; "Which of your wines…" went to the menu.'
+  - "A breakpoint (`interrupt_before` at compile time) stops the graph in front of a node. While it's paused, `get_state` shows the state, `update_state` changes it and `stream(None, thread)` carries on."
+  - 'For real approval steps, current LangGraph recommends `interrupt()` inside a node, resumed with `Command(resume=...)`.'
 tags:
   - langgraph
   - retrieval
@@ -50,6 +56,8 @@ It works in three steps:
 3. **Run it.** Answer the question with the chosen strategy.
 
 In the paper, the judge is a small model trained just to label questions as simple, medium or complex.
+
+![Adaptive RAG. A judge rates each question first. A simple one, like the capital of France, is answered by the model alone. A medium one, like the Signature Steak's price, gets one search and then an answer. A complex one, like a wine for the bisque without oak, gets several rounds of searching and reasoning.](../../assets/images/langgraph-4/adaptive-rag.svg)
 
 ## The course's version: route each question to a tool
 
@@ -169,6 +177,8 @@ builder.add_conditional_edges("retrieve", grade_documents)  # returns "generate"
 builder.add_edge("rewrite", "agent")
 builder.add_edge("generate", END)
 ```
+
+![The graph for the breakpoint runs. START, agent, then retrieve if the model asked for a tool, or END if it didn't. After retrieve, a relevance check sends relevant results to generate and then END, and irrelevant ones to rewrite, which goes back to agent until num_generations reaches 2. Breakpoints pause the graph just before retrieve and just before generate.](../../assets/images/langgraph-4/hitl-graph.svg)
 
 `tools_condition` returns `"tools"` when the model asks for a tool. The node here is called `retrieve`, so the
 dictionary maps `"tools"` to `"retrieve"`. That's the naming catch from part 3, handled with a path map.
@@ -334,26 +344,13 @@ graph.invoke({"query": "signature dish"}, thread)
 graph.invoke(Command(resume={"query": "chef's signature steak"}), thread)
 ```
 
+![Two ways to pause. A breakpoint is set at compile time with interrupt_before, stops before retrieve, and continues with stream(None). With interrupt(), the human_review node pauses itself and hands over a payload, about_to_search "signature dish"; a person resumes with Command(resume=...), and the node continues with the query "chef's signature steak".](../../assets/images/langgraph-4/interrupt-vs-breakpoint.svg)
+
 The difference: a breakpoint is set from outside, at compile time, and always stops at the same nodes. `interrupt()`
 sits inside the node's code, so the node decides when to pause and what to show the person, and the person's reply comes
 back as the return value of `interrupt()`. _My run:_ the first call stopped and returned
 `{'about_to_search': 'signature dish'}`; resuming changed the query to `chef's signature steak`, and the next node
 searched for that.
-
-## What to take away
-
-- **Adaptive RAG** picks a strategy for each question before searching: no search, one search or several rounds,
-  depending on how hard the question is.
-- The course's version is a **router**: a model call with **structured output** whose one field is a `Literal` with two
-  choices, `search_menu` or `search_web`.
-- A router judges by wording. "What wine goes well with steak?" went to the web; "Which of _your_ wines…" went to the
-  menu.
-- A **breakpoint** (`interrupt_before` at compile time) stops the graph in front of a node. It needs a checkpointer and
-  a `thread_id`.
-- While it's paused: **`get_state`** shows the state and `.next`, **`update_state`** changes it, and
-  **`stream(None, thread)`** carries on from the save.
-- For real approval steps, current LangGraph recommends **`interrupt()`** inside a node, resumed with
-  `Command(resume=...)`.
 
 Next, in part 5: Self-RAG, a graph that grades its own search results and its own answer, and subgraphs that search
 several sources at once.

@@ -6,6 +6,11 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-6-corrective-rag.svg
 series: 'LangGraph'
 seriesPart: 6
+takeaways:
+  - 'Corrective RAG grades search results before trusting them, boils the good ones down to the relevant pieces, and searches the web when nothing useful is left.'
+  - "The course's graph has no loop: the fallback goes to a new source instead of searching the same one again, so it needs no retry counter."
+  - "`refine_knowledge` splits documents into knowledge strips and keeps those scoring above 0.5. A strip loses its context when it's cut out, and a cutoff right at a common score can throw away exactly what you needed."
+  - 'A web fallback helps with general knowledge and hurts with facts only your own data has. Decide which kind of question it is before going to the web.'
 tags:
   - langgraph
   - retrieval
@@ -47,6 +52,8 @@ The course describes it in four steps:
 (The paper itself sorts results three ways: **correct** results get refined, **incorrect** ones are replaced by a web
 search, and **ambiguous** ones get both. The course's version is simpler: keep or drop, then fall back to the web if
 nothing useful is left.)
+
+![Top, the paper: a grade sorts search results as correct, refined to the useful pieces; ambiguous, refined and searched on the web; or incorrect, replaced by a web search. Bottom, the course: keep or drop each result, refine what's kept, and go to the web only if nothing is left.](../../assets/images/langgraph-6/crag-idea.svg)
 
 ## The graph
 
@@ -116,6 +123,8 @@ def refine_knowledge(state):
 
 `.batch()` sends all the scoring calls at once instead of one by one, so ten strips don't take ten times as long.
 
+![refine_knowledge splits each kept document into strips, one line each, scores every strip from 0 to 1 in one batch, and keeps those above 0.5. A dropped line is gone. If no strip is kept at all, the graph goes to transform_query and the web.](../../assets/images/langgraph-6/refine-steps.svg)
+
 **`decide_to_generate`** checks whether anything survived:
 
 ```python
@@ -148,6 +157,8 @@ _My run:_ "How much is the Signature Steak, and what's in it?"
 
 The search was right, the document grader was right (it dropped the salad), and the menu entry had the price. Then
 refining threw the price away, and the answer said the price wasn't given.
+
+![Run 1's strip scores against the 0.5 cutoff: the name 1.00 and the ingredients 0.70 were kept; the price, at exactly 0.50, and the description, at 0.40, were dropped. The answer said the price was not specified. Asked about the price alone, the price line scored 1.00.](../../assets/images/langgraph-6/run1-scores.svg)
 
 The price line scored **0.50**, and the rule keeps strips scoring _more than_ 0.5. I ran it twice more: the price
 scored 0.40 both times, and both answers said "I only have the ingredients, not the price."
@@ -190,6 +201,8 @@ _My run:_ "What does Super Tuscan mean?"
                     Sauvignon and Merlot. ... the term is not legally fixed or defined.
 ```
 
+![Run 2. The Sassicaia 2018 entry mentions Super Tuscan, but its four strips scored 0.0, 0.0, 0.3 and 0.2, all under 0.5, so none were kept. The graph went to the web, found wine-searcher.com and wsetglobal.com, and answered: a Tuscan red made outside the traditional rules.](../../assets/images/langgraph-6/run2-fallback.svg)
+
 This is the case CRAG is built for. The menu mentions "Super Tuscan" (the Sassicaia is one) but never explains it. The
 document passed the first grade because it's on topic, but no single line actually answers the question, so refining
 left nothing. The graph went to the web, found two wine sites, and answered from them.
@@ -231,6 +244,8 @@ _My run_ (log shortened): "Who is the head chef at this restaurant?"
 Only the restaurant knows who its head chef is. The web can't, so the rewritten search found articles about what head
 chefs do in general, and the answer explained the job instead of saying "I don't know."
 
+![When the menu has nothing useful, the graph searches the web. For general knowledge, like what Super Tuscan means, that gives a good answer. For facts only this restaurant has, like which of its wines suits the Signature Steak or who its head chef is, the web answers a different question. The fix is to ask whether the question is about this restaurant first, part 4's router.](../../assets/images/langgraph-6/web-fallback-limits.svg)
+
 Both failures have the same cause. The fallback assumes that if the menu doesn't have it, the web will. That's true for
 "What does Super Tuscan mean?" and false for anything only the restaurant knows. A sturdier version would decide
 whether the question is about _this restaurant_ before going to the web, which is part 4's router again, or check the
@@ -249,18 +264,10 @@ Six posts, one restaurant assistant, and each part added one idea on top of the 
    graphs.
 6. **Corrective RAG:** refine documents down to the useful strips, and fall back to the web when nothing is left.
 
+![The series as six layers, each built on the one below: 1 tool calling, 2 StateGraph, 3 ReAct and memory, 4 Adaptive RAG and human-in-the-loop, 5 Self-RAG and subgraphs, 6 Corrective RAG.](../../assets/images/langgraph-6/series-map.svg)
+
 The pattern across the last three posts: each check fixes one kind of mistake and can cause a new one. The router
 judged by wording, the strict grader threw away a good wine, the refiner threw away a price, and the web fallback
 answered questions about a different restaurant. None of these were the model failing to do its job. They were checks
 doing exactly what they were told. That's why every check needs testing with real questions, the way you'd test any
 other code.
-
-## What to take away
-
-- **Corrective RAG** grades search results before trusting them, boils the good ones down to the relevant pieces, and
-  searches the web when nothing useful is left.
-- The course's graph has **no loop**: the fallback goes to a new source instead of searching the same one again.
-- **`refine_knowledge`** splits documents into **knowledge strips** and keeps those scoring above 0.5. A strip loses
-  its context when it's cut out, and a cutoff right at a common score can throw away exactly what you needed.
-- A **web fallback** helps with general knowledge and hurts with facts only your own data has. Decide which kind of
-  question it is before going to the web.

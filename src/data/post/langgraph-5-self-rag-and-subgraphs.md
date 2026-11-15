@@ -6,6 +6,12 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-5-self-rag-and-subgraphs.svg
 series: 'LangGraph'
 seriesPart: 5
+takeaways:
+  - 'Self-RAG adds self-checks to RAG: grade the documents, grade the answer, and try again when either fails. Each check is a small grader, a model call that must answer `yes` or `no`.'
+  - 'Check the answer in order: first is it supported by the documents (no hallucination), then does it answer the question. `not supported` rewrites the answer; `not useful` rewords the question and searches again.'
+  - "Loops need a counter, or a question the sources can't answer loops forever. Graders are models too, and a grader that is too strict can make the loop fail."
+  - 'Fan-out and fan-in run nodes in parallel. The shared field needs a reducer, and a filter that follows should write to a different field. A conditional edge that returns a list runs just those nodes.'
+  - 'A subgraph is a compiled graph used as a node. It shares fields with the parent by name and keeps the rest to itself.'
 tags:
   - langgraph
   - retrieval
@@ -47,6 +53,8 @@ The course lists five steps:
 3. **Self-check:** judge the answer's quality, relevance and accuracy.
 4. **Decide:** search for more, or rewrite the answer.
 5. **Repeat** until the result is good enough.
+
+![Self-RAG in five steps: search, write an answer, check it for quality, relevance and accuracy, and decide. If it's good enough, stop; if not, search for more or rewrite, and go around again.](../../assets/images/langgraph-5/self-rag-steps.svg)
 
 ## Three checks and a rewrite
 
@@ -113,6 +121,8 @@ def grade_generation(state: GraphState) -> str:
 - **`"not useful"`**: it's accurate but misses the point. The documents probably weren't the right ones, so reword the
   question and search again.
 - **`"useful"`**: done.
+
+![The two-stage check. Stage 1: is the answer supported by the documents? If not, "not supported", and the answer is written again, which is what happened to my run's "tiramisu comes from Italy". Stage 2: does it answer the question? If not, "not useful", and the question is reworded for a new search. If both pass, "useful", and the graph is done.](../../assets/images/langgraph-5/two-stage-check.svg)
 
 The order matters. There's no point asking whether an answer is helpful if it's made up.
 
@@ -265,6 +275,8 @@ class SearchState(TypedDict, total=False):
 The searches return `{"search_results": [...]}`, and `filter_documents` grades them with the same `retrieval_grader` and
 returns `{"documents": kept}`.
 
+![Fan-out and fan-in. START has edges to search_menu, search_web and search_wiki, so all three run in the same step, and their edges meet at filter_documents, which waits for all three. The searches add to search_results, a field with the add reducer; without one, my run raised InvalidUpdateError. The filter writes its keepers to a separate field, documents, so nothing is duplicated.](../../assets/images/langgraph-5/fan-out.svg)
+
 ### Only search where it helps
 
 Searching all three sources every time is wasteful. The course's next version adds `analyze_question` at the front,
@@ -399,21 +411,6 @@ counter ran out.
 The graders are models too, and they can be wrong. Here the problem was too strict a filter, not a bad search. Picking
 a wine for a steak takes a small step of reasoning ("full-bodied red goes with red meat"), and the grader wanted the
 document to say so outright. Every check you add is one more thing to test.
-
-## What to take away
-
-- **Self-RAG** adds self-checks to RAG: grade the documents, grade the answer, and try again when either fails.
-- Each check is a small **grader**: a model call that must answer `yes` or `no`.
-- `grade_generation` checks in order: first **is it supported** by the documents (no hallucination), then **does it
-  answer** the question. `not supported` rewrites the answer; `not useful` rewords the question and searches again.
-- Loops need a **counter**, or a question the sources can't answer loops forever.
-- **Fan-out/fan-in** runs nodes in parallel. The shared field needs a reducer (`Annotated[list, add]`), and a filter
-  that follows should write to a different field, or its results get added on top.
-- A conditional edge that **returns a list** runs just those nodes in parallel.
-- A **subgraph** is a compiled graph used as a node. It shares fields with the parent by name and keeps the rest to
-  itself.
-- `langchain-community` is being shut down; for simple tools like a Wikipedia search, a few lines of your own code
-  work.
 
 Next, in part 6: Corrective RAG, which grades what it found, boils it down to the useful pieces, and goes to the web
 when the menu isn't enough.

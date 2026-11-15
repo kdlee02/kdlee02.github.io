@@ -6,6 +6,11 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-3-react-agent-and-memory.svg
 series: 'LangGraph'
 seriesPart: 3
+takeaways:
+  - "A ReAct agent is a cycle: act (call a tool), observe (read the result), reason (decide what's next), repeated until the model answers without asking for a tool."
+  - "`create_agent` builds that loop for you. It replaces LangGraph's older `create_react_agent`, and its `system_prompt=` replaces `state_modifier=`."
+  - 'By hand, the loop is two nodes, a model node and a `ToolNode`, plus one conditional edge and one edge back. `tools_condition` is the prebuilt edge, and it expects the tool node to be named "tools".'
+  - 'Without a checkpointer, every call starts from scratch. With `InMemorySaver` and a `thread_id`, each conversation keeps its history.'
 tags:
   - langgraph
   - agents
@@ -52,6 +57,8 @@ cycle.
 
 In LangChain terms, "act" is a tool call, "observe" is a `ToolMessage`, and the loop ends when the model replies with
 an empty `tool_calls` list.
+
+![The ReAct cycle. Reason: the model reads everything so far and decides. If it asks for a tool, the tool call runs: that is Act. Its result, a ToolMessage, is the observation, and it goes back to the model. When the model replies with no tool calls, the loop ends with the answer.](../../assets/images/langgraph-3/react-cycle.svg)
 
 ## The ready-made ReAct agent
 
@@ -105,6 +112,8 @@ AI:      The steak dishes on the menu are:
          - Tenderloin Steak Salad — ₩26,000
 ```
 
+![My run as four messages. The human asks how much the steak dishes are. The AI calls search_menu with "steak dishes and prices". The tool returns Signature Steak at ₩35,000 and Tenderloin Steak Salad at ₩26,000. The AI answers with both prices.](../../assets/images/langgraph-3/steak-trace.svg)
+
 Same shape in both: one act (the menu search), one observation (the entries), one answer. The model needed only one
 lap of the cycle, because one search held everything the question asked for.
 
@@ -122,6 +131,8 @@ The second node is a **`ToolNode`**, a node LangGraph provides for exactly this 
 2. Runs them, several at once if there are several (in parallel).
 3. Wraps each result in a `ToolMessage`.
 4. Adds those to the conversation, so the model sees them on its next turn.
+
+![What ToolNode does with an AIMessage that asks for a menu search and a web search: it finds both requests, runs them at the same time, wraps each result in a ToolMessage with its call id, and appends them to the conversation.](../../assets/images/langgraph-3/toolnode.svg)
 
 That's the hand-written loop from part 1, packaged as a node.
 
@@ -278,17 +289,6 @@ to many customers at once without mixing them up: each conversation gets its own
 One caution about this kind of memory: **`InMemorySaver` lives in RAM.** Restart the program and every conversation is
 gone. For real apps, LangGraph has checkpointers that save to a database instead. The interface is the same; only the
 storage changes.
-
-## What to take away
-
-- A **ReAct agent** is a cycle: **act** (call a tool), **observe** (read the result), **reason** (decide what's next),
-  repeated until the model answers without asking for a tool.
-- `create_agent` builds that loop for you. It replaces LangGraph's older `create_react_agent`, and its
-  `system_prompt=` replaces `state_modifier=`.
-- By hand, the loop is two nodes, a model node and a **`ToolNode`**, plus one conditional edge and one edge back.
-  `tools_condition` is the prebuilt version of that edge, and it expects the tool node to be named `"tools"`.
-- Without a **checkpointer**, every call starts from scratch. With `InMemorySaver` and a **`thread_id`**, each
-  conversation keeps its history, and follow-ups like "which of the two?" just work.
 
 Next, in part 4: graphs that decide where to search before they search, and that pause for a person to check their
 work.

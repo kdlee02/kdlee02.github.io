@@ -169,7 +169,8 @@
 
 /* Blog prose: inline code without the typography plugin's backticks, and
    code blocks that follow the light/dark theme (Shiki dual themes). */
-.prose :where(code):not(:where(pre *)) {
+.prose :where(code):not(:where(pre *)),
+.key-ideas code {
   background-color: color-mix(in oklab, var(--aw-color-text-default) 8%, transparent);
   border-radius: 0.25rem;
   padding: 0.125rem 0.375rem;

@@ -37,7 +37,12 @@ A personal blog about LLM engineering (RAG, agents, evals). Posts live in `src/d
 
 ## Diagrams
 
-- Hand-written SVG in `src/assets/images/<post-topic>/`, referenced with a relative path and descriptive alt text.
+- SVG in `src/assets/images/<post-topic>/`, referenced with a relative path and descriptive alt text. New diagrams are
+  drawn by `scripts/diagrams.mjs` (add an entry, run `node scripts/diagrams.mjs`), which keeps one look: blue = the
+  model, green = your code or a tool, grey = data and messages, amber = a decision, red = a failure or a pause. Older
+  hand-written SVGs stay as they are.
+- Aim for at least one diagram per `##` section. Each post's key points go in the `takeaways` frontmatter (shown at the
+  top), not in a "What to take away" section at the end.
 - White card background (`#fff` with a light border) so it reads in light and dark mode. Put text and shapes in
   `viewBox` coordinates and keep labels inside their boxes.
 - Render each one to PNG and look at it before publishing (`qlmanage -t -s 1100 -o <dir> file.svg` on macOS).

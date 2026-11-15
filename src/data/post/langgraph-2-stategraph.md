@@ -6,6 +6,12 @@ category: 'LLM Engineering'
 image: ~/assets/images/covers/langgraph-2-stategraph.svg
 series: 'LangGraph'
 seriesPart: 2
+takeaways:
+  - 'A LangGraph app is state (one shared record), nodes (functions that read it and return updates) and edges (what runs next). A node returns only the fields it changed.'
+  - 'Conditional edges let the graph branch: a routing function reads the state and names the next step. The mapping dictionary lets its labels differ from node names.'
+  - 'Reducers decide what happens when nodes write to the same field. No reducer means the last write wins; `add` joins lists, so every write must be a list.'
+  - '`MessagesState`, a `messages` field with the `add_messages` reducer, is the standard state for chat. The old `MessageGraph` class is deprecated.'
+  - 'A graph can loop back to an earlier node. Every loop needs a way to end: a try counter in the state, with a recursion limit as a backstop.'
 tags:
   - langgraph
   - agents
@@ -45,6 +51,8 @@ A `StateGraph` is built from three things:
   B after A") or a conditional branch ("go to B or C depending on the ticket"). In the kitchen, the route the ticket
   takes.
 
+![The three pieces as a kitchen. Nodes are stations, each a function with one job. Edges are the route from START through the nodes to END. The state is the order ticket, one shared record that every node reads and returns an update to.](../../assets/images/langgraph-2/three-pieces.svg)
+
 ## The smallest graph
 
 The course's first example has one state field, one node and two edges:
@@ -80,6 +88,8 @@ The state goes in as `"Hello"`, passes through the one node, and comes out as `"
 
 Note what the node returns: not a whole new state, just `{"text": ...}`, the field it changed. LangGraph merges that
 into the state. That detail is what reducers, further down, are about.
+
+![The smallest graph. The state goes in as text "Hello", passes START, and reaches the one node. The node returns only the field it changed, text "Nice to meet you", and LangGraph merges it in, so the state comes out at END as "Nice to meet you".](../../assets/images/langgraph-2/smallest-graph.svg)
 
 ## Conditional edges: the graph makes a choice
 
@@ -193,6 +203,8 @@ The recipe has three steps: store the conversation in the state as a list of mes
 - **`add_messages`** appends too, but also tracks each message's id. If a node returns a message whose id is already
   in the list, it **updates** that message instead of adding a copy.
 
+![A list holds a human message with id 1 and an AI message with id 2, and a node returns an edited AI message that reuses id 2. operator.add appends it, leaving two copies of message 2. add_messages replaces message 2, leaving one updated copy.](../../assets/images/langgraph-2/add-messages.svg)
+
 Written out by hand:
 
 ```python
@@ -287,18 +299,5 @@ LangGraph: something has to guarantee it ends.
 > **A newer option:** instead of a separate routing function, a node can pick the next step itself by returning
 > `Command(update={...}, goto="retrieve_and_respond")` (from `langgraph.types`). Both styles are current. Conditional
 > edges keep the decision visible in the wiring, which is why this series uses them.
-
-## What to take away
-
-- A LangGraph app is **state** (a shared dictionary or model), **nodes** (functions that read it and return updates)
-  and **edges** (what runs next). A node returns only the fields it changed.
-- **Conditional edges** let the graph branch: a routing function reads the state and names the next step. The mapping
-  dictionary lets its labels differ from node names.
-- **Reducers** decide what happens when nodes write to the same field. No reducer means the last write wins; `add`
-  joins lists, so every write must be a list; custom reducers handle anything else.
-- **`MessagesState`**, a `messages` field with the `add_messages` reducer, is the standard state for chat. The old
-  `MessageGraph` class is deprecated.
-- A graph can **loop** back to an earlier node. Every loop needs a way to end: a try counter in the state, with a
-  recursion limit you set as a backstop.
 
 Next, in part 3: a ReAct agent built as a graph, and a checkpointer that gives it memory between turns.
